@@ -27,11 +27,18 @@ run('sexy ×6 = identity', () => {
 for (const c of CASES) {
   const alg = ALGS.find((a) => a.caseId === c.id && a.primary);
   if (!alg) continue;
-  run(`${c.id}: setup(=alg⁻¹) + alg → solved`, () => {
-    const s = clone(SOLVED);
-    applyAlg(s, invertAlg(parseAlg(c.solve)));
-    applyAlg(s, parseAlg(alg.notation));
-    if (!equals(s, SOLVED)) throw new Error('mismatch');
+  run(`${c.id}: context + setup + solve = context state`, () => {
+    // expected = context applied to SOLVED (= SOLVED when no context)
+    const expected = clone(SOLVED);
+    if (c.context) applyAlg(expected, parseAlg(c.context));
+
+    // actual = context + setup + solve
+    const actual = clone(SOLVED);
+    if (c.context) applyAlg(actual, parseAlg(c.context));
+    applyAlg(actual, invertAlg(parseAlg(c.solve)));
+    applyAlg(actual, parseAlg(alg.notation));
+
+    if (!equals(actual, expected)) throw new Error('mismatch');
   });
 }
 

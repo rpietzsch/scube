@@ -115,7 +115,7 @@ function Recognition({
   onNext: () => void;
 }) {
   const { t } = useTranslation();
-  const state = deriveState(current.solve);
+  const state = deriveState(current.solve, current.context);
 
   return (
     <div className="space-y-4">
@@ -161,7 +161,7 @@ function Fluency({ current, onResult }: { current: CaseData; onResult: (ok: bool
   const [elapsed, setElapsed] = useState(0);
   const [start, setStart] = useState<number | null>(null);
   const [stopped, setStopped] = useState(false);
-  const state = deriveState(current.solve);
+  const state = deriveState(current.solve, current.context);
 
   // simple timer using rAF emulated with setInterval to keep it light
   useMemo(() => {

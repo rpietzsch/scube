@@ -1,10 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { useMastery } from '../store/mastery';
+import { useSettings } from '../store/settings';
 import pkg from '../../package.json';
 
 export default function SettingsPage() {
   const { t, i18n } = useTranslation();
   const reset = useMastery((s) => s.reset);
+  const { visualAid, setVisualAid } = useSettings();
 
   const setLang = (lng: string) => { void i18n.changeLanguage(lng); };
 
@@ -25,6 +27,22 @@ export default function SettingsPage() {
             </button>
           ))}
         </div>
+      </section>
+
+      <section>
+        <h2 className="text-sm uppercase tracking-wider text-ink-500 mb-2">{t('settings.visualAid')}</h2>
+        <label className="flex items-center gap-3 p-3 rounded bg-ink-900 border border-ink-800 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={visualAid}
+            onChange={(e) => setVisualAid(e.target.checked)}
+            className="w-5 h-5"
+          />
+          <span className="flex-1">
+            <span className="block text-ink-200">{t('settings.visualAidLabel')}</span>
+            <span className="block text-xs text-ink-500 mt-1">{t('settings.visualAidDesc')}</span>
+          </span>
+        </label>
       </section>
 
       <section>

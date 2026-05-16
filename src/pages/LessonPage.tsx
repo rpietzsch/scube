@@ -3,15 +3,18 @@ import { useTranslation } from 'react-i18next';
 import { useMemo, useState } from 'react';
 import { caseById, algsFor, LESSONS } from '../data/cases';
 import { CubePlayback } from '../cube/CubePlayback';
+import { CubeBeforeAfter } from '../cube/CubeBeforeAfter';
 import { deriveState } from '../cube/derive';
+import { stageKindFor, stageMask } from '../cube/highlight';
+import { NotationLegend } from '../cube/NotationLegend';
 import { useMastery } from '../store/mastery';
+import { useSettings } from '../store/settings';
 
 export default function LessonPage() {
   const { caseId = '' } = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  // Prose-lesson route: /lesson/lesson:<id>
   if (caseId.startsWith('lesson:')) {
     return <ProseLesson id={caseId.slice('lesson:'.length)} />;
   }
@@ -23,9 +26,11 @@ export default function LessonPage() {
   const [showAlg, setShowAlg] = useState(true);
   const advance = useMastery((s) => s.advance);
   const success = useMastery((s) => s.success);
-  const initial = useMemo(() => (c ? deriveState(c.solve) : null), [c]);
+  const aid = useSettings((s) => s.visualAid);
+  const initial = useMemo(() => (c ? deriveState(c.solve, c.context) : null), [c]);
 
   if (!c || !primary || !initial) return <div className="p-4 text-ink-500">Case not found.</div>;
+  const mask = aid ? stageMask(stageKindFor(c.stage)) : undefined;
 
   return (
     <div className="p-4 space-y-5">
@@ -36,7 +41,15 @@ export default function LessonPage() {
 
       <h1 className="text-2xl font-bold">{c.name}</h1>
 
-      <CubePlayback initial={initial} alg={primary.notation} speed={speed} cell={22} />
+      <section className="bg-ink-900 rounded-lg p-4 border border-ink-800">
+        <h2 className="text-sm uppercase tracking-wider text-ink-500 mb-3">{t('case.fromTo')}</h2>
+        <CubeBeforeAfter initial={initial} alg={primary.notation} highlight={mask} cell={16} />
+      </section>
+
+      <section className="bg-ink-900 rounded-lg p-4 border border-ink-800">
+        <h2 className="text-sm uppercase tracking-wider text-ink-500 mb-3">{t('lesson.stepThrough')}</h2>
+        <CubePlayback initial={initial} alg={primary.notation} speed={speed} cell={20} />
+      </section>
 
       <section className="flex items-center gap-2 text-sm">
         <span className="text-ink-500">{t('lesson.speed')}</span>
@@ -50,6 +63,8 @@ export default function LessonPage() {
           </button>
         ))}
       </section>
+
+      <NotationLegend />
 
       <section className="bg-ink-900 p-4 rounded-lg border border-ink-800">
         <button
@@ -89,20 +104,51 @@ function ProseLesson({ id }: { id: string }) {
   const navigate = useNavigate();
   const lesson = LESSONS.find((l) => l.id === id);
   const completeLesson = useMastery((s) => s.completeLesson);
+  const aid = useSettings((s) => s.visualAid);
 
   if (!lesson) return <div className="p-4 text-ink-500">Lesson not found.</div>;
+  const mask = aid ? stageMask(stageKindFor(lesson.stage)) : undefined;
 
   return (
     <div className="p-4 space-y-5">
       <Link to={`/library/${lesson.stage}`} className="text-xs text-ink-500">← {t(`path.stage.${lesson.stage}`)}</Link>
       <h1 className="text-2xl font-bold">{t(lesson.titleKey)}</h1>
       <p className="text-ink-200 leading-relaxed">{t(lesson.bodyKey)}</p>
+
+      {lesson.examples && lesson.examples.length > 0 && (
+        <section className="space-y-4">
+          <h2 className="text-sm uppercase tracking-wider text-ink-500">{t('lesson.examples')}</h2>
+          {lesson.examples.map((cid) => <LessonExample key={cid} caseId={cid} highlight={mask} />)}
+        </section>
+      )}
+
+      <NotationLegend />
+
       <button
         onClick={() => { completeLesson(lesson.id); navigate(`/library/${lesson.stage}`); }}
         className="w-full px-4 py-3 rounded bg-cube-F text-ink-950 font-semibold"
       >
         ✓ {t('lesson.markFluent')}
       </button>
+    </div>
+  );
+}
+
+function LessonExample({ caseId, highlight }: { caseId: string; highlight?: boolean[] }) {
+  const { t } = useTranslation();
+  const c = caseById(caseId);
+  const algs = algsFor(caseId);
+  const primary = algs.find((a) => a.primary) ?? algs[0];
+  if (!c || !primary) return null;
+  const state = deriveState(c.solve, c.context);
+  return (
+    <div className="bg-ink-900 rounded-lg p-4 border border-ink-800 space-y-2">
+      <div className="flex items-baseline justify-between">
+        <h3 className="font-semibold text-ink-200">{c.name}</h3>
+        <Link to={`/case/${c.id}`} className="text-xs text-cube-U">{t('lesson.openCase')} →</Link>
+      </div>
+      {c.descriptionKey && <p className="text-xs text-ink-500">{t(c.descriptionKey)}</p>}
+      <CubeBeforeAfter initial={state} alg={primary.notation} highlight={highlight} cell={14} />
     </div>
   );
 }

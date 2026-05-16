@@ -2,9 +2,11 @@ import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { casesByStage, lessonsByStage } from '../data/cases';
 import { Stage } from '../data/types';
-import { LLThumbnail } from '../cube/CubeNet';
+import { CubeNet, LLThumbnail } from '../cube/CubeNet';
 import { deriveState } from '../cube/derive';
+import { stageKindFor, stageMask } from '../cube/highlight';
 import { useMastery, isLearned, isDue } from '../store/mastery';
+import { useSettings } from '../store/settings';
 
 const STAGES: Stage[] = ['cross', 'f2lIntuitive', 'f2lAdvanced', 'oll2look', 'ollFull', 'pll2look', 'pllFull'];
 
@@ -13,6 +15,7 @@ export default function LibraryPage() {
   const stage = (splat as Stage) || 'oll2look';
   const { t } = useTranslation();
   const { byCase, lessonsCompleted } = useMastery();
+  const aid = useSettings((s) => s.visualAid);
 
   const cases = casesByStage(stage);
   const lessons = lessonsByStage(stage);
@@ -61,14 +64,20 @@ export default function LibraryPage() {
           <div className="grid grid-cols-3 gap-3">
             {cases.map((c) => {
               const m = byCase[c.id];
-              const state = deriveState(c.solve);
+              const state = deriveState(c.solve, c.context);
+              const kind = stageKindFor(c.stage);
+              const hl = aid ? stageMask(kind) : undefined;
+              const useLL = kind === 'oll' || kind === 'pll';
               return (
                 <Link
                   key={c.id}
                   to={`/case/${c.id}`}
                   className="flex flex-col items-center gap-1 p-2 rounded-lg bg-ink-900 border border-ink-800 hover:border-cube-U"
                 >
-                  <LLThumbnail state={state} cell={14} />
+                  {useLL
+                    ? <LLThumbnail state={state} cell={14} highlight={hl} />
+                    : <CubeNet state={state} cell={10} highlight={hl} />
+                  }
                   <div className="text-xs text-center font-semibold mt-1">{c.name}</div>
                   <div className="text-[10px] text-ink-500">
                     {isLearned(m) ? '✓' : isDue(m) ? '●' : m?.phase ?? ''}

@@ -43,7 +43,13 @@
     "algorithmOther": "Other algorithms",
     "openLesson": "Open lesson",
     "openDrill": "Drill this set",
-    "mastery": "Mastery"
+    "mastery": "Mastery",
+    "fromTo": "Starting state → result",
+    "highlightHint": "Greyed-out stickers are not part of this stage — they're just there for orientation. Colourful stickers are the area you're working on."
+  },
+  "beforeAfter": {
+    "before": "Start",
+    "after": "Result"
   },
   "lesson": {
     "title": "Lesson",
@@ -58,7 +64,10 @@
     "speed": "Speed",
     "notes": "Notes",
     "markFluent": "Mark fluent",
-    "needMore": "Needs more practice"
+    "needMore": "Needs more practice",
+    "stepThrough": "Step through",
+    "examples": "Examples",
+    "openCase": "Open case"
   },
   "drill": {
     "title": "Drill",
@@ -81,12 +90,23 @@
     "languageAuto": "Auto (browser)",
     "languageEn": "English",
     "languageDe": "Deutsch",
+    "visualAid": "Visual aids",
+    "visualAidLabel": "Highlight the stickers that move and visualise each turn",
+    "visualAidDesc": "Greys out stickers that are already in place, shows a face + arrow icon for every move, and reveals a notation legend on each case. Turn off for a denser, expert view.",
     "version": "Version {{version}}",
     "offlineReady": "Ready offline",
     "resetMastery": "Reset mastery",
     "resetConfirm": "Erase all learning progress?"
   },
+  "legend": {
+    "title": "How to read the notation",
+    "intro": "Each letter names a face of the cube; the symbol after it tells you how to turn it.",
+    "suffixes": "No suffix = quarter turn clockwise (when looking at that face). An apostrophe (’) means counter-clockwise. A 2 means a half-turn. Lower-case letters are wide turns (face + adjacent slice). M/E/S are middle-slice turns; x/y/z rotate the whole cube."
+  },
   "tags": {
+    "pairJoinedTop": "pair joined in top",
+    "pairSplitTop": "pair split in top",
+    "pairStuckSlot": "piece stuck in slot",
     "noEdgesOriented": "no edges oriented",
     "lineHorizontal": "line across top",
     "lShape": "L of oriented edges",
@@ -133,7 +153,10 @@
     "eoLine": { "desc": "A horizontal line of oriented edges across the top." },
     "eoL": { "desc": "Two adjacent oriented edges forming an L." },
     "aPerm": { "desc": "Three corners cycle; edges already solved." },
-    "yPerm": { "desc": "Diagonal corner swap." }
+    "yPerm": { "desc": "Diagonal corner swap." },
+    "f2lJoined": { "desc": "Corner and edge are joined in the top layer, sitting next to each other and ready to be inserted into their empty slot." },
+    "f2lSplit": { "desc": "Corner and edge are both in the top layer, but separated — first bring them together with a U-move, then insert." },
+    "f2lStuck": { "desc": "A pair piece is already wedged into the slot, but in the wrong place. Pop it out first, then re-insert as a joined or split case." }
   },
   "algs": {
     "eoDot": { "notes": "Two-shot: first fix one edge, then the rest." }

@@ -11,6 +11,13 @@ export interface CaseData {
   recognitionTagKeys?: string[];
   /** The canonical solving algorithm. The case's state is derived by applying its inverse to a solved cube. */
   solve: string;
+  /**
+   * Optional context applied to the solved cube *before* the setup. Used to
+   * keep the visualisation honest: F2L examples need an unsolved last layer in
+   * the "after" view, otherwise the diagram looks like a single algorithm
+   * solved the whole cube. Defaults to none (cube remains solved as baseline).
+   */
+  context?: string;
 }
 
 export interface AlgData {
@@ -30,4 +37,6 @@ export interface LessonData {
   /** Pure prose lessons (e.g. Cross intuitive) — no case linkage. */
   titleKey: string;
   bodyKey: string;
+  /** Optional list of case IDs to illustrate this lesson with cube nets. */
+  examples?: string[];
 }

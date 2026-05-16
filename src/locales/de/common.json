@@ -43,7 +43,13 @@
     "algorithmOther": "Weitere Algorithmen",
     "openLesson": "Lektion öffnen",
     "openDrill": "Diese Stufe drillen",
-    "mastery": "Beherrschung"
+    "mastery": "Beherrschung",
+    "fromTo": "Ausgang → Ergebnis",
+    "highlightHint": "Graue Sticker gehören nicht zu dieser Stufe — sie sind nur zur Orientierung da. Die farbigen sind der Bereich, an dem du arbeitest."
+  },
+  "beforeAfter": {
+    "before": "Ausgang",
+    "after": "Ergebnis"
   },
   "lesson": {
     "title": "Lektion",
@@ -58,7 +64,10 @@
     "speed": "Geschwindigkeit",
     "notes": "Notizen",
     "markFluent": "Als sicher markieren",
-    "needMore": "Mehr Übung nötig"
+    "needMore": "Mehr Übung nötig",
+    "stepThrough": "Schritt für Schritt",
+    "examples": "Beispiele",
+    "openCase": "Fall öffnen"
   },
   "drill": {
     "title": "Drill",
@@ -81,12 +90,23 @@
     "languageAuto": "Automatisch (Browser)",
     "languageEn": "English",
     "languageDe": "Deutsch",
+    "visualAid": "Visuelle Hilfen",
+    "visualAidLabel": "Bewegte Sticker hervorheben und Züge visualisieren",
+    "visualAidDesc": "Sticker, die schon richtig liegen, werden grau. Jeder Zug bekommt ein Flächen-Symbol mit Drehpfeil; auf jeder Fallseite erscheint eine Notations-Legende. Für die Expertenansicht ausschalten.",
     "version": "Version {{version}}",
     "offlineReady": "Offline bereit",
     "resetMastery": "Fortschritt zurücksetzen",
     "resetConfirm": "Allen Lernfortschritt löschen?"
   },
+  "legend": {
+    "title": "Notation lesen",
+    "intro": "Jeder Buchstabe steht für eine Würfelseite; das Zeichen dahinter sagt, wie du sie drehst.",
+    "suffixes": "Ohne Zusatz = Vierteldrehung im Uhrzeigersinn (aus Sicht dieser Seite). Apostroph (’) = gegen den Uhrzeigersinn. 2 = halbe Drehung. Kleinbuchstaben sind „weite“ Drehungen (Seite + angrenzende Schicht). M/E/S sind Mittelschichten; x/y/z drehen den ganzen Würfel."
+  },
   "tags": {
+    "pairJoinedTop": "Paar oben verbunden",
+    "pairSplitTop": "Paar oben getrennt",
+    "pairStuckSlot": "Teil im Slot festgeklemmt",
     "noEdgesOriented": "keine Kanten orientiert",
     "lineHorizontal": "Linie quer über die Oberseite",
     "lShape": "L aus orientierten Kanten",
@@ -133,7 +153,10 @@
     "eoLine": { "desc": "Eine waagerechte Linie aus orientierten Kanten." },
     "eoL": { "desc": "Zwei benachbarte orientierte Kanten in L-Form." },
     "aPerm": { "desc": "Drei Ecken im Kreis; Kanten gelöst." },
-    "yPerm": { "desc": "Diagonaler Ecken-Tausch." }
+    "yPerm": { "desc": "Diagonaler Ecken-Tausch." },
+    "f2lJoined": { "desc": "Ecke und Kante liegen oben nebeneinander — das verbundene Paar wartet darauf, in den leeren Slot eingefügt zu werden." },
+    "f2lSplit": { "desc": "Ecke und Kante sind beide oben, aber getrennt — erst mit einem U-Zug zusammenbringen, dann einsetzen." },
+    "f2lStuck": { "desc": "Ein Teil steckt schon im Slot, aber falsch. Erst herausholen, dann als verbundenes oder getrenntes Paar lösen." }
   },
   "algs": {
     "eoDot": { "notes": "Zweistufig: erst eine Kante richten, dann den Rest." }

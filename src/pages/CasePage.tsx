@@ -1,9 +1,12 @@
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { caseById, algsFor } from '../data/cases';
-import { CubeNet } from '../cube/CubeNet';
+import { CubeBeforeAfter } from '../cube/CubeBeforeAfter';
 import { deriveState } from '../cube/derive';
+import { stageMask, stageKindFor } from '../cube/highlight';
+import { NotationLegend } from '../cube/NotationLegend';
 import { useMastery, PHASE_ORDER } from '../store/mastery';
+import { useSettings } from '../store/settings';
 
 export default function CasePage() {
   const { caseId = '' } = useParams();
@@ -11,10 +14,12 @@ export default function CasePage() {
   const c = caseById(caseId);
   const algs = algsFor(caseId);
   const mastery = useMastery((s) => s.byCase[caseId]);
+  const aid = useSettings((s) => s.visualAid);
 
   if (!c) return <div className="p-4 text-ink-500">Case not found.</div>;
 
-  const state = deriveState(c.solve);
+  const state = deriveState(c.solve, c.context);
+  const mask = aid ? stageMask(stageKindFor(c.stage)) : undefined;
   const primary = algs.find((a) => a.primary) ?? algs[0];
   const others = algs.filter((a) => a !== primary);
   const phaseIdx = mastery ? PHASE_ORDER.indexOf(mastery.phase) : 0;
@@ -36,10 +41,15 @@ export default function CasePage() {
         )}
       </header>
 
-      <section className="flex flex-col items-center bg-ink-900 rounded-lg p-4 border border-ink-800">
-        <h2 className="text-sm uppercase tracking-wider text-ink-500 self-start mb-3">{t('case.currentState')}</h2>
-        <CubeNet state={state} cell={26} />
-      </section>
+      {primary && (
+        <section className="bg-ink-900 rounded-lg p-4 border border-ink-800">
+          <h2 className="text-sm uppercase tracking-wider text-ink-500 mb-3">{t('case.fromTo')}</h2>
+          <CubeBeforeAfter initial={state} alg={primary.notation} highlight={mask} cell={18} />
+          {aid && (
+            <p className="text-xs text-ink-500 mt-3 text-center">{t('case.highlightHint')}</p>
+          )}
+        </section>
+      )}
 
       <section>
         <h2 className="text-sm uppercase tracking-wider text-ink-500 mb-2">{t('case.mastery')}</h2>
@@ -67,6 +77,8 @@ export default function CasePage() {
           </Link>
         </section>
       )}
+
+      <NotationLegend />
 
       {others.length > 0 && (
         <section>

@@ -1,17 +1,28 @@
 import { CaseData, AlgData, LessonData } from './types';
 
-// === Cross & F2L (intuitive) — prose lessons only in v1 ===
+// === Cross & F2L (intuitive) — prose lessons with illustrative examples ===
 export const LESSONS: LessonData[] = [
   { id: 'cross-intro', stage: 'cross', titleKey: 'lessons.crossIntro.title', bodyKey: 'lessons.crossIntro.body' },
   { id: 'cross-planning', stage: 'cross', titleKey: 'lessons.crossPlanning.title', bodyKey: 'lessons.crossPlanning.body' },
-  { id: 'f2l-three-shapes', stage: 'f2lIntuitive', titleKey: 'lessons.f2lShapes.title', bodyKey: 'lessons.f2lShapes.body' },
-  { id: 'f2l-joined', stage: 'f2lIntuitive', titleKey: 'lessons.f2lJoined.title', bodyKey: 'lessons.f2lJoined.body' },
-  { id: 'f2l-split', stage: 'f2lIntuitive', titleKey: 'lessons.f2lSplit.title', bodyKey: 'lessons.f2lSplit.body' },
-  { id: 'f2l-stuck', stage: 'f2lIntuitive', titleKey: 'lessons.f2lStuck.title', bodyKey: 'lessons.f2lStuck.body' },
+  { id: 'f2l-three-shapes', stage: 'f2lIntuitive', titleKey: 'lessons.f2lShapes.title', bodyKey: 'lessons.f2lShapes.body',
+    examples: ['f2l-ex-joined', 'f2l-ex-split', 'f2l-ex-stuck'] },
+  { id: 'f2l-joined', stage: 'f2lIntuitive', titleKey: 'lessons.f2lJoined.title', bodyKey: 'lessons.f2lJoined.body',
+    examples: ['f2l-ex-joined'] },
+  { id: 'f2l-split',  stage: 'f2lIntuitive', titleKey: 'lessons.f2lSplit.title',  bodyKey: 'lessons.f2lSplit.body',
+    examples: ['f2l-ex-split'] },
+  { id: 'f2l-stuck',  stage: 'f2lIntuitive', titleKey: 'lessons.f2lStuck.title',  bodyKey: 'lessons.f2lStuck.body',
+    examples: ['f2l-ex-stuck'] },
 ];
 
 // `solve` is the canonical primary alg. The case state is derived by applying its inverse.
 export const CASES: CaseData[] = [
+  // --- F2L intuitive: three illustrative examples (advanced 41-case set ships in M6) ---
+  // Context = "Sune" (a typical OLL case) so the resulting cube shows F2L
+  // solved with an unsolved last layer — honest for a "First Two Layers" step.
+  { id: 'f2l-ex-joined', stage: 'f2lIntuitive', name: 'Joined pair',    descriptionKey: 'cases.f2lJoined.desc', recognitionTagKeys: ['tags.pairJoinedTop'], context: "R U R' U R U2 R'", solve: "U R U' R'" },
+  { id: 'f2l-ex-split',  stage: 'f2lIntuitive', name: 'Split pair',     descriptionKey: 'cases.f2lSplit.desc',  recognitionTagKeys: ['tags.pairSplitTop'],  context: "R U R' U R U2 R'", solve: "R U' R'" },
+  { id: 'f2l-ex-stuck',  stage: 'f2lIntuitive', name: 'Stuck in slot',  descriptionKey: 'cases.f2lStuck.desc',  recognitionTagKeys: ['tags.pairStuckSlot'], context: "R U R' U R U2 R'", solve: "R U' R' U R U' R' U R U R'" },
+
   // --- 2-Look OLL: Edge orientation (3) ---
   { id: 'oll2-eo-dot',    stage: 'oll2look', name: 'Dot',     descriptionKey: 'cases.eoDot.desc',  recognitionTagKeys: ['tags.noEdgesOriented'], solve: "F R U R' U' F' f R U R' U' f'" },
   { id: 'oll2-eo-line',   stage: 'oll2look', name: 'Line',    descriptionKey: 'cases.eoLine.desc', recognitionTagKeys: ['tags.lineHorizontal'],  solve: "F R U R' U' F'" },
