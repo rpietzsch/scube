@@ -1,0 +1,42 @@
+LESSON — learn one algorithm
+═══════════════════════════════════════════
+Step-through tutor for a chosen alg.
+───────────────────────────────────────────
+┌─────────────────────────────────────────┐
+│  ✕  Learning: R U R' U R U2 R'          │
+│      OLL 27 · Basic tier                │
+│  ─────────────────────────────────────  │
+│                                         │
+│  Step 3 of 7                            │
+│  ████████░░░░░░░░░░░░                  │
+│                                         │
+│       ╭───────────────────╮            │
+│       │                   │            │
+│       │    [ 3D cube ]    │            │
+│       │     animating     │            │
+│       │       R'          │            │
+│       │                   │            │
+│       ╰───────────────────╯            │
+│   ◀ prev   ⏸ pause   ▶ next   ↺ replay │
+│                                         │
+│  Move queue                             │
+│   R   U  [R'] U   R   U2  R'           │
+│   ✓   ✓   ▶   ·   ·   ·   ·            │
+│                                         │
+│  Fingertrick note                       │
+│   Right index pulls top layer back      │
+│   while ring releases R face.           │
+│                                         │
+│  Speed   ◯ 0.25× ◉ 0.5× ◯ 1× ◯ 2×       │
+│  View    [ 3D ▾ ]   [ flip cube ]       │
+│                                         │
+│  ─────────────────────────────────────  │
+│  Phase                                  │
+│  ●─────●─────○─────○                    │
+│  Watch  Mimic  Recall  Fluent           │
+│                                         │
+│  ┌───────────────────────────────────┐ │
+│  │  ▶  I performed it — check me      │ │
+│  └───────────────────────────────────┘ │
+│  [ I'm stuck — show hint ]              │
+└─────────────────────────────────────────┘

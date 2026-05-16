@@ -1,0 +1,65 @@
+CASE DETAIL — the heart of the app
+═══════════════════════════════════════════
+Given the current constellation, show the
+target states you can reach and the algs
+per tier that get you there.
+───────────────────────────────────────────
+┌─────────────────────────────────────────┐
+│  ←  OLL 27 · "Sune"          ☆ favorite │
+│  ─────────────────────────────────────  │
+│                                         │
+│  Current state                          │
+│        ┌───┬───┬───┐                   │
+│      ─ │ ░ │ ▓ │ ░ │ ─                 │
+│        ├───┼───┼───┤                   │
+│      ▓ │ ▓ │ █ │ ▓ │ ░                 │
+│        ├───┼───┼───┤                   │
+│      ─ │ ░ │ ▓ │ ▓ │ ─                 │
+│        └───┴───┴───┘                   │
+│  Tags: corners-only · 1 oriented        │
+│  Mastery:  ●●●○○○○                     │
+│                                         │
+│  Choose a target state ─────────────── │
+│  ┌─ ◉ Fully oriented LL  (1-look) ───┐ │
+│  │   resolves the case in one alg    │ │
+│  └────────────────────────────────────┘ │
+│  ┌─ ○ Orient corners only (2-look) ──┐ │
+│  │   for beginners; finish with edge │ │
+│  │   orientation already done        │ │
+│  └────────────────────────────────────┘ │
+│                                         │
+│  Algorithms for "Fully oriented LL"     │
+│  ───────────────────────────────────── │
+│                                         │
+│  ▼ BASIC                                │
+│  ┌───────────────────────────────────┐ │
+│  │ R U R' U R U2 R'              7   │ │
+│  │ standard Sune                     │ │
+│  │ tags: regrip-free, beginner       │ │
+│  │ [▶ animate]  [📖 learn]  [↔ comp] │ │
+│  └───────────────────────────────────┘ │
+│                                         │
+│  ▼ ADVANCED                             │
+│  ┌───────────────────────────────────┐ │
+│  │ L' U' L U' L' U2 L            7   │ │
+│  │ mirror — better from this AUF     │ │
+│  │ tags: left-hand                   │ │
+│  │ [▶]  [📖]  [↔]                    │ │
+│  └───────────────────────────────────┘ │
+│  ┌───────────────────────────────────┐ │
+│  │ y R U R' U R U2 R' y'         9   │ │
+│  │ rotation variant                  │ │
+│  │ [▶]  [📖]  [↔]                    │ │
+│  └───────────────────────────────────┘ │
+│                                         │
+│  ▼ EXPERT                               │
+│  ┌───────────────────────────────────┐ │
+│  │ R U2 R' U' R U' R'            7 ★ │ │
+│  │ anti-Sune fingertrick — OH-fast   │ │
+│  │ tags: one-handed, double-flick    │ │
+│  │ source: J. Perm                   │ │
+│  │ [▶]  [📖]  [↔]                    │ │
+│  └───────────────────────────────────┘ │
+│                                         │
+│  Related cases:  Anti-Sune · L · Pi     │
+└─────────────────────────────────────────┘

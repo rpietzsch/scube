@@ -1,0 +1,141 @@
+{
+  "app": {
+    "name": "scube",
+    "tagline": "CFOP-Trainer"
+  },
+  "nav": {
+    "path": "Pfad",
+    "library": "Bibliothek",
+    "cube": "Würfel",
+    "settings": "Einstellungen"
+  },
+  "path": {
+    "title": "Dein Weg zu CFOP",
+    "nextLesson": "Nächste Lektion",
+    "continueLesson": "Weiter",
+    "start": "Lektion starten",
+    "due": "Zur Wiederholung fällig",
+    "today": "Heute",
+    "lessonsDone": "{{done}} / {{total}} Lektionen",
+    "done": "fertig",
+    "noNext": "Alles erledigt — starte ein Drill oder schau in die Bibliothek.",
+    "stage": {
+      "cross": "Kreuz",
+      "f2lIntuitive": "F2L · intuitiv",
+      "f2lAdvanced": "F2L · fortgeschritten",
+      "oll2look": "OLL · 2-Look",
+      "ollFull": "OLL · Voll",
+      "pll2look": "PLL · 2-Look",
+      "pllFull": "PLL · Voll"
+    },
+    "count": "{{done}}/{{total}}",
+    "comingSoon": "Folgt in einem späteren Meilenstein."
+  },
+  "library": {
+    "title": "Bibliothek",
+    "stage": "Stufe",
+    "tapToOpen": "Tippe einen Fall an, um ihn zu öffnen"
+  },
+  "case": {
+    "title": "Fall",
+    "currentState": "Aktueller Zustand",
+    "algorithm": "Algorithmus",
+    "algorithmOther": "Weitere Algorithmen",
+    "openLesson": "Lektion öffnen",
+    "openDrill": "Diese Stufe drillen",
+    "mastery": "Beherrschung"
+  },
+  "lesson": {
+    "title": "Lektion",
+    "watchPhase": "Schauen",
+    "mimicPhase": "Nachmachen",
+    "recallPhase": "Abrufen",
+    "iPerformedIt": "Ich habe es ausgeführt",
+    "showAlg": "Algorithmus zeigen",
+    "hideAlg": "Algorithmus verbergen",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "speed": "Geschwindigkeit",
+    "notes": "Notizen",
+    "markFluent": "Als sicher markieren",
+    "needMore": "Mehr Übung nötig"
+  },
+  "drill": {
+    "title": "Drill",
+    "recognition": "Erkennung",
+    "fluency": "Geläufigkeit",
+    "whichCase": "Welcher Fall ist das?",
+    "correct": "Richtig",
+    "incorrect": "Nicht ganz",
+    "next": "Weiter",
+    "selfRate": "Wie lief es?",
+    "fluent": "Sicher",
+    "hesitant": "Zögerlich",
+    "missed": "Verpatzt",
+    "finished": "Drill beendet",
+    "score": "{{correct}} / {{total}} richtig"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "language": "Sprache",
+    "languageAuto": "Automatisch (Browser)",
+    "languageEn": "English",
+    "languageDe": "Deutsch",
+    "version": "Version {{version}}",
+    "offlineReady": "Offline bereit",
+    "resetMastery": "Fortschritt zurücksetzen",
+    "resetConfirm": "Allen Lernfortschritt löschen?"
+  },
+  "tags": {
+    "noEdgesOriented": "keine Kanten orientiert",
+    "lineHorizontal": "Linie quer über die Oberseite",
+    "lShape": "L aus orientierten Kanten",
+    "oneCornerOriented": "eine Ecke schon orientiert",
+    "opposites": "zwei gegenüberliegende Ecken orientiert",
+    "barTwoCorners": "zwei benachbarte Ecken orientiert",
+    "diagonal": "diagonales Paar orientiert",
+    "adjacent": "benachbartes Paar orientiert",
+    "frontTwoCorners": "zwei vordere Ecken orientiert",
+    "threeCornerCycle": "drei Ecken im Kreis",
+    "diagonalCornerSwap": "diagonaler Ecken-Tausch",
+    "threeEdgeCycle": "drei Kanten im Kreis",
+    "oppositeEdgeSwap": "gegenüberliegende Kanten tauschen",
+    "adjacentEdgeSwap": "benachbarte Kanten tauschen"
+  },
+  "lessons": {
+    "crossIntro": {
+      "title": "Das Kreuz",
+      "body": "Das Kreuz ist der erste Schritt von CFOP: baue ein farbiges Pluszeichen auf der unteren Ebene, wobei jede Kanten­farbe zum Nachbarzentrum passt. Ziel: ≤ 8 Züge und schon den ersten F2L-Slot im Blick."
+    },
+    "crossPlanning": {
+      "title": "Kreuz planen",
+      "body": "Nutze die 15 Sekunden Inspektion: alle vier Kreuzkanten lokalisieren, Züge wählen, die bereits gelöste Kanten nicht zerstören, und das erste F2L-Paar (Ecke + Kante) im Auge behalten."
+    },
+    "f2lShapes": {
+      "title": "Drei Formen von F2L",
+      "body": "Jeder F2L-Slot fällt in eine von drei Familien: Paar oben verbunden, Paar oben getrennt, oder Paar im Slot festgeklemmt. Erkenne zuerst die Familie — dann ergibt sich der Zug."
+    },
+    "f2lJoined": {
+      "title": "Paar oben verbunden",
+      "body": "Setze das verbundene Paar über den leeren Slot und füge es ein: U R U' R' (oder gespiegelt U' L' U L). Aus allen vier Winkeln üben."
+    },
+    "f2lSplit": {
+      "title": "Paar oben getrennt",
+      "body": "Bringe Ecke und Kante mit U-Zügen zusammen, dann einsetzen. Die getrennte Familie hat 12 Fälle — intuitiv: erst Ecke über den Slot, dann passt es."
+    },
+    "f2lStuck": {
+      "title": "Im Slot festgeklemmt",
+      "body": "Steckt das Stück schon im Slot, aber falsch? Heraus damit (R U' R' oder ähnlich), zurück in die Oberseite, und dann als verbundener oder getrennter Fall lösen."
+    }
+  },
+  "cases": {
+    "eoDot": { "desc": "Noch keine Kanten oben orientiert." },
+    "eoLine": { "desc": "Eine waagerechte Linie aus orientierten Kanten." },
+    "eoL": { "desc": "Zwei benachbarte orientierte Kanten in L-Form." },
+    "aPerm": { "desc": "Drei Ecken im Kreis; Kanten gelöst." },
+    "yPerm": { "desc": "Diagonaler Ecken-Tausch." }
+  },
+  "algs": {
+    "eoDot": { "notes": "Zweistufig: erst eine Kante richten, dann den Rest." }
+  }
+}

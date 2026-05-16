@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+.yarn/cache
+.yarn/install-state.gz
+
+# Build output
+dist/
+dist-ssr/
+build/
+*.local
+
+# PWA generated
+dev-dist/
+public/sw.js
+public/workbox-*.js
+public/registerSW.js
+
+# Vite
+.vite/
+
+# Testing
+coverage/
+*.lcov
+.nyc_output/
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# TypeScript
+*.tsbuildinfo
+
+# Claude / agent scratch
+.claude/

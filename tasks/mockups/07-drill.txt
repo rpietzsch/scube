@@ -1,0 +1,39 @@
+DRILL — short fluency check
+═══════════════════════════════════════════
+Optional speed-side. Not the main loop —
+just confirms an alg has stuck.
+───────────────────────────────────────────
+┌─────────────────────────────────────────┐
+│  ✕  Fluency drill · 3 / 8               │
+│  ─────────────────────────────────────  │
+│                                         │
+│  Recognize the case                     │
+│        ┌───┬───┬───┐                   │
+│      ─ │ ░ │ ▓ │ ▓ │ ─                 │
+│        ├───┼───┼───┤                   │
+│      ▓ │ ▓ │ █ │ ░ │ ░                 │
+│        ├───┼───┼───┤                   │
+│      ─ │ ▓ │ ░ │ ▓ │ ─                 │
+│        └───┴───┴───┘                   │
+│                                         │
+│  Which case is this?                    │
+│  ( Sune )  ( Anti-Sune )  ( L )  ( Pi ) │
+│                                         │
+│  ───────────────────────────────────── │
+│                                         │
+│  Then execute the alg you learned       │
+│  (timer only as a confidence signal)    │
+│                                         │
+│         ╭─────────────────╮             │
+│         │    hold space   │             │
+│         │       0.00      │             │
+│         ╰─────────────────╯             │
+│                                         │
+│  After solve, self-rate                 │
+│  ( 👍 fluent )  ( 🤔 hesitant )  ( ❌ )  │
+│                                         │
+│  ─────────────────────────────────────  │
+│  Drill progress                         │
+│  ✓ ✓ ●─ ○ ○ ○ ○ ○                       │
+│  mastery this case: ●●●●○○○             │
+└─────────────────────────────────────────┘

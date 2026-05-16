@@ -1,0 +1,45 @@
+SETTINGS
+═══════════════════════════════════════════
+┌─────────────────────────────────────────┐
+│  ←   Settings                           │
+│  ─────────────────────────────────────  │
+│                                         │
+│  Language                               │
+│   App language       [ Deutsch    ▾ ]   │
+│     ◯ English  ◉ Deutsch  (auto)        │
+│                                         │
+│  Learning                               │
+│   Default tier        [ Advanced  ▾ ]   │
+│   Progression gating  ( soft | strict ) │
+│   SRS algorithm       [ SM-2-lite ▾ ]   │
+│   Hint generosity     [ medium    ▾ ]   │
+│                                         │
+│  Cube display                           │
+│   Color scheme        [ WCA std   ▾ ]   │
+│      └ colorblind preset (deutan)       │
+│   Net orientation     [ Y-top, F-front ]│
+│   3D playback         [ on  ]           │
+│   Default animation   ◯0.25× ◉0.5× ◯1×  │
+│   Handedness          ( left | ●right ) │
+│                                         │
+│  Notation                               │
+│   Style   ( WCA | Singmaster | both )   │
+│   Show wide / rotations   [ on  ]       │
+│   Fingertrick hints       [ on  ]       │
+│                                         │
+│  Drill (optional speed side)            │
+│   Inspection          [ off | 15s ]     │
+│   Hold-to-start       [ 300 ms ▾ ]      │
+│   Auto-advance        [ 3s ]            │
+│                                         │
+│  Data                                   │
+│   Export progress (JSON)         ⇩      │
+│   Import…                        ⇧      │
+│   Custom algorithms              ➜      │
+│   Reset mastery                  ⌫      │
+│                                         │
+│  App                                    │
+│   Install to home screen     [ Add ]    │
+│   Offline status     ✓ ready offline    │
+│   Version 0.1.0                         │
+└─────────────────────────────────────────┘

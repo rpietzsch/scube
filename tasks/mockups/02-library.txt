@@ -1,0 +1,40 @@
+LIBRARY — browse any stage
+═══════════════════════════════════════════
+┌─────────────────────────────────────────┐
+│  ←  Library                             │
+│  ─────────────────────────────────────  │
+│  Cross │ F2L │ OLL │ PLL                │
+│         intuitive │ ●advanced            │
+│  ─────────────────────────────────────  │
+│  F2L · Advanced · 41 cases   filter ▾   │
+│   slot:    ● any  ○ FR  ○ FL  ○ BR  ○ BL│
+│   shape:   ● any  ○ joined  ○ split     │
+│   status:  ● any  ○ learned  ○ due ○ new│
+│                                         │
+│  Basic inserts (3)         intuitive ✓  │
+│  ┌────┬────┬────┐                      │
+│  │ a  │ b  │ c  │                      │
+│  │ ▓░ │ ░▓ │ ▓▓ │                      │
+│  │ ✓  │ ✓  │ ✓  │                      │
+│  └────┴────┴────┘                      │
+│                                         │
+│  Pair joined in top (12)                │
+│  ┌────┬────┬────┬────┬────┬────┐       │
+│  │ 1  │ 2  │ 3  │ 4  │ 5  │ 6  │       │
+│  │ ▓▓ │ ▓░ │ ░▓ │ ▓▓ │ ░░ │ ▓░ │       │
+│  │ ✓  │ ✓  │ ●  │    │    │    │       │
+│  ├────┼────┼────┼────┼────┼────┤       │
+│  │ 7  │ 8  │ 9  │ 10 │ 11 │ 12 │       │
+│  │ ▓░ │ ░▓ │ ▓▓ │ ░▓ │ ▓░ │ ░░ │       │
+│  │    │    │    │    │    │    │       │
+│  └────┴────┴────┴────┴────┴────┘       │
+│                                         │
+│  Pair split (12)              ▸ expand  │
+│  Corner or edge in slot (14)  ▸ expand  │
+│                                         │
+│   ✓ learned   ● due   blank = new       │
+│   tap a case → details                  │
+└─────────────────────────────────────────┘
+
+OLL/PLL tabs swap inner sub-tab to "2-Look | Full".
+Cross tab shows intuitive lessons & drills, no case grid.

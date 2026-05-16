@@ -1,0 +1,87 @@
+version: '3'
+
+# scube task runner. Requires Task (https://taskfile.dev) and Node 22+.
+# Run `task` (no args) to see the available targets.
+
+tasks:
+  default:
+    desc: List available tasks
+    cmds:
+      - task --list
+    silent: true
+
+  # --- Lifecycle ---
+
+  install:
+    desc: Install npm dependencies
+    cmds:
+      - npm install
+    sources:
+      - package.json
+      - package-lock.json
+    generates:
+      - node_modules/.package-lock.json
+
+  clean:
+    desc: Remove build output and caches
+    cmds:
+      - rm -rf dist dev-dist .vite coverage
+
+  reset:
+    desc: Wipe node_modules + caches and reinstall
+    cmds:
+      - rm -rf node_modules dist dev-dist .vite
+      - task: install
+
+  # --- Develop ---
+
+  dev:
+    desc: Start the Vite dev server (http://localhost:5173)
+    deps: [install]
+    cmds:
+      - npm run dev
+
+  typecheck:
+    desc: Run TypeScript in check-only mode
+    deps: [install]
+    cmds:
+      - npm run typecheck
+
+  test:cube:
+    desc: Run cube-engine sanity tests
+    deps: [install]
+    cmds:
+      - npx tsx scripts/cube-test.mts
+
+  # --- Build & ship ---
+
+  build:
+    desc: Production build to ./dist (PWA + GH Pages base path)
+    deps: [install]
+    cmds:
+      - npm run build
+
+  preview:
+    desc: Serve the production build locally
+    deps: [build]
+    cmds:
+      - npm run preview
+
+  deploy:check:
+    desc: Verify a deployable artifact (typecheck + tests + build)
+    cmds:
+      - task: typecheck
+      - task: test:cube
+      - task: build
+
+  # --- Maintenance ---
+
+  outdated:
+    desc: Show outdated npm packages
+    cmds:
+      - npm outdated || true
+
+  audit:
+    desc: Show known vulnerabilities (non-blocking)
+    cmds:
+      - npm audit || true

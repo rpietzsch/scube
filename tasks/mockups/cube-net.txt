@@ -1,0 +1,42 @@
+2D NET RENDERING REFERENCE
+═══════════════════════════════════════════
+
+Standard unfolded layout (Y on top, F facing viewer):
+
+                 ┌───┬───┬───┐
+                 │U00│U01│U02│
+                 ├───┼───┼───┤
+                 │U10│U11│U12│        U  (yellow)
+                 ├───┼───┼───┤
+                 │U20│U21│U22│
+ ┌───┬───┬───┐   ├───┼───┼───┤   ┌───┬───┬───┐   ┌───┬───┬───┐
+ │L00│L01│L02│   │F00│F01│F02│   │R00│R01│R02│   │B00│B01│B02│
+ ├───┼───┼───┤   ├───┼───┼───┤   ├───┼───┼───┤   ├───┼───┼───┤
+ │L10│L11│L12│   │F10│F11│F12│   │R10│R11│R12│   │B10│B11│B12│
+ ├───┼───┼───┤   ├───┼───┼───┤   ├───┼───┼───┤   ├───┼───┼───┤
+ │L20│L21│L22│   │F20│F21│F22│   │R20│R21│R22│   │B20│B21│B22│
+ └───┴───┴───┘   ├───┼───┼───┤   └───┴───┴───┘   └───┴───┴───┘
+   L (orange)    │D00│D01│D02│     R (red)         B (blue)
+                 ├───┼───┼───┤
+                 │D10│D11│D12│        D (white)
+                 ├───┼───┼───┤
+                 │D20│D21│D22│
+                 └───┴───┴───┘
+
+Sticker array index: face_order = [U,R,F,D,L,B]
+                     idx = face*9 + row*3 + col   (0..53)
+
+Last-layer-only "OLL/PLL" view (compact, for solve screen):
+
+         ┌───┬───┬───┐
+       ──┤ F │ F │ F ├──
+       L │───┼───┼───│ R
+       ──┤   │   │   ├──
+         │ ── ── ──  │      top face (U) center,
+       ──┤   │   │   ├──    with side strips for
+       L │───┼───┼───│ R    F/R/B/L LL stickers
+       ──┤ B │ B │ B ├──
+         └───┴───┴───┘
+
+Colors (default WCA): U=yellow, D=white, F=green, B=blue, R=red, L=orange.
+Colorblind preset replaces R/G with magenta/cyan.

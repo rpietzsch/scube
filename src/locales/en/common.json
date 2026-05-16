@@ -1,0 +1,141 @@
+{
+  "app": {
+    "name": "scube",
+    "tagline": "CFOP Tutor"
+  },
+  "nav": {
+    "path": "Path",
+    "library": "Library",
+    "cube": "Cube",
+    "settings": "Settings"
+  },
+  "path": {
+    "title": "Your path to CFOP",
+    "nextLesson": "Next lesson",
+    "continueLesson": "Continue",
+    "start": "Start lesson",
+    "due": "Due for review",
+    "today": "Today",
+    "lessonsDone": "{{done}} / {{total}} lessons",
+    "done": "done",
+    "noNext": "All caught up — start a drill or browse the library.",
+    "stage": {
+      "cross": "Cross",
+      "f2lIntuitive": "F2L · intuitive",
+      "f2lAdvanced": "F2L · advanced",
+      "oll2look": "OLL · 2-Look",
+      "ollFull": "OLL · Full",
+      "pll2look": "PLL · 2-Look",
+      "pllFull": "PLL · Full"
+    },
+    "count": "{{done}}/{{total}}",
+    "comingSoon": "Coming in a later milestone."
+  },
+  "library": {
+    "title": "Library",
+    "stage": "Stage",
+    "tapToOpen": "Tap a case to open"
+  },
+  "case": {
+    "title": "Case",
+    "currentState": "Current state",
+    "algorithm": "Algorithm",
+    "algorithmOther": "Other algorithms",
+    "openLesson": "Open lesson",
+    "openDrill": "Drill this set",
+    "mastery": "Mastery"
+  },
+  "lesson": {
+    "title": "Lesson",
+    "watchPhase": "Watch",
+    "mimicPhase": "Mimic",
+    "recallPhase": "Recall",
+    "iPerformedIt": "I performed it",
+    "showAlg": "Show algorithm",
+    "hideAlg": "Hide algorithm",
+    "next": "Next",
+    "previous": "Previous",
+    "speed": "Speed",
+    "notes": "Notes",
+    "markFluent": "Mark fluent",
+    "needMore": "Needs more practice"
+  },
+  "drill": {
+    "title": "Drill",
+    "recognition": "Recognition",
+    "fluency": "Fluency",
+    "whichCase": "Which case is this?",
+    "correct": "Correct",
+    "incorrect": "Not quite",
+    "next": "Next",
+    "selfRate": "How did it go?",
+    "fluent": "Fluent",
+    "hesitant": "Hesitant",
+    "missed": "Missed",
+    "finished": "Drill complete",
+    "score": "{{correct}} / {{total}} correct"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "languageAuto": "Auto (browser)",
+    "languageEn": "English",
+    "languageDe": "Deutsch",
+    "version": "Version {{version}}",
+    "offlineReady": "Ready offline",
+    "resetMastery": "Reset mastery",
+    "resetConfirm": "Erase all learning progress?"
+  },
+  "tags": {
+    "noEdgesOriented": "no edges oriented",
+    "lineHorizontal": "line across top",
+    "lShape": "L of oriented edges",
+    "oneCornerOriented": "one corner already oriented",
+    "opposites": "two opposite corners oriented",
+    "barTwoCorners": "two adjacent corners oriented",
+    "diagonal": "diagonal pair oriented",
+    "adjacent": "adjacent pair oriented",
+    "frontTwoCorners": "two front corners oriented",
+    "threeCornerCycle": "three corners cycle",
+    "diagonalCornerSwap": "diagonal corner swap",
+    "threeEdgeCycle": "three edges cycle",
+    "oppositeEdgeSwap": "opposite edges swap",
+    "adjacentEdgeSwap": "adjacent edges swap"
+  },
+  "lessons": {
+    "crossIntro": {
+      "title": "The Cross",
+      "body": "The cross is the first step of CFOP: build a plus-shape of one colour on the bottom layer with its edge pieces matched to neighbouring centres. Aim for ≤ 8 moves and to look ahead to your first F2L pair while you solve it."
+    },
+    "crossPlanning": {
+      "title": "Planning the Cross",
+      "body": "Use your 15-second inspection: locate all four cross edges, plan moves that don't disturb edges you've already solved, and watch where the first F2L corner+edge pair will end up so you can attack it without pause."
+    },
+    "f2lShapes": {
+      "title": "Three shapes of F2L",
+      "body": "Every F2L pair sits in one of three families: pair joined in the top, pair split in the top, or pair stuck in the slot. Recognise which family you have first; the right move follows."
+    },
+    "f2lJoined": {
+      "title": "Pair joined in the top",
+      "body": "Place the joined pair above its empty slot, then insert with U R U' R' (or the mirrored U' L' U L). Practise from every angle."
+    },
+    "f2lSplit": {
+      "title": "Pair split in the top",
+      "body": "Bring the corner and edge together using U-moves, then insert. The split case is twelve cases; intuitively you 'unstuck' them by aligning corner-above-slot first."
+    },
+    "f2lStuck": {
+      "title": "Stuck in the slot",
+      "body": "If the corner or edge is already in the slot but wrong, extract it (R U' R' or similar) to put it back in the top layer, then re-solve as a joined or split case."
+    }
+  },
+  "cases": {
+    "eoDot": { "desc": "No edges yet oriented on top." },
+    "eoLine": { "desc": "A horizontal line of oriented edges across the top." },
+    "eoL": { "desc": "Two adjacent oriented edges forming an L." },
+    "aPerm": { "desc": "Three corners cycle; edges already solved." },
+    "yPerm": { "desc": "Diagonal corner swap." }
+  },
+  "algs": {
+    "eoDot": { "notes": "Two-shot: first fix one edge, then the rest." }
+  }
+}
