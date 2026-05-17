@@ -45,8 +45,13 @@ export function stageMask(kind: StageKind): boolean[] {
     return m;
   }
   if (kind === 'f2l') {
-    // U + R + F (the three faces visible from the UFR corner in a 3D view)
+    // U + R + F (the three faces visible from the UFR corner in a 3D view),
+    // plus D[2] so the FR-slot's bottom (D-colour) sticker is also visible.
+    // Without D[2] the target would show only 4 stickers while the source
+    // shows 5 (the corner's U/F/R stickers in the top layer), which looks
+    // asymmetric.
     for (let i = 0; i < 27; i++) m[i] = true;
+    m[29] = true; // D[2]
     return m;
   }
   // oll | pll — last-layer focus

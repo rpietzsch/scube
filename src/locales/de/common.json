@@ -51,6 +51,11 @@
     "before": "Ausgang",
     "after": "Ergebnis"
   },
+  "movement": {
+    "source": "bewegt sich von hier",
+    "target": "landet hier",
+    "labelsHint": "Zahlen markieren jedes Stück: n = aktuelle Position, n′ = wohin es geht. Stücke folgen dem Zyklus n → n′."
+  },
   "lesson": {
     "title": "Lektion",
     "watchPhase": "Schauen",

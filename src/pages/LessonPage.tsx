@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useMemo, useState } from 'react';
 import { caseById, algsFor, LESSONS } from '../data/cases';
 import { CubePlayback } from '../cube/CubePlayback';
-import { CubeBeforeAfter } from '../cube/CubeBeforeAfter';
+import { CubeWithMovement } from '../cube/CubeWithMovement';
 import { deriveState } from '../cube/derive';
 import { stageKindFor, stageMask } from '../cube/highlight';
 import { NotationLegend } from '../cube/NotationLegend';
@@ -43,7 +43,7 @@ export default function LessonPage() {
 
       <section className="bg-ink-900 rounded-lg p-4 border border-ink-800">
         <h2 className="text-sm uppercase tracking-wider text-ink-500 mb-3">{t('case.fromTo')}</h2>
-        <CubeBeforeAfter initial={initial} alg={primary.notation} highlight={mask} cell={16} />
+        <CubeWithMovement state={initial} alg={primary.notation} highlight={mask} stage={c.stage} cell={20} />
       </section>
 
       <section className="bg-ink-900 rounded-lg p-4 border border-ink-800">
@@ -148,7 +148,7 @@ function LessonExample({ caseId, highlight }: { caseId: string; highlight?: bool
         <Link to={`/case/${c.id}`} className="text-xs text-cube-U">{t('lesson.openCase')} →</Link>
       </div>
       {c.descriptionKey && <p className="text-xs text-ink-500">{t(c.descriptionKey)}</p>}
-      <CubeBeforeAfter initial={state} alg={primary.notation} highlight={highlight} cell={14} />
+      <CubeWithMovement state={state} alg={primary.notation} highlight={highlight} stage={c.stage} cell={18} />
     </div>
   );
 }

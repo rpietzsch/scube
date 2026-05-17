@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { caseById, algsFor } from '../data/cases';
-import { CubeBeforeAfter } from '../cube/CubeBeforeAfter';
+import { CubeWithMovement } from '../cube/CubeWithMovement';
 import { deriveState } from '../cube/derive';
 import { stageMask, stageKindFor } from '../cube/highlight';
 import { NotationLegend } from '../cube/NotationLegend';
@@ -44,7 +44,7 @@ export default function CasePage() {
       {primary && (
         <section className="bg-ink-900 rounded-lg p-4 border border-ink-800">
           <h2 className="text-sm uppercase tracking-wider text-ink-500 mb-3">{t('case.fromTo')}</h2>
-          <CubeBeforeAfter initial={state} alg={primary.notation} highlight={mask} cell={18} />
+          <CubeWithMovement state={state} alg={primary.notation} highlight={mask} stage={c.stage} cell={22} />
           {aid && (
             <p className="text-xs text-ink-500 mt-3 text-center">{t('case.highlightHint')}</p>
           )}

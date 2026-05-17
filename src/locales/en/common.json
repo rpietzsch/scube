@@ -51,6 +51,11 @@
     "before": "Start",
     "after": "Result"
   },
+  "movement": {
+    "source": "moves from here",
+    "target": "lands here",
+    "labelsHint": "Numbers mark each piece: n = current position, n′ = where it ends up. Pieces follow the cycle n → n′."
+  },
   "lesson": {
     "title": "Lesson",
     "watchPhase": "Watch",
