@@ -63,7 +63,7 @@ export default function LibraryPage() {
 
       {cases.length > 0 && (
         <section>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {cases.map((c) => {
               const m = byCase[c.id];
               const state = deriveState(c.solve, c.context);

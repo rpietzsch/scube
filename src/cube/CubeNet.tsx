@@ -39,7 +39,13 @@ function FaceGrid({ state, face, x, y, cell, highlight, source, target, involved
   for (let row = 0; row < 3; row++) {
     for (let col = 0; col < 3; col++) {
       const idx = base + row * 3 + col;
-      const lit = highlight ? highlight[idx] : true;
+      const inStage = highlight ? highlight[idx] : true;
+      const isInvolved = !!involved?.[idx];
+      // A sticker that's part of a moving piece is always shown in full colour
+      // even when it sits on a face the stage mask would otherwise grey out —
+      // otherwise the third sticker of a corner that wanders onto the back
+      // face would disappear together with its label.
+      const lit = inStage || isInvolved;
       const sx = x + col * cell;
       const sy = y + row * cell;
       const sw = cell - 2;
@@ -50,12 +56,12 @@ function FaceGrid({ state, face, x, y, cell, highlight, source, target, involved
       const brLabel = lit ? bottomRightLabels?.[idx] : undefined;
       const fontSize = Math.max(8, Math.round(cell * 0.42));
       // Three-tier opacity:
-      //   outside stage   → MUTED grey, 0.55
-      //   in stage, not a moving-piece sticker → real colour at 0.45 (dimmed)
-      //   in stage and part of a moving piece → real colour at 1.0
-      const dim = lit && involved && !involved[idx];
+      //   outside stage and not involved → MUTED grey, 0.55
+      //   in stage but not a moving-piece sticker → real colour at 0.65 (slight dim)
+      //   part of a moving piece → real colour at 1.0
+      const dim = lit && involved && !isInvolved;
       const fillColor = lit ? COLORS[state[idx]] : MUTED;
-      const fillOpacity = lit ? (dim ? 0.45 : 1) : 0.55;
+      const fillOpacity = lit ? (dim ? 0.65 : 1) : 0.55;
 
       cells.push(
         <g key={idx}>
@@ -199,7 +205,7 @@ export function LLThumbnail({ state, cell = 16, highlight, involved }: { state: 
       width={w}
       height={h}
       fill={lit ? COLORS[sticker] : MUTED}
-      opacity={lit ? (dim ? 0.45 : 1) : 0.55}
+      opacity={lit ? (dim ? 0.65 : 1) : 0.55}
       stroke="#0b1020"
       strokeWidth={1}
       rx={2}
@@ -212,8 +218,10 @@ export function LLThumbnail({ state, cell = 16, highlight, involved }: { state: 
   const draw = (face: 'F' | 'R' | 'B' | 'L', positions: Array<[number, number, number, number]>, reverse = false) => {
     const idxs = reverse ? stripIdx(face).slice().reverse() : stripIdx(face);
     return idxs.map((i, k) => {
-      const lit = highlight ? highlight[i] : true;
-      const dim = lit && !!involved && !involved[i];
+      const inStage = highlight ? highlight[i] : true;
+      const isInvolved = !!involved?.[i];
+      const lit = inStage || isInvolved;
+      const dim = lit && !!involved && !isInvolved;
       const [x, y, w, h] = positions[k];
       return sideRect(state[i] as Face, lit, dim, x, y, w, h, `${face}${k}`);
     });
