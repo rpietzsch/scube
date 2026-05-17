@@ -174,6 +174,87 @@ scube is a fully client-side PWA, so GitHub Pages (static + HTTPS) is sufficient
 - **Context for F2L**: every advanced-F2L case uses the same Sune-like context (`R U R' U R U2 R'`) so the result honestly shows F2L finished with an unsolved last layer.
 - **Alg sourcing**: canonical algorithms from speedsolving.com wiki / J. Perm. Some longer cases (Na, Nb, F, V) use 17–20 HTM standard variants — ergonomic alternates can be added as additional `ALGS` entries later without changing case state.
 
+### M7 — Full F2L + alternative algorithms (proposed, awaiting approval)
+
+The M6 ship leaves Advanced F2L at a starter set of 8 cases and exposes only the primary algorithm per case. M7 fills that gap by importing the structure used by [speedsolving.com wiki/First_Two_Layers](https://www.speedsolving.com/wiki/index.php?title=First_Two_Layers).
+
+#### Goals
+
+1. **Complete the "intuitive" basic inserts** in `f2lIntuitive` — currently 3 illustrative shapes (joined / split / stuck); the wiki lists 4 named basic inserts. Add the missing one(s) so the intuitive stage matches the canonical beginner set.
+2. **Full Advanced F2L**, organised into the wiki's named groups inside `f2lAdvanced`:
+   - Basic Inserts (~4 cases)
+   - Reposition Edge (~4)
+   - Reposition Edge and Flip Corner (~9)
+   - Split Pair by Going Over (~4)
+   - Pair Made on Side (~4)
+   - Weird Cases (~2)
+   - Corner in Place, Edge in U Face (~8)
+   - Edge in Place, Corner in U Face (~6)
+   - Edge and Corner in Place (~5)
+3. **Alternative algorithms per case** — keep one primary alg shown prominently; surface the well-known alternatives (mirror, OH-friendly, regrip-free, wide variant) in a collapsed expandable section on the Case Detail page.
+
+#### Data model changes
+
+- `CaseData` gains an optional `group?: string` field — the F2L subcategory slug (e.g. `"basicInsert"`, `"repositionEdge"`). Drives Library grouping.
+- `CaseData` gains an optional `alternates?: AlgAlternate[]` field:
+  ```ts
+  interface AlgAlternate {
+    notation: string;
+    notesKey?: string;
+    ergonomicsKeys?: string[];   // e.g. ['ergo.OHFriendly', 'ergo.regripFree']
+    attribution?: string;
+  }
+  ```
+- `ALGS` auto-generation extends to include alternates (rank 2+), so the existing `algsFor(caseId)` API keeps working.
+- A new helper `caseGroupsByStage(stage)` returns the ordered list of group slugs that have cases — Library uses it to render section headers.
+
+#### UI changes
+
+- **Library** (F2L Advanced tab): grouped layout — each subcategory gets its own labelled section with a thumbnail grid. Sections render in the canonical wiki order. (Other tabs stay flat — only F2L Advanced needs grouping.)
+- **Case Detail**: below the primary-algorithm card, add a collapsible "Alternative Algorithmen" / "Alternative algorithms" section. Closed by default. Each entry shows notation, move count (HTM), ergonomic tags (if any), and notes.
+- **Settings**: no new entries; if users want alternates always open, that's a v1.x preference.
+
+#### Translation keys to add
+
+- `path.group.f2l.basicInsert`, `…repositionEdge`, `…repositionEdgeFlipCorner`, `…splitPairOver`, `…pairOnSide`, `…weird`, `…cornerInPlaceEdgeUp`, `…edgeInPlaceCornerUp`, `…bothInPlace`
+- `case.alternates`, `case.alternatesIntro`, `case.expandAlternates`, `case.collapseAlternates`
+- `ergo.OHFriendly`, `ergo.regripFree`, `ergo.leftHandMirror`, `ergo.wideVariant`, `ergo.shorterHTM`, `ergo.beginnerFriendly`
+
+#### Test plan
+
+- Every primary AND alternate alg must round-trip through `task test:cube` (extends the existing 106-case test loop to whatever the new total is — likely ~140–160 with alternates).
+- Visual spot-check of one case per group via `task dev` to confirm the rendered state matches the wiki's named case.
+- TypeScript + production build must stay green.
+
+#### Implementation steps
+
+1. Extend `CaseData` / `AlgData` types in [src/data/types.ts](../src/data/types.ts).
+2. Add `caseGroupsByStage` helper to [src/data/cases.ts](../src/data/cases.ts) and update `ALGS` derivation to include alternates.
+3. Rewrite [src/data/f2l-advanced.ts](../src/data/f2l-advanced.ts) with all ~41 cases organised by group, plus a curated set of alternates for the most-taught cases (basic inserts, the most common sledgehammer/hedgeslammer variants).
+4. Update [src/pages/LibraryPage.tsx](../src/pages/LibraryPage.tsx) to render grouped sections for F2L Advanced.
+5. Update [src/pages/CasePage.tsx](../src/pages/CasePage.tsx) to render the collapsible alternates section.
+6. Add EN + DE translation keys.
+7. Run `task test:cube` — fix alg errors. Run `task build` — fix TS errors.
+8. Update PLAN.md to flip M7 from "proposed" to "✅ done".
+
+#### Out of scope for M7 (deferred to v1.x)
+
+- Detailed per-case prose explanations (just name + recognition tags suffice).
+- Side-by-side comparison of two alternates *within the same case* (the existing `/compare` view compares two different cases; an alt-vs-alt view can come later).
+- User-added custom algs / "my algs" feature.
+- Manual cube state entry (still deferred from M6).
+
+#### Effort estimate
+
+~250–400 lines of F2L data (41 cases × 1 primary + ~2 alternates for popular cases), ~50 lines of UI changes, ~40 lines of translations. Roughly one focused session.
+
+#### Risks
+
+- **Alg correctness**: the round-trip test confirms an alg parses and is internally consistent, but does NOT confirm it matches its named case. The only safeguard is sourcing from a trusted reference (speedsolving wiki) and spot-checking visually. If an alg ends up labelled with the wrong case name, the visualisation will still look "correct" mathematically but pedagogically wrong — a future bug to watch for.
+- **Group ordering**: wiki page may evolve; we freeze the order at implementation time.
+
+---
+
 ### M6 deltas
 
 - **Compare view** ([`/compare?a=<id>&b=<id>`](../src/pages/ComparePage.tsx)): two-cube layout that stacks vertically on mobile, side-by-side on `md+`. Each side reuses the existing `CubeWithMovement` so it inherits the stage mask, dimming, and piece labels automatically. Move-count summary at the bottom for at-a-glance ergonomics comparison. Reachable from any Case Detail via the new "Vergleichen" button.
