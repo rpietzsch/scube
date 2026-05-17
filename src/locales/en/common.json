@@ -45,7 +45,16 @@
     "openDrill": "Drill this set",
     "mastery": "Mastery",
     "fromTo": "Starting state → result",
+    "compare": "Compare",
     "highlightHint": "Greyed-out stickers are not part of this stage — they're just there for orientation. Colourful stickers are the area you're working on."
+  },
+  "compare": {
+    "title": "Compare two cases",
+    "intro": "Pick two cases to see their states and algorithms side-by-side.",
+    "case": "Case {{label}}",
+    "side": "Side {{tag}}",
+    "pick": "Pick a case…",
+    "moveCount": "Algorithm length (HTM)"
   },
   "beforeAfter": {
     "before": "Start",

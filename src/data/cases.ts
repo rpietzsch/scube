@@ -1,4 +1,7 @@
 import { CaseData, AlgData, LessonData } from './types';
+import { OLL_FULL_CASES } from './oll-full';
+import { PLL_FULL_CASES } from './pll-full';
+import { F2L_ADVANCED_CASES } from './f2l-advanced';
 
 // === Cross & F2L (intuitive) — prose lessons with illustrative examples ===
 export const LESSONS: LessonData[] = [
@@ -44,6 +47,15 @@ export const CASES: CaseData[] = [
   { id: 'pll2-ub', stage: 'pll2look', name: 'Ub-perm', recognitionTagKeys: ['tags.threeEdgeCycle'],     solve: "M2 U' M U2 M' U' M2" },
   { id: 'pll2-h',  stage: 'pll2look', name: 'H-perm',  recognitionTagKeys: ['tags.oppositeEdgeSwap'],   solve: "M2 U M2 U2 M2 U M2" },
   { id: 'pll2-z',  stage: 'pll2look', name: 'Z-perm',  recognitionTagKeys: ['tags.adjacentEdgeSwap'],   solve: "M2 U M2 U M' U2 M2 U2 M'" },
+
+  // === Full OLL (57) — M4 ===
+  ...OLL_FULL_CASES,
+
+  // === Full PLL (21) — M5 ===
+  ...PLL_FULL_CASES,
+
+  // === Advanced F2L (starter, ~8 cases) — M6 partial ===
+  ...F2L_ADVANCED_CASES,
 ];
 
 // Primary alg = the case's `solve`. Additional alternates can be added here.

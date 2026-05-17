@@ -45,7 +45,16 @@
     "openDrill": "Diese Stufe drillen",
     "mastery": "Beherrschung",
     "fromTo": "Ausgang → Ergebnis",
+    "compare": "Vergleichen",
     "highlightHint": "Graue Sticker gehören nicht zu dieser Stufe — sie sind nur zur Orientierung da. Die farbigen sind der Bereich, an dem du arbeitest."
+  },
+  "compare": {
+    "title": "Zwei Fälle vergleichen",
+    "intro": "Wähle zwei Fälle, um Zustand und Algorithmus nebeneinander zu sehen.",
+    "case": "Fall {{label}}",
+    "side": "Seite {{tag}}",
+    "pick": "Fall auswählen…",
+    "moveCount": "Algorithmus-Länge (HTM)"
   },
   "beforeAfter": {
     "before": "Ausgang",

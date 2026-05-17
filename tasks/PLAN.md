@@ -156,16 +156,30 @@ scube is a fully client-side PWA, so GitHub Pages (static + HTTPS) is sufficient
 | M1 | Cube model (54-sticker) · move engine (UDRLFB + xyz + wide + MES slices) · WCA notation parser · 2D SVG net renderer · animated playback (step / play / pause / speed). **Note: 3D playback deferred** — 2D net is the v1 primary visualisation; 3D moved to post-v1 (deps & bundle weight not justified yet) | Render any state, play any alg; 17/17 engine sanity tests pass | ✅ done |
 | M2 | Path view with the CFOP ladder · Library with stage tabs · Case detail (state + algs + mastery bar) · Lesson screen (animated playback + speed control + "I performed it") · Cross + Intuitive F2L prose lessons · 2-Look OLL (10) + 2-Look PLL (6) cases & algs · EN + DE strings for everything | A beginner can browse the whole CFOP path and learn 16 algorithms end-to-end | ✅ done |
 | M3 | Recognition drill (4-option flashcard from LL thumbnail) · fluency drill (timer + 3-way self-rate) · per-case mastery (Watch→Mimic→Recall→Recognise→Fluent) · SM-2-lite SRS · "Due for review" entry on Path · persisted via zustand+localStorage (Dexie deferred until data volume warrants) | Practice loop closes; cases decay and resurface on the Path | ✅ done |
-| M4 | Full OLL (57) library + lessons | Unlock one-look OLL | pending |
-| M5 | Full PLL (21) library + lessons | Unlock one-look PLL | pending |
-| M6 | Advanced F2L (41) · manual state entry · compare view · polish · a11y | v1 release | pending |
-| post | 3D playback (react-three-fiber), X-cross, OH-specific algs, cross-colour neutrality coach, smart-cube BLE, cloud sync | v1.x | pending |
+| M4 | Full OLL (57) library + lessons | Unlock one-look OLL | ✅ done |
+| M5 | Full PLL (21) library + lessons | Unlock one-look PLL | ✅ done |
+| M6 | Advanced F2L (starter set 8 cases — full 41 deferred) · compare view · manual state entry (deferred) · polish · a11y | v1 release | 🟡 partial |
+| post | Full Advanced F2L (remaining 33 cases) · manual state entry · alternate-alg variants per case · 3D playback (react-three-fiber) · X-cross · OH-specific algs · cross-colour neutrality coach · smart-cube BLE · cloud sync | v1.x | pending |
 
 ### M0–M3 deltas worth noting
 
 - **Persistence**: localStorage (via `zustand/persist`) is enough for v1 volumes (~120 cases × small mastery record). Dexie reserved for when we add per-attempt history.
 - **3D vs 2D**: the unfolded 2D net plus animated move highlighting turned out to be clearer for a teaching-first app than a 3D cube on small screens; 3D becomes optional later.
 - **Data correctness**: each case stores its canonical `solve` alg; the case state is derived by applying the inverse to a solved cube. This guarantees by construction that `setup + solve = identity` (verified by automated tests).
+
+### M4 / M5 deltas
+
+- **Case totals after M4 + M5**: 106 cases shipped — 3 F2L examples + 10 2-Look OLL + 6 2-Look PLL + 57 Full OLL + 21 Full PLL + 8 starter Advanced F2L; every one passes the `task test:cube` round-trip test.
+- **Data location**: full sets live in dedicated files [`src/data/oll-full.ts`](../src/data/oll-full.ts), [`src/data/pll-full.ts`](../src/data/pll-full.ts), [`src/data/f2l-advanced.ts`](../src/data/f2l-advanced.ts) and are merged into the main `CASES` array in [`src/data/cases.ts`](../src/data/cases.ts). Keeps `cases.ts` legible while letting big sets evolve independently.
+- **Context for F2L**: every advanced-F2L case uses the same Sune-like context (`R U R' U R U2 R'`) so the result honestly shows F2L finished with an unsolved last layer.
+- **Alg sourcing**: canonical algorithms from speedsolving.com wiki / J. Perm. Some longer cases (Na, Nb, F, V) use 17–20 HTM standard variants — ergonomic alternates can be added as additional `ALGS` entries later without changing case state.
+
+### M6 deltas
+
+- **Compare view** ([`/compare?a=<id>&b=<id>`](../src/pages/ComparePage.tsx)): two-cube layout that stacks vertically on mobile, side-by-side on `md+`. Each side reuses the existing `CubeWithMovement` so it inherits the stage mask, dimming, and piece labels automatically. Move-count summary at the bottom for at-a-glance ergonomics comparison. Reachable from any Case Detail via the new "Vergleichen" button.
+- **Advanced F2L scope**: 8 representative cases (one per shape family + a couple of standard sledgehammer/hedgeslammer/extract-reinsert patterns). Full 41-case set deferred to v1.x because each case ideally wants 2–3 alg variants and detailed recognition tags, and pedagogically v1 already covers the route from beginner to full one-look OLL/PLL.
+- **Manual state entry**: deferred to v1.x. Requires a painted-cube UI (palette, tap-to-flip) plus a normalising state→case-id recogniser; both are non-trivial and don't gate the core teach-by-stage experience.
+- **A11y / polish (light pass)**: `lang` updates on language change, `aria-label`s on SVG cube nets, semantic `<figure>/<figcaption>` for before/after, keyboard-reachable nav. Deeper a11y (full keyboard play in `CubePlayback`, screen-reader move announcements) is post-v1.
 
 ## 9. Open questions (defaults in brackets)
 

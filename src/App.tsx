@@ -5,6 +5,7 @@ import LibraryPage from './pages/LibraryPage';
 import CasePage from './pages/CasePage';
 import LessonPage from './pages/LessonPage';
 import DrillPage from './pages/DrillPage';
+import ComparePage from './pages/ComparePage';
 import SettingsPage from './pages/SettingsPage';
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="/case/:caseId" element={<CasePage />} />
           <Route path="/lesson/:caseId" element={<LessonPage />} />
           <Route path="/drill/:setId" element={<DrillPage />} />
+          <Route path="/compare" element={<ComparePage />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Routes>
       </main>

@@ -69,12 +69,20 @@ export default function CasePage() {
           <h2 className="text-sm uppercase tracking-wider text-ink-500">{t('case.algorithm')}</h2>
           <code className="block font-mono text-base text-cube-U bg-ink-950 p-3 rounded">{primary.notation}</code>
           {primary.notesKey && <p className="text-sm text-ink-500">{t(primary.notesKey)}</p>}
-          <Link
-            to={`/lesson/${c.id}`}
-            className="inline-block px-4 py-2 rounded bg-cube-F text-ink-950 font-semibold"
-          >
-            ▶ {t('case.openLesson')}
-          </Link>
+          <div className="flex gap-2 flex-wrap">
+            <Link
+              to={`/lesson/${c.id}`}
+              className="inline-block px-4 py-2 rounded bg-cube-F text-ink-950 font-semibold"
+            >
+              ▶ {t('case.openLesson')}
+            </Link>
+            <Link
+              to={`/compare?a=${c.id}`}
+              className="inline-block px-4 py-2 rounded bg-ink-800 text-ink-200 text-sm"
+            >
+              ⇄ {t('case.compare')}
+            </Link>
+          </div>
         </section>
       )}
 
