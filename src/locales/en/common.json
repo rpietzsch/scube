@@ -34,14 +34,11 @@
     "group": {
       "f2l": {
         "basicInsert": "Basic inserts",
-        "repositionEdge": "Reposition edge",
-        "repositionEdgeFlipCorner": "Reposition edge + flip corner",
-        "splitPairOver": "Split pair by going over",
-        "pairOnSide": "Pair made on side",
-        "weird": "Weird cases",
-        "cornerInPlaceEdgeUp": "Corner in place, edge in U",
-        "edgeInPlaceCornerUp": "Edge in place, corner in U",
-        "bothInPlace": "Edge & corner in place",
+        "disconnectedPairs": "Disconnected pairs",
+        "connectedPairs": "Connected pairs",
+        "cornerInSlot": "Corner in slot",
+        "edgeInSlot": "Edge in slot",
+        "piecesInSlot": "Pieces in slot",
         "trappedCorner": "Trapped corner",
         "trappedEdge": "Trapped edge",
         "bothPiecesTrapped": "Both pieces trapped"
