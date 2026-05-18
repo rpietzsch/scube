@@ -109,9 +109,9 @@ export function CubeIso({
 
   // Sticker opacity / fill helpers
   // Three-tier rendering:
-  //  1. involved (moving pieces)          → actual color, full brightness
-  //  2. in-stage but not involved         → actual face color, dimmed (context)
-  //  3. not in stage and not involved     → visible grey (no distraction)
+  //  1. involved (slot pieces, any colour incl. yellow) → actual color, full brightness
+  //  2. in-stage context (F/R slot-area 2×2, U centre) → actual face color, dimmed
+  //  3. everything else                                → neutral grey
   const fill = (idx: number): string => {
     if (involved?.[idx]) return COLORS[state[idx] as Face] ?? MUTED;
     const inStage = highlight ? highlight[idx] : true;

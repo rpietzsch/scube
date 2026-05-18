@@ -69,10 +69,10 @@ export function CubeWithMovement({ state, alg, highlight, stage, cell = 22 }: Pr
     const m = new Array<boolean>(54).fill(false);
     for (const p of pieces) {
       for (const i of p.sources) m[i] = true;
-      for (const i of p.targets) m[i] = true;
+      if (!isF2L) for (const i of p.targets) m[i] = true;
     }
     return m;
-  }, [pieces]);
+  }, [pieces, isF2L]);
 
   // F2L: isometric 3D corner view.
   // OLL: top-down LL diagram, white = oriented / grey = not oriented.

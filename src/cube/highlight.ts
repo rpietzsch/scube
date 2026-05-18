@@ -68,18 +68,21 @@ export function lastLayerMask(): boolean[] {
 }
 
 /**
- * F2L isometric context mask — the minimum context the learner needs without
- * visual clutter. Only these stickers are shown in colour (dimmed); moving-piece
- * stickers override to full brightness via the `involved` prop:
- *   • F face (green, left in iso view) — shows which face is front
- *   • R face (red,  right in iso view) — shows which face is right
- *   • U[4] centre (white)             — orientation reference
- *   Everything else on U stays grey.
+ * F2L isometric context mask — sticker numbering 1–9 per face (row-major, 1=top-left):
+ *
+ *   F face (green): stickers 4,5,7,8  — rows 1–2, cols 0–1 → indices 21,22,24,25
+ *     Stickers 6 and 9 are the actual slot positions on F; left to `involved`.
+ *   R face (red):   stickers 5,6,8,9  — rows 1–2, cols 1–2 → indices 13,14,16,17
+ *     Stickers 4 and 7 are the actual slot positions on R; left to `involved`.
+ *   U[4] centre (white) — orientation reference
+ *
+ * Moving pieces override to full brightness via the `involved` prop in CubeIso.
  */
 export function f2lContextMask(): boolean[] {
   const m = new Array<boolean>(54).fill(false);
-  for (let i = 9; i < 27; i++) m[i] = true;  // R face (9–17) + F face (18–26)
-  m[4] = true;                                 // U[4] centre (index 4, not 22)
+  for (const i of [21, 22, 24, 25]) m[i] = true; // F face: stickers 4,5,7,8 (rows 1–2, cols 0–1)
+  for (const i of [13, 14, 16, 17]) m[i] = true; // R face: stickers 5,6,8,9 (rows 1–2, cols 1–2)
+  m[4] = true;                                     // U centre
   return m;
 }
 

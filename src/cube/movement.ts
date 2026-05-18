@@ -140,12 +140,16 @@ export function movementMasksFor(state: CubeState, alg: Move[], stage: string): 
  * moves (no dimming applied).
  */
 export function involvedMaskFor(state: CubeState, alg: Move[], stage: string): boolean[] | undefined {
-  const pieces = stage.startsWith('f2l') ? f2lFrPieces(state) : piecesThatMove(state, alg);
+  const isF2L = stage.startsWith('f2l');
+  const pieces = isF2L ? f2lFrPieces(state) : piecesThatMove(state, alg);
   if (pieces.length === 0) return undefined;
   const m = new Array<boolean>(54).fill(false);
   for (const p of pieces) {
     for (const i of p.sources) m[i] = true;
-    for (const i of p.targets) m[i] = true;
+    // F2L: targets (slot positions) only light up when pieces are already in
+    // the slot (sources === targets). Marking targets unconditionally would
+    // colour the empty slot even when pieces are in the U layer.
+    if (!isF2L) for (const i of p.targets) m[i] = true;
   }
   return m;
 }
