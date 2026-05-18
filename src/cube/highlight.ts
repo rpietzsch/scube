@@ -67,6 +67,22 @@ export function lastLayerMask(): boolean[] {
   return stageMask('oll');
 }
 
+/**
+ * F2L isometric context mask — the minimum context the learner needs without
+ * visual clutter. Only these stickers are shown in colour (dimmed); moving-piece
+ * stickers override to full brightness via the `involved` prop:
+ *   • F face (green, left in iso view) — shows which face is front
+ *   • R face (red,  right in iso view) — shows which face is right
+ *   • U[4] centre (white)             — orientation reference
+ *   Everything else on U stays grey.
+ */
+export function f2lContextMask(): boolean[] {
+  const m = new Array<boolean>(54).fill(false);
+  for (let i = 9; i < 27; i++) m[i] = true;  // R face (9–17) + F face (18–26)
+  m[4] = true;                                 // U[4] centre (index 4, not 22)
+  return m;
+}
+
 /** Combine two masks with logical OR. */
 export function unionMask(a: boolean[], b: boolean[]): boolean[] {
   return a.map((v, i) => v || b[i]);

@@ -3,8 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { caseGroupsByStage, casesByStage, lessonsByStage } from '../data/cases';
 import { CaseData, Stage } from '../data/types';
 import { CubeNet, LLThumbnail } from '../cube/CubeNet';
+import { CubeIso } from '../cube/CubeIso';
 import { deriveState } from '../cube/derive';
-import { stageKindFor, stageMask } from '../cube/highlight';
+import { f2lContextMask, stageKindFor, stageMask } from '../cube/highlight';
 import { involvedMaskFor } from '../cube/movement';
 import { parseAlg } from '../cube/parser';
 import { useMastery, isLearned, isDue } from '../store/mastery';
@@ -84,7 +85,21 @@ export default function LibraryPage() {
         )
       )}
 
-      {cases.length === 0 && lessons.length === 0 && (
+      {/* F2L intuitive: show the 4 basic-insert cases from f2lAdvanced as previews */}
+      {stage === 'f2lIntuitive' && cases.length === 0 && (
+        <section className="space-y-2">
+          <h2 className="text-sm uppercase tracking-wider text-ink-500 pt-2">
+            {t('path.group.f2l.basicInsert')}
+          </h2>
+          <CaseGrid
+            cases={casesByStage('f2lAdvanced').filter((c) => c.group === 'basicInsert')}
+            aid={aid}
+            byCase={byCase}
+          />
+        </section>
+      )}
+
+      {cases.length === 0 && lessons.length === 0 && stage !== 'f2lIntuitive' && (
         <p className="text-ink-500 text-sm">{t('path.comingSoon')}</p>
       )}
 
@@ -110,6 +125,9 @@ function CaseGrid({ cases, aid, byCase }: { cases: CaseData[]; aid: boolean; byC
         const hl = aid ? stageMask(kind) : undefined;
         const involved = aid ? involvedMaskFor(state, parseAlg(c.solve), c.stage) : undefined;
         const useLL = kind === 'oll' || kind === 'pll';
+        const useIso = kind === 'f2l';
+        // F2L thumbnails: F+R in face colour (dimmed) + U grey (except centre)
+        const isoHl = useIso ? f2lContextMask() : hl;
         return (
           <Link
             key={c.id}
@@ -117,8 +135,11 @@ function CaseGrid({ cases, aid, byCase }: { cases: CaseData[]; aid: boolean; byC
             className="flex flex-col items-center gap-1 p-2 rounded-lg bg-ink-900 border border-ink-800 hover:border-cube-U"
           >
             {useLL
-              ? <LLThumbnail state={state} cell={14} highlight={hl} involved={involved} />
-              : <CubeNet state={state} cell={10} highlight={hl} involved={involved} />
+              ? <LLThumbnail state={state} cell={14} highlight={hl} involved={involved}
+                              ollMode={kind === 'oll'} />
+              : useIso
+                ? <CubeIso state={state} cell={13} highlight={isoHl} involved={involved} />
+                : <CubeNet state={state} cell={10} highlight={hl} involved={involved} />
             }
             <div className="text-xs text-center font-semibold mt-1">{c.name}</div>
             <div className="text-[10px] text-ink-500">

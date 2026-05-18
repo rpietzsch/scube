@@ -192,67 +192,146 @@ export function CubeNet({ state, cell = 24, highlight, source, target, involved,
  * Last-layer thumbnail: U face plus the three top-row stickers of F/R/B/L
  * shown as flaps around it. Used for OLL/PLL recognition thumbnails.
  */
-export function LLThumbnail({ state, cell = 16, highlight, involved }: { state: CubeState; cell?: number; highlight?: boolean[]; involved?: boolean[] }) {
+/**
+ * LLThumbnail — last-layer diagram (top-down with 4 side flaps).
+ *
+ * `ollMode = true`: U face stickers are shown as the cross colour (white) if
+ * oriented (state = 'U'), grey otherwise — matching the speedsolving wiki OLL
+ * diagram convention. Side flaps keep actual colours for case recognition.
+ *
+ * Labels (topLeft/bottomRight) are rendered on every sticker that has an entry.
+ */
+export function LLThumbnail({
+  state, cell = 16, highlight, involved, ollMode = false,
+  topLeftLabels, bottomRightLabels,
+}: {
+  state: CubeState; cell?: number; highlight?: boolean[]; involved?: boolean[];
+  ollMode?: boolean;
+  topLeftLabels?: Record<number, string>;
+  bottomRightLabels?: Record<number, string>;
+}) {
   const face = cell * 3;
   const flap = cell;
   const w = face + 2 * flap + 8;
   const h = face + 2 * flap + 8;
   const ux = flap + 4;
   const uy = flap + 4;
+  const GREY = '#4a5a6b';
+  const fontSize = Math.max(7, Math.round(cell * 0.42));
 
-  const sideRect = (sticker: Face, lit: boolean, dim: boolean, x: number, y: number, w: number, h: number, key: string) => (
-    <rect
-      key={key}
-      x={x}
-      y={y}
-      width={w}
-      height={h}
-      fill={lit ? COLORS[sticker] : MUTED}
-      opacity={lit ? (dim ? 0.5 : 1) : 0.55}
-      stroke="#0b1020"
-      strokeWidth={1}
-      rx={2}
-    />
-  );
+  // ── Side flap rendering ───────────────────────────────────────────────────
+  const stripIdx = (f: 'F' | 'R' | 'B' | 'L'): number[] =>
+    f === 'F' ? [18, 19, 20] : f === 'R' ? [9, 10, 11] : f === 'B' ? [45, 46, 47] : [36, 37, 38];
 
-  const stripIdx = (face: 'F' | 'R' | 'B' | 'L'): number[] =>
-    face === 'F' ? [18, 19, 20] : face === 'R' ? [9, 10, 11] : face === 'B' ? [45, 46, 47] : [36, 37, 38];
-
-  const draw = (face: 'F' | 'R' | 'B' | 'L', positions: Array<[number, number, number, number]>, reverse = false) => {
-    const idxs = reverse ? stripIdx(face).slice().reverse() : stripIdx(face);
+  const drawFlap = (
+    f: 'F' | 'R' | 'B' | 'L',
+    positions: Array<[number, number, number, number]>,
+    reverse = false,
+  ) => {
+    const idxs = reverse ? stripIdx(f).slice().reverse() : stripIdx(f);
     return idxs.map((i, k) => {
-      const inStage = highlight ? highlight[i] : true;
       const isInvolved = !!involved?.[i];
+      const inStage = highlight ? highlight[i] : true;
       const lit = inStage || isInvolved;
       const dim = lit && !!involved && !isInvolved;
-      const [x, y, w, h] = positions[k];
-      return sideRect(state[i] as Face, lit, dim, x, y, w, h, `${face}${k}`);
+      // OLL: every sticker is either white (= U-colour) or neutral grey
+      const fill = ollMode
+        ? ((state[i] as Face) === 'U' ? COLORS.U : GREY)
+        : lit ? COLORS[state[i] as Face] : MUTED;
+      const opacity = ollMode ? 1 : lit ? (dim ? 0.5 : 1) : 0.55;
+      const [rx, ry, rw, rh] = positions[k];
+      const tlLabel = topLeftLabels?.[i];
+      const brLabel = bottomRightLabels?.[i];
+      return (
+        <g key={`${f}${k}`}>
+          <rect x={rx} y={ry} width={rw} height={rh} fill={fill} opacity={opacity}
+                stroke="#0b1020" strokeWidth={1} rx={2} />
+          {lit && tlLabel && (
+            <text x={rx + rw / 2} y={ry + rh / 2 + fontSize * 0.35}
+                  fontSize={fontSize * 0.9} fontWeight={700} fill="#fff" stroke="#000"
+                  strokeWidth={1.8} paintOrder="stroke" textAnchor="middle"
+                  style={{ pointerEvents: 'none' as const }}>{tlLabel}</text>
+          )}
+          {lit && brLabel && !tlLabel && (
+            <text x={rx + rw / 2} y={ry + rh / 2 + fontSize * 0.35}
+                  fontSize={fontSize * 0.9} fontWeight={700} fill="#fff" stroke="#000"
+                  strokeWidth={1.8} paintOrder="stroke" textAnchor="middle"
+                  style={{ pointerEvents: 'none' as const }}>{brLabel}</text>
+          )}
+        </g>
+      );
     });
   };
 
+  // ── U face rendering ──────────────────────────────────────────────────────
+  const uStickers = [];
+  for (let r = 0; r < 3; r++) {
+    for (let c = 0; c < 3; c++) {
+      const idx = r * 3 + c;
+      const isInvolved = !!involved?.[idx];
+      const inStage = highlight ? highlight[idx] : true;
+
+      let fill: string;
+      let opacity = 1;
+      if (ollMode) {
+        // OLL: purely orientation-based — white = oriented, grey = not oriented.
+        // `involved` only affects labels, never the fill colour on the U face.
+        fill = (state[idx] as Face) === 'U' ? COLORS.U : GREY;
+      } else {
+        const lit = inStage || isInvolved;
+        const dim = lit && !!involved && !isInvolved;
+        fill = lit ? COLORS[state[idx] as Face] : MUTED;
+        opacity = lit ? (dim ? 0.5 : 1) : 0.55;
+      }
+
+      const sx = ux + c * cell;
+      const sy = uy + r * cell;
+      const sw = cell - 2;
+      const sh = cell - 2;
+      const tlLabel = topLeftLabels?.[idx];
+      const brLabel = bottomRightLabels?.[idx];
+      uStickers.push(
+        <g key={`u${idx}`}>
+          <rect x={sx} y={sy} width={sw} height={sh} rx={3}
+                fill={fill} opacity={opacity} stroke="#0b1020" strokeWidth={1.5} />
+          {tlLabel && (
+            <text x={sx + 2} y={sy + fontSize} fontSize={fontSize} fontWeight={700}
+                  fill="#fff" stroke="#0b1020" strokeWidth={2.2} paintOrder="stroke"
+                  style={{ pointerEvents: 'none' as const }}>{tlLabel}</text>
+          )}
+          {brLabel && (
+            <text x={sx + sw - 2} y={sy + sh - 2} fontSize={fontSize} fontWeight={700}
+                  fill="#fff" stroke="#0b1020" strokeWidth={2.2} paintOrder="stroke"
+                  textAnchor="end" style={{ pointerEvents: 'none' as const }}>{brLabel}</text>
+          )}
+        </g>
+      );
+    }
+  }
+
   return (
     <svg viewBox={`0 0 ${w} ${h}`} width={w} height={h} role="img" aria-label="Last layer">
-      {draw('F', [
+      {drawFlap('F', [
         [ux + 0 * cell, uy - flap, cell - 2, flap - 4],
         [ux + 1 * cell, uy - flap, cell - 2, flap - 4],
         [ux + 2 * cell, uy - flap, cell - 2, flap - 4],
       ])}
-      {draw('R', [
+      {drawFlap('R', [
         [ux + face + 2, uy + 0 * cell, flap - 4, cell - 2],
         [ux + face + 2, uy + 1 * cell, flap - 4, cell - 2],
         [ux + face + 2, uy + 2 * cell, flap - 4, cell - 2],
       ])}
-      {draw('B', [
+      {drawFlap('B', [
         [ux + 0 * cell, uy + face + 2, cell - 2, flap - 4],
         [ux + 1 * cell, uy + face + 2, cell - 2, flap - 4],
         [ux + 2 * cell, uy + face + 2, cell - 2, flap - 4],
       ], true)}
-      {draw('L', [
+      {drawFlap('L', [
         [ux - flap, uy + 0 * cell, flap - 4, cell - 2],
         [ux - flap, uy + 1 * cell, flap - 4, cell - 2],
         [ux - flap, uy + 2 * cell, flap - 4, cell - 2],
       ], true)}
-      <FaceGrid state={state} face="U" x={ux} y={uy} cell={cell} involved={involved} />
+      {uStickers}
     </svg>
   );
 }
