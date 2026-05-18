@@ -8,6 +8,7 @@ const STAGES: Stage[] = [
   'cross',
   'f2lIntuitive',
   'f2lAdvanced',
+  'f2lExpert',
   'oll2look',
   'ollFull',
   'pll2look',

@@ -22,7 +22,8 @@
     "stage": {
       "cross": "Cross",
       "f2lIntuitive": "F2L · intuitive",
-      "f2lAdvanced": "F2L · advanced",
+      "f2lAdvanced": "F2L",
+      "f2lExpert": "F2L · advanced",
       "oll2look": "OLL · 2-Look",
       "ollFull": "OLL · Full",
       "pll2look": "PLL · 2-Look",
@@ -40,7 +41,10 @@
         "weird": "Weird cases",
         "cornerInPlaceEdgeUp": "Corner in place, edge in U",
         "edgeInPlaceCornerUp": "Edge in place, corner in U",
-        "bothInPlace": "Edge & corner in place"
+        "bothInPlace": "Edge & corner in place",
+        "trappedCorner": "Trapped corner",
+        "trappedEdge": "Trapped edge",
+        "bothPiecesTrapped": "Both pieces trapped"
       }
     }
   },

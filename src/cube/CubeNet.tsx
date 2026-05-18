@@ -1,12 +1,15 @@
 import { CubeState, Face } from './types';
 
+// Display convention matches cuberoot.me / most F2L reference sites: cross is
+// built on YELLOW (D = yellow), with WHITE on top (U). This puts the cross
+// face on the bottom of the unfolded net, where it visually belongs for F2L.
 const COLORS: Record<Face, string> = {
-  U: '#FDD835',
-  D: '#FAFAFA',
-  F: '#43A047',
-  B: '#1E88E5',
-  R: '#E53935',
-  L: '#FB8C00',
+  U: '#FAFAFA', // white (top)
+  D: '#FDD835', // yellow (cross)
+  F: '#43A047', // green
+  B: '#1E88E5', // blue
+  R: '#E53935', // red
+  L: '#FB8C00', // orange
 };
 
 const MUTED = '#2a3358'; // ink-700

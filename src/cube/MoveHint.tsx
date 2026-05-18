@@ -1,9 +1,10 @@
 import { Move } from './moves';
 import { formatMove } from './parser';
 
+// Matches CubeNet COLORS: U = white (top), D = yellow (cross-on-yellow).
 const FACE_COLOR: Record<string, string> = {
-  U: '#FDD835',
-  D: '#FAFAFA',
+  U: '#FAFAFA', // white
+  D: '#FDD835', // yellow
   F: '#43A047',
   B: '#1E88E5',
   R: '#E53935',

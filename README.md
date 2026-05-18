@@ -54,6 +54,12 @@ scripts/         cube-test.mts (engine sanity tests)
 
 `.github/workflows/deploy.yml` builds on every push to `main` and publishes `./dist` to GitHub Pages. The site is served at `https://<user>.github.io/scube/`; Vite's `base` is set to `/scube/` in production and SW scope follows.
 
+## References
+
+- https://www.speedsolving.com/wiki/index.php?title=First_Two_Layers
+- https://cuberoot.me/alg/3x3?lang=en
+- https://speedcubedb.com/a/3x3
+
 ## License
 
 TBD.

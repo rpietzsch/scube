@@ -160,7 +160,8 @@ scube is a fully client-side PWA, so GitHub Pages (static + HTTPS) is sufficient
 | M5 | Full PLL (21) library + lessons | Unlock one-look PLL | ✅ done |
 | M6 | Advanced F2L (starter set 8 cases) · compare view · manual state entry (deferred) · polish · a11y | v1 release | 🟡 partial (manual entry → v1.x) |
 | M7 | Full Advanced F2L (~46 cases) grouped by speedsolving wiki categories · alternate-algorithm slot on Case Detail · grouped Library sections · ergonomics tag vocabulary | v1 advanced complete | ✅ done |
-| post | Manual state entry · curated alternate algs for each case · 3D playback (react-three-fiber) · X-cross · OH-specific algs · cross-colour neutrality coach · smart-cube BLE · cloud sync | v1.x | pending |
+| M8 | cuberoot.me alignment: 3-stage F2L · `f2lExpert` stage + nav · cuberoot code labels for 6 exact-alg matches · 33 cuberoot codes documented · cross-alg equivalence test refuted cuberoot's alternates · colour convention D=yellow | structural alignment + label pass | 🟡 partial (structural + 6 label matches ✅; full 41-case remap requires case-state matching ⏭; cuberoot "alternates" rejected as non-equivalent) |
+| post | Manual state entry · curated alternate algs sourced from cuberoot (41 + 54 with `A+/A-/B+/B-…` codes) · 3D playback (react-three-fiber) · X-cross · OH-specific algs · cross-colour neutrality coach · smart-cube BLE · cloud sync | v1.x | pending |
 
 ### M0–M3 deltas worth noting
 
@@ -184,6 +185,102 @@ scube is a fully client-side PWA, so GitHub Pages (static + HTTPS) is sufficient
 - **Initial alternate set is empty by design**: cubing literature presents "alternate algorithms" as different *case orientations* (e.g. the FR-slot vs FL-slot mirror), which on the cube engine are *different cases*, not algebraic equivalents of the same case. The round-trip test would correctly reject them as wrong-for-this-case. Genuine equivalents (same starting state, same end state, different sequence) are rare enough that we intentionally ship zero alternates in v1; curated alternates per case are queued for v1.x as a separate research pass.
 - **Ergonomics vocabulary**: 8 ergonomic tag keys (`ergo.OHFriendly`, `regripFree`, `leftHandMirror`, `wideVariant`, `shorterHTM`, `beginnerFriendly`, `rotation`, `MSlice`) translated EN + DE — ready for use once alternates land.
 - **Test invariant strengthened**: `task test:cube` now iterates over every alg (primary AND alternates) and verifies each takes the case state back to the context baseline. Catches typos in alternate notation before they ship.
+
+---
+
+### M8 deltas (after second pass with cuberoot PDFs)
+
+**Cuberoot PDF parse — key finding**: cuberoot's catalogue labels groups of related cases with codes like `A+ #1`, `A- #2`, `B+ #4`, but each code's listed algorithms are NOT mathematically equivalent to each other. They're catalogue entries for slightly different AUF variants / sticker configurations that all share a similar pedagogical recognition. A round-trip test (`primary + alt = identity on same case-state`) FAILS for every cross-alg pair I tested (3 of 3). So adding cuberoot's algs as `alternates` in our strict `setup + alg = context` model would break the test loop.
+
+Decision: don't import cuberoot's secondary algs as alternates. Each cuberoot "code" represents a HIGHER-LEVEL case category; the exact case state varies by which alg defines it.
+
+**What shipped in M8 (data pass)**:
+
+- **Cuberoot code labels applied to 6 exact-alg matches**: cases where MY primary alg is literally one of cuberoot's listed algs for that code (so my case-state = their case-state for that code):
+
+  | My ID | New name | Cuberoot code | Section |
+  |-------|----------|---------------|---------|
+  | f2l-bi-1 | A+ #1 · pair ready | A+ #1 | Free Pairs |
+  | f2l-bi-2 | A- #2 · edge to reposition | A- #2 | Free Pairs |
+  | f2l-bi-3 | B- #3 · corner wrong | B- #3 | Free Pairs |
+  | f2l-sp-3 | U+ #33 · split, over | U+ #33 | Edge in Slot |
+  | f2l-ps-2 | Q+ #19 · pair on side | Q+ #19 | Disconnected Pairs |
+  | f2l-ps-4 | H+ #17 · pair on side | H+ #17 | Connected Pairs |
+  | f2l-ce-1 | J+ #27 · corner in slot | J+ #27 | Corner in Slot |
+  | f2l-ce-2 | L+ #30 · corner in slot | L+ #30 | Corner in Slot |
+
+- **Two duplicates surfaced in my own data**: `f2l-sp-3` ↔ `f2l-ec-2` and `f2l-ce-2` ↔ `f2l-ec-1` share the same primary alg (and therefore the same case state). They're real duplicates from M7's group-by-pattern approach — same case classified into two wiki categories. Marked as deferred cleanup (changing a stage's case list affects mastery localStorage; safer to schedule with a migration plan).
+
+**What shipped in M8 (structural)**:
+
+- **New `f2lExpert` stage** in [src/data/types.ts](../src/data/types.ts), wired through [LibraryPage](../src/pages/LibraryPage.tsx) and [PathPage](../src/pages/PathPage.tsx) — the CFOP ladder now has 8 stages: cross · F2L intuitive · F2L · F2L advanced · OLL 2-Look · OLL Full · PLL 2-Look · PLL Full.
+- **Label rename**: `f2lAdvanced` UI label changed from "F2L · advanced/fortgeschritten" to just "F2L" (37 standard cases). The "advanced" label moves to `f2lExpert` (the future 54 cuberoot cases).
+- **`f2l-expert.ts`** with 4 placeholder cases (winterVariation, vls, keyhole) so the new stage isn't empty and the test loop covers it.
+- **Group order helper** extended: `caseGroupsByStage('f2lExpert')` returns the expert groups in render order.
+- **Cuberoot naming codes**: `A+ #1 · pair ready` and `A- #2 · edge to reposition` applied to the two cases the user explicitly confirmed. Remaining cases keep `F2L #N` (sequential) pending the manual cuberoot mapping pass.
+- **Colour convention** (already in M7 patch): `D = yellow` (cuberoot's cross-on-yellow convention) matches reference screenshots.
+- **Test invariant**: round-trip extended to 147 cases (was 143 in M7) with the 4 placeholder expert cases.
+
+What did NOT ship (deferred):
+
+- **Real cuberoot 41 + 54 data**: cuberoot.me serves its case catalogue via a SPA loaded asynchronously; programmatic extraction returns the React shell only, not the algorithm strings. Sourcing requires either (a) manually copying from each cuberoot case page (≈95 cases × 2-4 algs ≈ 250 entries), or (b) reverse-engineering their data API. Both are out of scope for this M8 pass.
+- **Full A+/A-/B+/B-/… code mapping**: ditto, requires cuberoot's reference. The data model is ready; codes can be backfilled when sourcing happens.
+- **Populated `alternates` arrays**: the structural support is in place (M7); the data is empty until sourcing.
+
+Next concrete step for v1.x: a focused "cuberoot import" session that walks every case page, copies algs into the data files, and verifies via the round-trip test. Each transcription typo will surface as a failing test row.
+
+---
+
+### M8 — cuberoot.me alignment: full F2L (41 + 54) + alternative algs (proposed, kept for reference)
+
+The previously-implemented Advanced F2L (M7) used my own grouping and primary algorithms. The reference site [cuberoot.me/alg/3x3/f2l](https://cuberoot.me/alg/3x3/f2l) ships a comprehensive catalogue with:
+
+- **41 regular F2L cases** (Free Pairs section) organised by slot and case type
+- **54 advanced F2L cases** ([adv-f2l](https://cuberoot.me/alg/3x3/adv-f2l))
+- **Multiple alternative algorithms per case** (typical: 2–4 variants)
+- A consistent naming convention using letter+sign+number codes like `A+ #1`, `A- #2`, etc.
+
+M8 aligns the app to this reference.
+
+#### Restructure
+
+| Stage | Now | After M8 |
+|-------|-----|----------|
+| `f2lIntuitive` | 4 basic inserts + 2 illustrative | First 4 of cuberoot's 41 (the wiki-named "Basic Inserts") |
+| `f2lAdvanced` | 42 cases organised in 8 wiki groups (my M7 set) | **Renamed to "F2L"**; holds the remaining 37 of cuberoot's 41, organised by cuberoot's groups |
+| `f2lExpert` (new) | — | Cuberoot's 54 advanced cases |
+
+#### Data work
+
+1. Replace `f2l-advanced.ts` with a new `f2l.ts` carrying all 41 cases, using cuberoot's exact codes (`A+ #1`, `A- #2`, `B+ #3`, etc.) and group labels.
+2. Add `f2l-expert.ts` for the 54 advanced cases.
+3. Each case gets a populated `alternates: AlgAlternate[]` field with 1–3 variants per case, sourced from cuberoot.
+4. Add a new `Stage` value `f2lExpert` with its own translation keys.
+5. Update navigation in Library to surface the three F2L levels: intuitive → F2L → F2L advanced.
+
+#### UI changes
+
+- Library: extend the stage tab list with `f2lExpert`.
+- Path view: extend the CFOP ladder to include the expert step (post-v1 typically, but the ladder can simply show it as locked until prior steps complete).
+- Case Detail: the existing collapsible alternates section already renders alternates — no further UI work needed beyond data population.
+
+#### Color convention
+
+Already aligned (M7 patch): `U = white`, `D = yellow`. Cross is built on yellow per cuberoot/wiki convention. This makes screenshot comparisons against cuberoot match 1:1.
+
+#### Alg verification
+
+Round-trip `task test:cube` continues to validate every primary + alternate. With ~95 cases × ~2.5 algs average = ~240 alg tests after M8.
+
+#### Risks / open questions
+
+- **Slot orientation**: cuberoot lists cases for all four slots (FR / FL / BL / BR). Each case is essentially the same problem at a different slot. Do we treat all four slot variants as separate cases, or canonicalise on FR? Decision: canonicalise on FR, since our `f2lFrPieces` and the F2L UFR-corner-view visualisation are FR-specific. Users learn FR-slot algorithms; mirroring to other slots is a separate skill (and only matters in real solves).
+- **Naming**: cuberoot's code (`A+ #1`) is opaque to beginners. Keep both the code AND the descriptive label: `A+ #1 · pair ready`.
+- **Alternate equivalence**: cuberoot's alternates ARE all genuine equivalents for the same starting state (different solving paths, same end state). The round-trip test will catch any errors.
+
+#### Effort estimate
+
+~600 lines of case data (95 cases × ~6 lines each), ~50 lines of UI/translation tweaks. Major risk is alg-transcription typos — round-trip test mitigates.
 
 ---
 

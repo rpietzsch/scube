@@ -10,7 +10,7 @@ import { parseAlg } from '../cube/parser';
 import { useMastery, isLearned, isDue } from '../store/mastery';
 import { useSettings } from '../store/settings';
 
-const STAGES: Stage[] = ['cross', 'f2lIntuitive', 'f2lAdvanced', 'oll2look', 'ollFull', 'pll2look', 'pllFull'];
+const STAGES: Stage[] = ['cross', 'f2lIntuitive', 'f2lAdvanced', 'f2lExpert', 'oll2look', 'ollFull', 'pll2look', 'pllFull'];
 
 export default function LibraryPage() {
   const { '*': splat } = useParams();

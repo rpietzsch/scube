@@ -22,7 +22,8 @@
     "stage": {
       "cross": "Kreuz",
       "f2lIntuitive": "F2L · intuitiv",
-      "f2lAdvanced": "F2L · fortgeschritten",
+      "f2lAdvanced": "F2L",
+      "f2lExpert": "F2L · fortgeschritten",
       "oll2look": "OLL · 2-Look",
       "ollFull": "OLL · Voll",
       "pll2look": "PLL · 2-Look",

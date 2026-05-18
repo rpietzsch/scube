@@ -1,4 +1,12 @@
-export type Stage = 'cross' | 'f2lIntuitive' | 'f2lAdvanced' | 'oll2look' | 'ollFull' | 'pll2look' | 'pllFull';
+export type Stage =
+  | 'cross'
+  | 'f2lIntuitive'
+  | 'f2lAdvanced'   // UI label: "F2L" — the standard 37 cases beyond the 4 basics
+  | 'f2lExpert'     // UI label: "F2L · advanced" — cuberoot's 54 adv F2L cases
+  | 'oll2look'
+  | 'ollFull'
+  | 'pll2look'
+  | 'pllFull';
 
 export interface AlgAlternate {
   notation: string;

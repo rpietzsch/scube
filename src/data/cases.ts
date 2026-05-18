@@ -2,6 +2,7 @@ import { CaseData, AlgData, LessonData } from './types';
 import { OLL_FULL_CASES } from './oll-full';
 import { PLL_FULL_CASES } from './pll-full';
 import { F2L_ADVANCED_CASES, F2L_ADVANCED_GROUP_ORDER } from './f2l-advanced';
+import { F2L_EXPERT_CASES, F2L_EXPERT_GROUP_ORDER } from './f2l-expert';
 
 // === Cross & F2L (intuitive) — prose lessons with illustrative examples ===
 export const LESSONS: LessonData[] = [
@@ -25,25 +26,26 @@ export const CASES: CaseData[] = [
   // Context = "Sune" (a typical OLL case) so the resulting cube shows F2L
   // solved with an unsolved last layer — honest for a "First Two Layers" step.
 
-  // F2L 1: corner in slot oriented, edge in U ready to pair
-  { id: 'f2l-bi-1', stage: 'f2lIntuitive', name: 'F2L 1 · pair ready',
+  // Naming follows cuberoot.me/alg/3x3/f2l "A+ #N" convention.
+  // F2L 1 / A+: corner in slot oriented, edge in U ready to pair
+  { id: 'f2l-bi-1', stage: 'f2lIntuitive', name: 'A+ #1 · pair ready',
     descriptionKey: 'cases.f2lJoined.desc',
     recognitionTagKeys: ['tags.pairJoinedTop'],
     context: "R U R' U R U2 R'", solve: "U R U' R'" },
-  // F2L 2: edge needs repositioning before insertion.
-  // Wiki lists "U' (F' U F)" and "y' U' (R' U R)" as equivalent. We use the
+  // F2L 2 / A-: edge needs repositioning before insertion.
+  // Cuberoot lists "U' (F' U F)" and "y' U' (R' U R)" as equivalent. We use the
   // non-rotation variant so the visualisation stays in the standard FR-slot
   // frame; otherwise the y' rotates the cube and the DRF-corner tracking ends
   // up on what looks like a different slot to the learner.
-  { id: 'f2l-bi-2', stage: 'f2lIntuitive', name: 'F2L 2 · edge to reposition',
+  { id: 'f2l-bi-2', stage: 'f2lIntuitive', name: 'A- #2 · edge to reposition',
     recognitionTagKeys: ['tags.pairJoinedTop'],
     context: "R U R' U R U2 R'", solve: "U' F' U F" },
-  // F2L 3: corner sits in slot with wrong orientation, edge ready in U
-  { id: 'f2l-bi-3', stage: 'f2lIntuitive', name: 'F2L 3 · corner wrong',
+  // F2L 3 / B-: corner sits in slot with wrong orientation, edge ready in U
+  { id: 'f2l-bi-3', stage: 'f2lIntuitive', name: 'B- #3 · corner wrong',
     recognitionTagKeys: ['tags.pairStuckSlot'],
     context: "R U R' U R U2 R'", solve: "F' U' F" },
   // F2L 4: pair joined in U layer, simple insert
-  { id: 'f2l-bi-4', stage: 'f2lIntuitive', name: 'F2L 4 · pair on top',
+  { id: 'f2l-bi-4', stage: 'f2lIntuitive', name: 'F2L #4 · pair on top',
     recognitionTagKeys: ['tags.pairJoinedTop'],
     context: "R U R' U R U2 R'", solve: "R U R'" },
 
@@ -87,8 +89,10 @@ export const CASES: CaseData[] = [
   // === Full PLL (21) — M5 ===
   ...PLL_FULL_CASES,
 
-  // === Advanced F2L (full set, organised by speedsolving wiki groups) — M7 ===
+  // === F2L (37 cases organised by speedsolving wiki groups) — M7 ===
   ...F2L_ADVANCED_CASES,
+  // === F2L Expert (placeholder ≈5 cases; full 54 pending cuberoot sourcing) — M8 ===
+  ...F2L_EXPERT_CASES,
 ];
 
 // Primary alg (rank 1) is derived from `case.solve`; any `case.alternates`
@@ -141,6 +145,9 @@ export function caseGroupsByStage(stage: string): string[] {
   if (stage === 'f2lAdvanced') {
     // Render in the canonical wiki order; skip any group with no cases.
     return F2L_ADVANCED_GROUP_ORDER.filter((g) => seen.has(g));
+  }
+  if (stage === 'f2lExpert') {
+    return F2L_EXPERT_GROUP_ORDER.filter((g) => seen.has(g));
   }
   return [...seen];
 }

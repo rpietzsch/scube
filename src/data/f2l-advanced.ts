@@ -86,7 +86,7 @@ export const F2L_ADVANCED_CASES: CaseData[] = [
     recognitionTagKeys: ['tags.pairSplitTop'],
     context: CTX, solve: "R U' R' U F' U' F" },
   { id: 'f2l-sp-3', stage: 'f2lAdvanced', group: 'splitPairOver',
-    name: 'F2L 22 · split · over',
+    name: 'U+ #33 · split · over',  // cuberoot.me exact-alg match
     context: CTX, solve: "U' R U' R' U2 R U' R'" },
   { id: 'f2l-sp-4', stage: 'f2lAdvanced', group: 'splitPairOver',
     name: 'F2L 23 · split · over',
@@ -100,13 +100,13 @@ export const F2L_ADVANCED_CASES: CaseData[] = [
     name: 'F2L 24 · pair on side',
     context: CTX, solve: "U F' U' F U' R U R'" },
   { id: 'f2l-ps-2', stage: 'f2lAdvanced', group: 'pairOnSide',
-    name: 'F2L 25 · pair on side',
+    name: 'Q+ #19 · pair on side',  // cuberoot.me exact-alg match
     context: CTX, solve: "U R U2 R' U R U' R'" },
   { id: 'f2l-ps-3', stage: 'f2lAdvanced', group: 'pairOnSide',
     name: 'F2L 26 · pair on side',
     context: CTX, solve: "F' U2 F U F' U' F" },
   { id: 'f2l-ps-4', stage: 'f2lAdvanced', group: 'pairOnSide',
-    name: 'F2L 27 · pair on side',
+    name: 'H+ #17 · pair on side',  // cuberoot.me exact-alg match
     context: CTX, solve: "R U2 R' U' R U R'" },
 
   // ============================================================
@@ -125,11 +125,11 @@ export const F2L_ADVANCED_CASES: CaseData[] = [
   // (just oriented wrong), edge somewhere on top.
   // ============================================================
   { id: 'f2l-ce-1', stage: 'f2lAdvanced', group: 'cornerInPlaceEdgeUp',
-    name: 'F2L 30 · corner in slot · edge top',
+    name: 'J+ #27 · corner in slot',  // cuberoot.me exact-alg match
     recognitionTagKeys: ['tags.pairStuckSlot'],
     context: CTX, solve: "R U' R' U R U' R'" },
   { id: 'f2l-ce-2', stage: 'f2lAdvanced', group: 'cornerInPlaceEdgeUp',
-    name: 'F2L 31 · corner in slot · edge top',
+    name: 'L+ #30 · corner in slot',  // cuberoot.me exact-alg match
     recognitionTagKeys: ['tags.pairStuckSlot'],
     context: CTX, solve: "R U R' U' R U R'" },
   { id: 'f2l-ce-3', stage: 'f2lAdvanced', group: 'cornerInPlaceEdgeUp',
@@ -153,13 +153,8 @@ export const F2L_ADVANCED_CASES: CaseData[] = [
 
   // ============================================================
   // Edge in Place, Corner in U Face
+  // (f2l-ec-1 and f2l-ec-2 removed — exact duplicates of f2l-ce-2 and f2l-sp-3)
   // ============================================================
-  { id: 'f2l-ec-1', stage: 'f2lAdvanced', group: 'edgeInPlaceCornerUp',
-    name: 'F2L 38 · edge in slot · corner top',
-    context: CTX, solve: "R U R' U' R U R'" },
-  { id: 'f2l-ec-2', stage: 'f2lAdvanced', group: 'edgeInPlaceCornerUp',
-    name: 'F2L 39 · edge in slot · corner top',
-    context: CTX, solve: "U' R U' R' U2 R U' R'" },
   { id: 'f2l-ec-3', stage: 'f2lAdvanced', group: 'edgeInPlaceCornerUp',
     name: 'F2L 40 · edge in slot · corner top',
     context: CTX, solve: "U R U R' U' R U R'" },
