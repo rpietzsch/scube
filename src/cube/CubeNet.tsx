@@ -57,11 +57,11 @@ function FaceGrid({ state, face, x, y, cell, highlight, source, target, involved
       const fontSize = Math.max(8, Math.round(cell * 0.42));
       // Three-tier opacity:
       //   outside stage and not involved → MUTED grey, 0.55
-      //   in stage but not a moving-piece sticker → real colour at 0.65 (slight dim)
+      //   in stage but not a moving-piece sticker → real colour at 0.5 (dimmed)
       //   part of a moving piece → real colour at 1.0
       const dim = lit && involved && !isInvolved;
       const fillColor = lit ? COLORS[state[idx]] : MUTED;
-      const fillOpacity = lit ? (dim ? 0.65 : 1) : 0.55;
+      const fillOpacity = lit ? (dim ? 0.5 : 1) : 0.55;
 
       cells.push(
         <g key={idx}>
@@ -205,7 +205,7 @@ export function LLThumbnail({ state, cell = 16, highlight, involved }: { state: 
       width={w}
       height={h}
       fill={lit ? COLORS[sticker] : MUTED}
-      opacity={lit ? (dim ? 0.65 : 1) : 0.55}
+      opacity={lit ? (dim ? 0.5 : 1) : 0.55}
       stroke="#0b1020"
       strokeWidth={1}
       rx={2}
