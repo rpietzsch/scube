@@ -119,30 +119,26 @@ const QUARTER: Record<string, (s: CubeState) => void> = {
 };
 
 // Whole-cube rotations: x (about R axis), y (about U axis), z (about F axis).
-// Implemented as combos of face turns over a fresh state.
+// A whole-cube rotation moves all three layers in the same direction. The
+// middle slice cycle must match the direction of the outer faces (which we
+// can verify by checking turnU/turnR's sideCycle: U turn moves F → L, R turn
+// moves U → B).
 export function rotateY(s: CubeState) {
-  turnU(s);
-  // Inverse D = D D D
-  turnD(s); turnD(s); turnD(s);
-  // E slice (middle, between U and D) rotates opposite to U
-  // Implement via three quarter turns of D' would not help — instead handle directly.
-  // For simplicity, we cycle the middle stickers manually.
-  // F mid row → L mid row → B mid row → R mid row → F mid row
+  turnU(s);                           // U direction (CW from above, F → L)
+  turnD(s); turnD(s); turnD(s);       // D' matches U direction
+  // Middle slice: same direction as U turn → F → L → B → R → F.
   cycle4(s, F + 3, L + 3, B + 3, R + 3);
   cycle4(s, F + 4, L + 4, B + 4, R + 4);
   cycle4(s, F + 5, L + 5, B + 5, R + 5);
 }
 
 export function rotateX(s: CubeState) {
-  // x = R + L' + M' (apply quarter R, inverse L, and a middle slice in same direction as R)
-  turnR(s);
-  turnL(s); turnL(s); turnL(s);
-  // Middle slice M between R and L (cols 1) rotates with L (i.e. opposite to R)
-  // Strip indices for M going same direction as L:
-  //   U col1 → F col1 → D col1 → B col1(reversed) → U col1
-  cycle4(s, U + 1, F + 1, D + 1, B + 7);
-  cycle4(s, U + 4, F + 4, D + 4, B + 4);
-  cycle4(s, U + 7, F + 7, D + 7, B + 1);
+  turnR(s);                           // R direction (CW from R view, U → B)
+  turnL(s); turnL(s); turnL(s);       // L' matches R direction
+  // Middle slice (M slice between L and R): same direction as R → U → B → D → F → U.
+  cycle4(s, U + 1, B + 7, D + 1, F + 1);
+  cycle4(s, U + 4, B + 4, D + 4, F + 4);
+  cycle4(s, U + 7, B + 1, D + 7, F + 7);
 }
 
 export function rotateZ(s: CubeState) {
@@ -167,6 +163,7 @@ function sliceM(s: CubeState) {
   cycle4(s, U + 7, F + 7, D + 7, B + 1);
 }
 function sliceE(s: CubeState) {
+  // E follows D direction = F → R → B → L → F (from turnD's sideCycle).
   cycle4(s, F + 3, R + 3, B + 3, L + 3);
   cycle4(s, F + 4, R + 4, B + 4, L + 4);
   cycle4(s, F + 5, R + 5, B + 5, L + 5);
@@ -204,16 +201,17 @@ function applyQuarter(s: CubeState, base: string) {
 }
 
 function applySlice(s: CubeState, base: string) {
-  // Wide-equivalent slice (the middle layer adjacent to the face).
+  // Wide-equivalent slice (the middle layer adjacent to the face). The slice
+  // rotates in the *same* direction as the wide-turn's outer face.
   switch (base) {
-    case 'u': // E' direction
-      // F mid row → L mid row → B mid row → R mid row (same as U)
+    case 'u':
+      // u = U face + adjacent slice in U direction (F → L → B → R → F).
       cycle4(s, F + 3, L + 3, B + 3, R + 3);
       cycle4(s, F + 4, L + 4, B + 4, R + 4);
       cycle4(s, F + 5, L + 5, B + 5, R + 5);
       return;
     case 'd':
-      // opposite of u
+      // d = D face + adjacent slice in D direction (F → R → B → L → F).
       cycle4(s, F + 3, R + 3, B + 3, L + 3);
       cycle4(s, F + 4, R + 4, B + 4, L + 4);
       cycle4(s, F + 5, R + 5, B + 5, L + 5);

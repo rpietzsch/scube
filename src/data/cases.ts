@@ -30,10 +30,14 @@ export const CASES: CaseData[] = [
     descriptionKey: 'cases.f2lJoined.desc',
     recognitionTagKeys: ['tags.pairJoinedTop'],
     context: "R U R' U R U2 R'", solve: "U R U' R'" },
-  // F2L 2: edge needs repositioning before insertion
+  // F2L 2: edge needs repositioning before insertion.
+  // Wiki lists "U' (F' U F)" and "y' U' (R' U R)" as equivalent. We use the
+  // non-rotation variant so the visualisation stays in the standard FR-slot
+  // frame; otherwise the y' rotates the cube and the DRF-corner tracking ends
+  // up on what looks like a different slot to the learner.
   { id: 'f2l-bi-2', stage: 'f2lIntuitive', name: 'F2L 2 · edge to reposition',
     recognitionTagKeys: ['tags.pairJoinedTop'],
-    context: "R U R' U R U2 R'", solve: "y' U' R' U R" },
+    context: "R U R' U R U2 R'", solve: "U' F' U F" },
   // F2L 3: corner sits in slot with wrong orientation, edge ready in U
   { id: 'f2l-bi-3', stage: 'f2lIntuitive', name: 'F2L 3 · corner wrong',
     recognitionTagKeys: ['tags.pairStuckSlot'],
