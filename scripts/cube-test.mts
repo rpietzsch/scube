@@ -25,21 +25,23 @@ run('sexy ×6 = identity', () => {
 });
 
 for (const c of CASES) {
-  const alg = ALGS.find((a) => a.caseId === c.id && a.primary);
-  if (!alg) continue;
-  run(`${c.id}: context + setup + solve = context state`, () => {
-    // expected = context applied to SOLVED (= SOLVED when no context)
-    const expected = clone(SOLVED);
-    if (c.context) applyAlg(expected, parseAlg(c.context));
+  const caseAlgs = ALGS.filter((a) => a.caseId === c.id);
+  for (const alg of caseAlgs) {
+    const label = alg.primary ? `${c.id}` : `${c.id} alt`;
+    run(`${label}: context + setup(=primary⁻¹) + alg = context state`, () => {
+      // Derived state = context + inverse(primary solve). Each alg (primary
+      // or alternate) must take that state back to the context baseline.
+      const expected = clone(SOLVED);
+      if (c.context) applyAlg(expected, parseAlg(c.context));
 
-    // actual = context + setup + solve
-    const actual = clone(SOLVED);
-    if (c.context) applyAlg(actual, parseAlg(c.context));
-    applyAlg(actual, invertAlg(parseAlg(c.solve)));
-    applyAlg(actual, parseAlg(alg.notation));
+      const actual = clone(SOLVED);
+      if (c.context) applyAlg(actual, parseAlg(c.context));
+      applyAlg(actual, invertAlg(parseAlg(c.solve)));
+      applyAlg(actual, parseAlg(alg.notation));
 
-    if (!equals(actual, expected)) throw new Error('mismatch');
-  });
+      if (!equals(actual, expected)) throw new Error('mismatch');
+    });
+  }
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);

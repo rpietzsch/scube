@@ -1,10 +1,12 @@
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 import { caseById, algsFor } from '../data/cases';
 import { CubeWithMovement } from '../cube/CubeWithMovement';
 import { deriveState } from '../cube/derive';
 import { stageMask, stageKindFor } from '../cube/highlight';
 import { NotationLegend } from '../cube/NotationLegend';
+import { parseAlg } from '../cube/parser';
 import { useMastery, PHASE_ORDER } from '../store/mastery';
 import { useSettings } from '../store/settings';
 
@@ -15,13 +17,14 @@ export default function CasePage() {
   const algs = algsFor(caseId);
   const mastery = useMastery((s) => s.byCase[caseId]);
   const aid = useSettings((s) => s.visualAid);
+  const [showAlternates, setShowAlternates] = useState(false);
 
   if (!c) return <div className="p-4 text-ink-500">Case not found.</div>;
 
   const state = deriveState(c.solve, c.context);
   const mask = aid ? stageMask(stageKindFor(c.stage)) : undefined;
   const primary = algs.find((a) => a.primary) ?? algs[0];
-  const others = algs.filter((a) => a !== primary);
+  const alternates = algs.filter((a) => a !== primary);
   const phaseIdx = mastery ? PHASE_ORDER.indexOf(mastery.phase) : 0;
 
   return (
@@ -88,17 +91,51 @@ export default function CasePage() {
 
       <NotationLegend />
 
-      {others.length > 0 && (
-        <section>
-          <h2 className="text-sm uppercase tracking-wider text-ink-500 mb-2">{t('case.algorithmOther')}</h2>
-          <ul className="space-y-2">
-            {others.map((a) => (
-              <li key={a.id} className="bg-ink-900 p-3 rounded border border-ink-800">
-                <code className="font-mono text-sm text-ink-200">{a.notation}</code>
-                {a.notesKey && <p className="text-xs text-ink-500 mt-1">{t(a.notesKey)}</p>}
-              </li>
-            ))}
-          </ul>
+      {alternates.length > 0 && (
+        <section className="rounded-lg bg-ink-900 border border-ink-800 overflow-hidden">
+          <button
+            type="button"
+            onClick={() => setShowAlternates((v) => !v)}
+            className="w-full flex items-center justify-between px-4 py-3 text-sm text-ink-200"
+            aria-expanded={showAlternates}
+          >
+            <span>
+              {t('case.alternates')}
+              <span className="ml-2 text-ink-500">({alternates.length})</span>
+            </span>
+            <span className="text-ink-500">{showAlternates ? '▾' : '▸'}</span>
+          </button>
+          {showAlternates && (
+            <div className="px-4 pb-4 space-y-3">
+              <p className="text-xs text-ink-500">{t('case.alternatesIntro')}</p>
+              <ul className="space-y-2">
+                {alternates.map((a) => {
+                  const htm = parseAlg(a.notation).length;
+                  return (
+                    <li key={a.id} className="bg-ink-950 p-3 rounded border border-ink-800 space-y-2">
+                      <div className="flex items-baseline justify-between gap-2 flex-wrap">
+                        <code className="font-mono text-sm text-cube-U break-all">{a.notation}</code>
+                        <span className="text-[10px] text-ink-500 whitespace-nowrap">
+                          {t('case.moveCountHTM', { count: htm })}
+                        </span>
+                      </div>
+                      {a.ergonomicsKeys && a.ergonomicsKeys.length > 0 && (
+                        <div className="flex flex-wrap gap-1">
+                          {a.ergonomicsKeys.map((k) => (
+                            <span key={k} className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-ink-800 text-ink-500">
+                              {t(k)}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      {a.notesKey && <p className="text-xs text-ink-500">{t(a.notesKey)}</p>}
+                      {a.attribution && <p className="text-[10px] text-ink-700">— {a.attribution}</p>}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
         </section>
       )}
     </div>

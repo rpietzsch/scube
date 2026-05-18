@@ -29,7 +29,30 @@
       "pllFull": "PLL · Voll"
     },
     "count": "{{done}}/{{total}}",
-    "comingSoon": "Folgt in einem späteren Meilenstein."
+    "comingSoon": "Folgt in einem späteren Meilenstein.",
+    "group": {
+      "f2l": {
+        "basicInsert": "Basis-Einfügungen",
+        "repositionEdge": "Kante umsetzen",
+        "repositionEdgeFlipCorner": "Kante umsetzen + Ecke drehen",
+        "splitPairOver": "Getrenntes Paar überlappen",
+        "pairOnSide": "Paar an der Seite gebildet",
+        "weird": "Seltsame Fälle",
+        "cornerInPlaceEdgeUp": "Ecke im Slot, Kante oben",
+        "edgeInPlaceCornerUp": "Kante im Slot, Ecke oben",
+        "bothInPlace": "Kante & Ecke im Slot"
+      }
+    }
+  },
+  "ergo": {
+    "OHFriendly": "OH-tauglich",
+    "regripFree": "ohne Umgreifen",
+    "leftHandMirror": "Linkshand-Variante",
+    "wideVariant": "weite Drehungen",
+    "shorterHTM": "kürzer",
+    "beginnerFriendly": "anfängerfreundlich",
+    "rotation": "mit Rotation",
+    "MSlice": "mit M-Mittel"
   },
   "library": {
     "title": "Bibliothek",
@@ -46,6 +69,9 @@
     "mastery": "Beherrschung",
     "fromTo": "Ausgang → Ergebnis",
     "compare": "Vergleichen",
+    "alternates": "Alternative Algorithmen",
+    "alternatesIntro": "Varianten, die denselben Fall lösen — nimm die Fingertricks, die für dich passen.",
+    "moveCountHTM": "{{count}} HTM",
     "highlightHint": "Graue Sticker gehören nicht zu dieser Stufe — sie sind nur zur Orientierung da. Die farbigen sind der Bereich, an dem du arbeitest."
   },
   "compare": {

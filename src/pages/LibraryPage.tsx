@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { casesByStage, lessonsByStage } from '../data/cases';
-import { Stage } from '../data/types';
+import { caseGroupsByStage, casesByStage, lessonsByStage } from '../data/cases';
+import { CaseData, Stage } from '../data/types';
 import { CubeNet, LLThumbnail } from '../cube/CubeNet';
 import { deriveState } from '../cube/derive';
 import { stageKindFor, stageMask } from '../cube/highlight';
@@ -21,6 +21,7 @@ export default function LibraryPage() {
 
   const cases = casesByStage(stage);
   const lessons = lessonsByStage(stage);
+  const groups = caseGroupsByStage(stage);
 
   return (
     <div className="p-4 space-y-4">
@@ -61,35 +62,26 @@ export default function LibraryPage() {
         </section>
       )}
 
-      {cases.length > 0 && (
-        <section>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {cases.map((c) => {
-              const m = byCase[c.id];
-              const state = deriveState(c.solve, c.context);
-              const kind = stageKindFor(c.stage);
-              const hl = aid ? stageMask(kind) : undefined;
-              const involved = aid ? involvedMaskFor(state, parseAlg(c.solve), c.stage) : undefined;
-              const useLL = kind === 'oll' || kind === 'pll';
-              return (
-                <Link
-                  key={c.id}
-                  to={`/case/${c.id}`}
-                  className="flex flex-col items-center gap-1 p-2 rounded-lg bg-ink-900 border border-ink-800 hover:border-cube-U"
-                >
-                  {useLL
-                    ? <LLThumbnail state={state} cell={14} highlight={hl} involved={involved} />
-                    : <CubeNet state={state} cell={10} highlight={hl} involved={involved} />
-                  }
-                  <div className="text-xs text-center font-semibold mt-1">{c.name}</div>
-                  <div className="text-[10px] text-ink-500">
-                    {isLearned(m) ? '✓' : isDue(m) ? '●' : m?.phase ?? ''}
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        </section>
+      {cases.length > 0 && groups.length > 0 ? (
+        groups.map((g) => {
+          const groupCases = cases.filter((c) => c.group === g);
+          if (groupCases.length === 0) return null;
+          return (
+            <section key={g} className="space-y-2">
+              <h2 className="text-sm uppercase tracking-wider text-ink-500 pt-2">
+                {t(`path.group.f2l.${g}`)}
+                <span className="ml-2 text-ink-700 normal-case font-normal">({groupCases.length})</span>
+              </h2>
+              <CaseGrid cases={groupCases} aid={aid} byCase={byCase} />
+            </section>
+          );
+        })
+      ) : (
+        cases.length > 0 && (
+          <section>
+            <CaseGrid cases={cases} aid={aid} byCase={byCase} />
+          </section>
+        )
       )}
 
       {cases.length === 0 && lessons.length === 0 && (
@@ -104,6 +96,37 @@ export default function LibraryPage() {
           ▶ {t('case.openDrill')}
         </Link>
       )}
+    </div>
+  );
+}
+
+function CaseGrid({ cases, aid, byCase }: { cases: CaseData[]; aid: boolean; byCase: Record<string, any> }) {
+  return (
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+      {cases.map((c) => {
+        const m = byCase[c.id];
+        const state = deriveState(c.solve, c.context);
+        const kind = stageKindFor(c.stage);
+        const hl = aid ? stageMask(kind) : undefined;
+        const involved = aid ? involvedMaskFor(state, parseAlg(c.solve), c.stage) : undefined;
+        const useLL = kind === 'oll' || kind === 'pll';
+        return (
+          <Link
+            key={c.id}
+            to={`/case/${c.id}`}
+            className="flex flex-col items-center gap-1 p-2 rounded-lg bg-ink-900 border border-ink-800 hover:border-cube-U"
+          >
+            {useLL
+              ? <LLThumbnail state={state} cell={14} highlight={hl} involved={involved} />
+              : <CubeNet state={state} cell={10} highlight={hl} involved={involved} />
+            }
+            <div className="text-xs text-center font-semibold mt-1">{c.name}</div>
+            <div className="text-[10px] text-ink-500">
+              {isLearned(m) ? '✓' : isDue(m) ? '●' : m?.phase ?? ''}
+            </div>
+          </Link>
+        );
+      })}
     </div>
   );
 }

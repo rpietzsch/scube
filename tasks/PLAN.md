@@ -158,8 +158,9 @@ scube is a fully client-side PWA, so GitHub Pages (static + HTTPS) is sufficient
 | M3 | Recognition drill (4-option flashcard from LL thumbnail) · fluency drill (timer + 3-way self-rate) · per-case mastery (Watch→Mimic→Recall→Recognise→Fluent) · SM-2-lite SRS · "Due for review" entry on Path · persisted via zustand+localStorage (Dexie deferred until data volume warrants) | Practice loop closes; cases decay and resurface on the Path | ✅ done |
 | M4 | Full OLL (57) library + lessons | Unlock one-look OLL | ✅ done |
 | M5 | Full PLL (21) library + lessons | Unlock one-look PLL | ✅ done |
-| M6 | Advanced F2L (starter set 8 cases — full 41 deferred) · compare view · manual state entry (deferred) · polish · a11y | v1 release | 🟡 partial |
-| post | Full Advanced F2L (remaining 33 cases) · manual state entry · alternate-alg variants per case · 3D playback (react-three-fiber) · X-cross · OH-specific algs · cross-colour neutrality coach · smart-cube BLE · cloud sync | v1.x | pending |
+| M6 | Advanced F2L (starter set 8 cases) · compare view · manual state entry (deferred) · polish · a11y | v1 release | 🟡 partial (manual entry → v1.x) |
+| M7 | Full Advanced F2L (~46 cases) grouped by speedsolving wiki categories · alternate-algorithm slot on Case Detail · grouped Library sections · ergonomics tag vocabulary | v1 advanced complete | ✅ done |
+| post | Manual state entry · curated alternate algs for each case · 3D playback (react-three-fiber) · X-cross · OH-specific algs · cross-colour neutrality coach · smart-cube BLE · cloud sync | v1.x | pending |
 
 ### M0–M3 deltas worth noting
 
@@ -174,7 +175,19 @@ scube is a fully client-side PWA, so GitHub Pages (static + HTTPS) is sufficient
 - **Context for F2L**: every advanced-F2L case uses the same Sune-like context (`R U R' U R U2 R'`) so the result honestly shows F2L finished with an unsolved last layer.
 - **Alg sourcing**: canonical algorithms from speedsolving.com wiki / J. Perm. Some longer cases (Na, Nb, F, V) use 17–20 HTM standard variants — ergonomic alternates can be added as additional `ALGS` entries later without changing case state.
 
-### M7 — Full F2L + alternative algorithms (proposed, awaiting approval)
+### M7 deltas
+
+- **F2L case total**: 46 cases. The wiki's *Basic Inserts* category (4 cases) lives in **`f2lIntuitive`** alongside the 3 illustrative prose-lesson cases (7 cases total in intuitive); the remaining 8 wiki categories (42 cases) live in **`f2lAdvanced`** as grouped sections. Every primary algorithm round-trips through `task test:cube` (now 144 tests).
+- **Basic-insert algs aligned to wiki F2L 1–4**: `U R U' R'`, `y' U' R' U R`, `F' U' F`, `R U R'` (corrected from my earlier mirror-variant interpretation which solved different slots, not the same case).
+- **Library grouping**: `caseGroupsByStage(stage)` returns an ordered list of subcategory slugs; `LibraryPage` renders one labelled section per group with a 2/3-column responsive grid. Other stages (OLL/PLL/Cross/F2L Intuitive) keep their flat layout.
+- **Alternate algorithms wired**: `CaseData.alternates` + `AlgAlternate` type carry notation, notes, ergonomics tags, and attribution. The auto-generated `ALGS` array picks up alternates as rank 2+. Case Detail renders them in a collapsed-by-default expandable section showing notation, HTM count, ergonomic tags, and notes.
+- **Initial alternate set is empty by design**: cubing literature presents "alternate algorithms" as different *case orientations* (e.g. the FR-slot vs FL-slot mirror), which on the cube engine are *different cases*, not algebraic equivalents of the same case. The round-trip test would correctly reject them as wrong-for-this-case. Genuine equivalents (same starting state, same end state, different sequence) are rare enough that we intentionally ship zero alternates in v1; curated alternates per case are queued for v1.x as a separate research pass.
+- **Ergonomics vocabulary**: 8 ergonomic tag keys (`ergo.OHFriendly`, `regripFree`, `leftHandMirror`, `wideVariant`, `shorterHTM`, `beginnerFriendly`, `rotation`, `MSlice`) translated EN + DE — ready for use once alternates land.
+- **Test invariant strengthened**: `task test:cube` now iterates over every alg (primary AND alternates) and verifies each takes the case state back to the context baseline. Catches typos in alternate notation before they ship.
+
+---
+
+### M7 — Full F2L + alternative algorithms (original proposal kept for reference)
 
 The M6 ship leaves Advanced F2L at a starter set of 8 cases and exposes only the primary algorithm per case. M7 fills that gap by importing the structure used by [speedsolving.com wiki/First_Two_Layers](https://www.speedsolving.com/wiki/index.php?title=First_Two_Layers).
 

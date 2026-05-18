@@ -29,7 +29,30 @@
       "pllFull": "PLL · Full"
     },
     "count": "{{done}}/{{total}}",
-    "comingSoon": "Coming in a later milestone."
+    "comingSoon": "Coming in a later milestone.",
+    "group": {
+      "f2l": {
+        "basicInsert": "Basic inserts",
+        "repositionEdge": "Reposition edge",
+        "repositionEdgeFlipCorner": "Reposition edge + flip corner",
+        "splitPairOver": "Split pair by going over",
+        "pairOnSide": "Pair made on side",
+        "weird": "Weird cases",
+        "cornerInPlaceEdgeUp": "Corner in place, edge in U",
+        "edgeInPlaceCornerUp": "Edge in place, corner in U",
+        "bothInPlace": "Edge & corner in place"
+      }
+    }
+  },
+  "ergo": {
+    "OHFriendly": "OH-friendly",
+    "regripFree": "regrip-free",
+    "leftHandMirror": "left-hand mirror",
+    "wideVariant": "wide turns",
+    "shorterHTM": "shorter",
+    "beginnerFriendly": "beginner-friendly",
+    "rotation": "uses rotation",
+    "MSlice": "uses M slice"
   },
   "library": {
     "title": "Library",
@@ -46,6 +69,9 @@
     "mastery": "Mastery",
     "fromTo": "Starting state → result",
     "compare": "Compare",
+    "alternates": "Alternative algorithms",
+    "alternatesIntro": "Variants that solve the same case — pick whichever fingertricks work for you.",
+    "moveCountHTM": "{{count}} HTM",
     "highlightHint": "Greyed-out stickers are not part of this stage — they're just there for orientation. Colourful stickers are the area you're working on."
   },
   "compare": {

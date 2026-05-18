@@ -1,16 +1,16 @@
 import { CaseData, AlgData, LessonData } from './types';
 import { OLL_FULL_CASES } from './oll-full';
 import { PLL_FULL_CASES } from './pll-full';
-import { F2L_ADVANCED_CASES } from './f2l-advanced';
+import { F2L_ADVANCED_CASES, F2L_ADVANCED_GROUP_ORDER } from './f2l-advanced';
 
 // === Cross & F2L (intuitive) — prose lessons with illustrative examples ===
 export const LESSONS: LessonData[] = [
   { id: 'cross-intro', stage: 'cross', titleKey: 'lessons.crossIntro.title', bodyKey: 'lessons.crossIntro.body' },
   { id: 'cross-planning', stage: 'cross', titleKey: 'lessons.crossPlanning.title', bodyKey: 'lessons.crossPlanning.body' },
   { id: 'f2l-three-shapes', stage: 'f2lIntuitive', titleKey: 'lessons.f2lShapes.title', bodyKey: 'lessons.f2lShapes.body',
-    examples: ['f2l-ex-joined', 'f2l-ex-split', 'f2l-ex-stuck'] },
+    examples: ['f2l-bi-1', 'f2l-ex-split', 'f2l-ex-stuck'] },
   { id: 'f2l-joined', stage: 'f2lIntuitive', titleKey: 'lessons.f2lJoined.title', bodyKey: 'lessons.f2lJoined.body',
-    examples: ['f2l-ex-joined'] },
+    examples: ['f2l-bi-1'] },
   { id: 'f2l-split',  stage: 'f2lIntuitive', titleKey: 'lessons.f2lSplit.title',  bodyKey: 'lessons.f2lSplit.body',
     examples: ['f2l-ex-split'] },
   { id: 'f2l-stuck',  stage: 'f2lIntuitive', titleKey: 'lessons.f2lStuck.title',  bodyKey: 'lessons.f2lStuck.body',
@@ -19,12 +19,41 @@ export const LESSONS: LessonData[] = [
 
 // `solve` is the canonical primary alg. The case state is derived by applying its inverse.
 export const CASES: CaseData[] = [
-  // --- F2L intuitive: three illustrative examples (advanced 41-case set ships in M6) ---
+  // --- F2L intuitive: the 4 canonical Basic Inserts (speedsolving wiki F2L 1–4)
+  //     plus 2 illustrative shape examples (split, stuck) referenced by the
+  //     prose lessons. Names use the F2L N convention consistently. ---
   // Context = "Sune" (a typical OLL case) so the resulting cube shows F2L
   // solved with an unsolved last layer — honest for a "First Two Layers" step.
-  { id: 'f2l-ex-joined', stage: 'f2lIntuitive', name: 'Joined pair',    descriptionKey: 'cases.f2lJoined.desc', recognitionTagKeys: ['tags.pairJoinedTop'], context: "R U R' U R U2 R'", solve: "U R U' R'" },
-  { id: 'f2l-ex-split',  stage: 'f2lIntuitive', name: 'Split pair',     descriptionKey: 'cases.f2lSplit.desc',  recognitionTagKeys: ['tags.pairSplitTop'],  context: "R U R' U R U2 R'", solve: "R U' R'" },
-  { id: 'f2l-ex-stuck',  stage: 'f2lIntuitive', name: 'Stuck in slot',  descriptionKey: 'cases.f2lStuck.desc',  recognitionTagKeys: ['tags.pairStuckSlot'], context: "R U R' U R U2 R'", solve: "R U' R' U R U' R' U R U R'" },
+
+  // F2L 1: corner in slot oriented, edge in U ready to pair
+  { id: 'f2l-bi-1', stage: 'f2lIntuitive', name: 'F2L 1 · pair ready',
+    descriptionKey: 'cases.f2lJoined.desc',
+    recognitionTagKeys: ['tags.pairJoinedTop'],
+    context: "R U R' U R U2 R'", solve: "U R U' R'" },
+  // F2L 2: edge needs repositioning before insertion
+  { id: 'f2l-bi-2', stage: 'f2lIntuitive', name: 'F2L 2 · edge to reposition',
+    recognitionTagKeys: ['tags.pairJoinedTop'],
+    context: "R U R' U R U2 R'", solve: "y' U' R' U R" },
+  // F2L 3: corner sits in slot with wrong orientation, edge ready in U
+  { id: 'f2l-bi-3', stage: 'f2lIntuitive', name: 'F2L 3 · corner wrong',
+    recognitionTagKeys: ['tags.pairStuckSlot'],
+    context: "R U R' U R U2 R'", solve: "F' U' F" },
+  // F2L 4: pair joined in U layer, simple insert
+  { id: 'f2l-bi-4', stage: 'f2lIntuitive', name: 'F2L 4 · pair on top',
+    recognitionTagKeys: ['tags.pairJoinedTop'],
+    context: "R U R' U R U2 R'", solve: "R U R'" },
+
+  // Two extra illustrative shapes for the prose lessons. They're not in the
+  // wiki Basic-Inserts list per se, so they keep an "F2L N · shape" label
+  // continuing the numbering sequence inside intuitive.
+  { id: 'f2l-ex-split',  stage: 'f2lIntuitive', name: 'F2L 5 · split pair',
+    descriptionKey: 'cases.f2lSplit.desc',
+    recognitionTagKeys: ['tags.pairSplitTop'],
+    context: "R U R' U R U2 R'", solve: "R U' R'" },
+  { id: 'f2l-ex-stuck',  stage: 'f2lIntuitive', name: 'F2L 6 · stuck in slot',
+    descriptionKey: 'cases.f2lStuck.desc',
+    recognitionTagKeys: ['tags.pairStuckSlot'],
+    context: "R U R' U R U2 R'", solve: "R U' R' U R U' R' U R U R'" },
 
   // --- 2-Look OLL: Edge orientation (3) ---
   { id: 'oll2-eo-dot',    stage: 'oll2look', name: 'Dot',     descriptionKey: 'cases.eoDot.desc',  recognitionTagKeys: ['tags.noEdgesOriented'], solve: "F R U R' U' F' f R U R' U' f'" },
@@ -54,17 +83,30 @@ export const CASES: CaseData[] = [
   // === Full PLL (21) — M5 ===
   ...PLL_FULL_CASES,
 
-  // === Advanced F2L (starter, ~8 cases) — M6 partial ===
+  // === Advanced F2L (full set, organised by speedsolving wiki groups) — M7 ===
   ...F2L_ADVANCED_CASES,
 ];
 
-// Primary alg = the case's `solve`. Additional alternates can be added here.
-export const ALGS: AlgData[] = CASES.map((c) => ({
-  id: `${c.id}-primary`,
-  caseId: c.id,
-  notation: c.solve,
-  primary: true,
-}));
+// Primary alg (rank 1) is derived from `case.solve`; any `case.alternates`
+// follow as rank 2+ in the same case's alg list.
+export const ALGS: AlgData[] = CASES.flatMap((c) => {
+  const primary: AlgData = {
+    id: `${c.id}-primary`,
+    caseId: c.id,
+    notation: c.solve,
+    primary: true,
+  };
+  const alts: AlgData[] = (c.alternates ?? []).map((alt, i) => ({
+    id: `${c.id}-alt-${i + 1}`,
+    caseId: c.id,
+    notation: alt.notation,
+    notesKey: alt.notesKey,
+    ergonomicsKeys: alt.ergonomicsKeys,
+    attribution: alt.attribution,
+    primary: false,
+  }));
+  return [primary, ...alts];
+});
 
 export function caseById(id: string): CaseData | undefined {
   return CASES.find((c) => c.id === id);
@@ -80,4 +122,21 @@ export function casesByStage(stage: string): CaseData[] {
 
 export function lessonsByStage(stage: string): LessonData[] {
   return LESSONS.filter((l) => l.stage === stage);
+}
+
+/**
+ * Ordered list of subcategory slugs that have at least one case in this
+ * stage. Currently only `f2lAdvanced` uses a wiki-defined order; other
+ * stages return a single null bucket if no `group` is set.
+ */
+export function caseGroupsByStage(stage: string): string[] {
+  const cases = casesByStage(stage);
+  const seen = new Set<string>();
+  for (const c of cases) if (c.group) seen.add(c.group);
+
+  if (stage === 'f2lAdvanced') {
+    // Render in the canonical wiki order; skip any group with no cases.
+    return F2L_ADVANCED_GROUP_ORDER.filter((g) => seen.has(g));
+  }
+  return [...seen];
 }
