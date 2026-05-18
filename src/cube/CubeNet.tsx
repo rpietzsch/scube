@@ -309,28 +309,33 @@ export function LLThumbnail({
     }
   }
 
+  // Standard OLL/PLL orientation (matches speedsolving wiki):
+  //  B strip at TOP  — adjacent to back row  of U face (row 0 = UBL/UB/UBR)
+  //  F strip at BOTTOM — adjacent to front row of U face (row 2 = UFL/UF/UFR)
+  //  L strip left (no reverse): top=UBL's L, bottom=UFL's L
+  //  R strip right (reversed):  top=UBR's R, bottom=UFR's R
   return (
     <svg viewBox={`0 0 ${w} ${h}`} width={w} height={h} role="img" aria-label="Last layer">
-      {drawFlap('F', [
+      {drawFlap('B', [
         [ux + 0 * cell, uy - flap, cell - 2, flap - 4],
         [ux + 1 * cell, uy - flap, cell - 2, flap - 4],
         [ux + 2 * cell, uy - flap, cell - 2, flap - 4],
-      ])}
+      ], true)}
       {drawFlap('R', [
         [ux + face + 2, uy + 0 * cell, flap - 4, cell - 2],
         [ux + face + 2, uy + 1 * cell, flap - 4, cell - 2],
         [ux + face + 2, uy + 2 * cell, flap - 4, cell - 2],
-      ])}
-      {drawFlap('B', [
+      ], true)}
+      {drawFlap('F', [
         [ux + 0 * cell, uy + face + 2, cell - 2, flap - 4],
         [ux + 1 * cell, uy + face + 2, cell - 2, flap - 4],
         [ux + 2 * cell, uy + face + 2, cell - 2, flap - 4],
-      ], true)}
+      ])}
       {drawFlap('L', [
         [ux - flap, uy + 0 * cell, flap - 4, cell - 2],
         [ux - flap, uy + 1 * cell, flap - 4, cell - 2],
         [ux - flap, uy + 2 * cell, flap - 4, cell - 2],
-      ], true)}
+      ])}
       {uStickers}
     </svg>
   );
