@@ -19,18 +19,10 @@
  */
 
 import { CubeState, Face } from './types';
+import { useCubeColors } from './CubeColorsContext';
 
 const COS30 = Math.sqrt(3) / 2;
 const SIN30 = 0.5;
-
-const COLORS: Record<Face, string> = {
-  U: '#FAFAFA', // white
-  D: '#FDD835', // yellow (cross)
-  F: '#43A047', // green
-  B: '#1E88E5', // blue
-  R: '#E53935', // red
-  L: '#FB8C00', // orange
-};
 const MUTED = '#4a5a6b';   // medium grey — clearly visible against dark bg
 const MUTED_ALPHA = 0.85;  // fully legible grey for non-involved stickers
 // reserved for future source/target border rendering
@@ -82,6 +74,7 @@ export function CubeIso({
   topLeftLabels,
   bottomRightLabels,
 }: CubeIsoProps) {
+  const COLORS = useCubeColors();
   const s = cell;
   const G = 0.08; // inset gap (world units) between stickers
 

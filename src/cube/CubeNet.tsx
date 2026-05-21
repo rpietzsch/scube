@@ -1,16 +1,5 @@
 import { CubeState, Face } from './types';
-
-// Display convention matches cuberoot.me / most F2L reference sites: cross is
-// built on YELLOW (D = yellow), with WHITE on top (U). This puts the cross
-// face on the bottom of the unfolded net, where it visually belongs for F2L.
-const COLORS: Record<Face, string> = {
-  U: '#FAFAFA', // white (top)
-  D: '#FDD835', // yellow (cross)
-  F: '#43A047', // green
-  B: '#1E88E5', // blue
-  R: '#E53935', // red
-  L: '#FB8C00', // orange
-};
+import { useCubeColors } from './CubeColorsContext';
 
 const MUTED = '#2a3358'; // ink-700
 // Source/target borders use colours that are (a) complementary (~150° hue apart)
@@ -37,6 +26,7 @@ interface FaceGridProps {
 }
 
 function FaceGrid({ state, face, x, y, cell, highlight, source, target, involved, topLeftLabels, bottomRightLabels }: FaceGridProps) {
+  const COLORS = useCubeColors();
   const base = FACE_OFFSET[face];
   const cells = [];
   for (let row = 0; row < 3; row++) {
@@ -210,6 +200,7 @@ export function LLThumbnail({
   topLeftLabels?: Record<number, string>;
   bottomRightLabels?: Record<number, string>;
 }) {
+  const COLORS = useCubeColors();
   const face = cell * 3;
   const flap = cell;
   const w = face + 2 * flap + 8;

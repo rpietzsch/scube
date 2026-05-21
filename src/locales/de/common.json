@@ -139,6 +139,18 @@
     "resetMastery": "Fortschritt zurücksetzen",
     "resetConfirm": "Allen Lernfortschritt löschen?"
   },
+  "colors": {
+    "white": "Weiß", "yellow": "Gelb", "green": "Grün",
+    "blue": "Blau", "red": "Rot", "orange": "Orange"
+  },
+  "orient": {
+    "holdWith": "Halten mit",
+    "hold": "Halten:",
+    "topLabel": "oben",
+    "frontLabel": "vorne",
+    "topShort": "oben",
+    "frontShort": "vorne"
+  },
   "notation": {
     "title": "Notation",
     "intro": "Jeder Buchstabe steht für eine Seite oder Achse des Würfels. Das Zeichen dahinter sagt, wie du sie drehst.",

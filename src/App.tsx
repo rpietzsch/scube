@@ -1,5 +1,6 @@
 import { NavLink, Route, Routes } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { CubeColorsProvider } from './cube/CubeColorsContext';
 import PathPage from './pages/PathPage';
 import LibraryPage from './pages/LibraryPage';
 import NotationPage from './pages/NotationPage';
@@ -16,6 +17,7 @@ export default function App() {
     `flex-1 py-3 text-center text-sm ${isActive ? 'text-ink-200 border-t-2 border-cube-U' : 'text-ink-500 border-t-2 border-transparent'}`;
 
   return (
+    <CubeColorsProvider>
     <div className="min-h-full flex flex-col max-w-screen-sm mx-auto">
       <main className="flex-1 overflow-y-auto pb-20">
         <Routes>
@@ -35,5 +37,6 @@ export default function App() {
         <NavLink to="/settings" className={tabClass}>{t('nav.settings')}</NavLink>
       </nav>
     </div>
+    </CubeColorsProvider>
   );
 }

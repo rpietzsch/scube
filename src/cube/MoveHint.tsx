@@ -1,21 +1,8 @@
 import { Move } from './moves';
 import { formatMove } from './parser';
+import { useCubeColors } from './CubeColorsContext';
 
-// Matches CubeNet COLORS: U = white (top), D = yellow (cross-on-yellow).
-const FACE_COLOR: Record<string, string> = {
-  U: '#FAFAFA', // white
-  D: '#FDD835', // yellow
-  F: '#43A047',
-  B: '#1E88E5',
-  R: '#E53935',
-  L: '#FB8C00',
-  M: '#7c89b5',
-  E: '#7c89b5',
-  S: '#7c89b5',
-  x: '#7c89b5',
-  y: '#7c89b5',
-  z: '#7c89b5',
-};
+const NEUTRAL = '#7c89b5'; // slices + rotations
 
 const FACE_LABEL: Record<string, string> = {
   U: 'U · top',
@@ -49,10 +36,11 @@ interface MoveHintProps {
  * showing rotation direction (CW for plain, CCW for prime, double-headed for 2).
  */
 export function MoveHint({ move, size = 40, active = false }: MoveHintProps) {
+  const cubeColors = useCubeColors();
   const base = move.base;
   const upper = base.toUpperCase();
-  const color = FACE_COLOR[upper] ?? '#7c89b5';
-  const isWide = base !== upper && upper in FACE_COLOR;
+  const color = cubeColors[upper] ?? NEUTRAL;
+  const isWide = base !== upper && upper in cubeColors;
   const ccw = move.amount === -1;
   const half = move.amount === 2;
 

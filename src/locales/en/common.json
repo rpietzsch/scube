@@ -139,6 +139,18 @@
     "resetMastery": "Reset mastery",
     "resetConfirm": "Erase all learning progress?"
   },
+  "colors": {
+    "white": "White", "yellow": "Yellow", "green": "Green",
+    "blue": "Blue", "red": "Red", "orange": "Orange"
+  },
+  "orient": {
+    "holdWith": "Hold with",
+    "hold": "Hold:",
+    "topLabel": "on top",
+    "frontLabel": "front",
+    "topShort": "top",
+    "frontShort": "front"
+  },
   "notation": {
     "title": "Notation",
     "intro": "Each letter names a face or axis of the cube. The symbol after it tells you how to turn it.",

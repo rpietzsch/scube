@@ -10,15 +10,19 @@ import { involvedMaskFor } from '../cube/movement';
 import { parseAlg } from '../cube/parser';
 import { useMastery, isLearned, isDue } from '../store/mastery';
 import { useSettings } from '../store/settings';
+import { OrientationPicker } from '../cube/OrientationPicker';
+import { OrientationHint } from '../cube/OrientationHint';
 
 const STAGES: Stage[] = ['cross', 'f2lIntuitive', 'f2lAdvanced', 'f2lExpert', 'oll2look', 'ollFull', 'pll2look', 'pllFull'];
+const WITH_ORIENTATION: Stage[] = ['f2lIntuitive', 'f2lAdvanced', 'f2lExpert', 'oll2look', 'ollFull', 'pll2look', 'pllFull'];
 
 export default function LibraryPage() {
   const { '*': splat } = useParams();
   const stage = (splat as Stage) || 'oll2look';
   const { t } = useTranslation();
   const { byCase, lessonsCompleted } = useMastery();
-  const aid = useSettings((s) => s.visualAid);
+  const { visualAid: aid, topColor, frontColor } = useSettings();
+  const showOrient = WITH_ORIENTATION.includes(stage);
 
   const cases = casesByStage(stage);
   const lessons = lessonsByStage(stage);
@@ -51,6 +55,12 @@ export default function LibraryPage() {
         })}
       </nav>
 
+      {showOrient && (
+        <div className="rounded-lg bg-ink-900 border border-ink-800 px-4 py-2">
+          <OrientationPicker />
+        </div>
+      )}
+
       {lessons.length > 0 && (
         <section className="space-y-2">
           {lessons.map((l) => (
@@ -79,14 +89,14 @@ export default function LibraryPage() {
                 {t(`path.group.f2l.${g}`)}
                 <span className="ml-2 text-ink-700 normal-case font-normal">({groupCases.length})</span>
               </h2>
-              <CaseGrid cases={groupCases} aid={aid} byCase={byCase} />
+              <CaseGrid cases={groupCases} aid={aid} byCase={byCase} topColor={topColor} frontColor={frontColor} />
             </section>
           );
         })
       ) : (
         cases.length > 0 && (
           <section>
-            <CaseGrid cases={cases} aid={aid} byCase={byCase} />
+            <CaseGrid cases={cases} aid={aid} byCase={byCase} topColor={topColor} frontColor={frontColor} />
           </section>
         )
       )}
@@ -101,6 +111,8 @@ export default function LibraryPage() {
             cases={casesByStage('f2lAdvanced').filter((c) => c.group === 'basicInsert')}
             aid={aid}
             byCase={byCase}
+            topColor={topColor}
+            frontColor={frontColor}
           />
         </section>
       )}
@@ -121,7 +133,13 @@ export default function LibraryPage() {
   );
 }
 
-function CaseGrid({ cases, aid, byCase }: { cases: CaseData[]; aid: boolean; byCase: Record<string, any> }) {
+function CaseGrid({ cases, aid, byCase, topColor, frontColor }: {
+  cases: CaseData[];
+  aid: boolean;
+  byCase: Record<string, any>;
+  topColor?: string;
+  frontColor?: string;
+}) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
       {cases.map((c) => {
@@ -132,7 +150,6 @@ function CaseGrid({ cases, aid, byCase }: { cases: CaseData[]; aid: boolean; byC
         const involved = aid ? involvedMaskFor(state, parseAlg(c.solve), c.stage) : undefined;
         const useLL = kind === 'oll' || kind === 'pll';
         const useIso = kind === 'f2l';
-        // F2L thumbnails: F+R in face colour (dimmed) + U grey (except centre)
         const isoHl = useIso ? f2lContextMask() : hl;
         return (
           <Link
@@ -151,6 +168,9 @@ function CaseGrid({ cases, aid, byCase }: { cases: CaseData[]; aid: boolean; byC
             <div className="text-[10px] text-ink-500">
               {isLearned(m) ? '✓' : isDue(m) ? '●' : m?.phase ?? ''}
             </div>
+            {useLL && topColor && frontColor && (
+              <OrientationHint topColor={topColor} frontColor={frontColor} compact />
+            )}
           </Link>
         );
       })}

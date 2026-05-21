@@ -6,6 +6,7 @@ import { CubeWithMovement } from '../cube/CubeWithMovement';
 import { deriveState } from '../cube/derive';
 import { stageMask, stageKindFor } from '../cube/highlight';
 import { NotationLegend } from '../cube/NotationLegend';
+import { OrientationHint } from '../cube/OrientationHint';
 import { parseAlg } from '../cube/parser';
 import { useMastery, PHASE_ORDER } from '../store/mastery';
 import { useSettings } from '../store/settings';
@@ -16,7 +17,8 @@ export default function CasePage() {
   const c = caseById(caseId);
   const algs = algsFor(caseId);
   const mastery = useMastery((s) => s.byCase[caseId]);
-  const aid = useSettings((s) => s.visualAid);
+  const { visualAid: aid, topColor, frontColor } = useSettings();
+  const isOllPll = ['oll2look', 'ollFull', 'pll2look', 'pllFull'].includes(c?.stage ?? '');
   const [showAlternates, setShowAlternates] = useState(false);
 
   if (!c) return <div className="p-4 text-ink-500">Case not found.</div>;
@@ -40,6 +42,11 @@ export default function CasePage() {
                 {t(k)}
               </span>
             ))}
+          </div>
+        )}
+        {isOllPll && (
+          <div className="mt-2">
+            <OrientationHint topColor={topColor} frontColor={frontColor} />
           </div>
         )}
       </header>
