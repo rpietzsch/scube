@@ -11,17 +11,7 @@ export function NotationLegend({ alg }: NotationLegendProps) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
-  const moves = useMemo(() => {
-    if (!alg) return null;
-    const parsed = parseAlg(alg);
-    const seen = new Set<string>();
-    return parsed.filter((m) => {
-      const key = `${m.base}${m.amount}`;
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    });
-  }, [alg]);
+  const moves = useMemo(() => alg ? parseAlg(alg) : null, [alg]);
 
   return (
     <section className="rounded-lg bg-ink-900 border border-ink-800 overflow-hidden">
