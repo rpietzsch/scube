@@ -2,6 +2,7 @@ import { NavLink, Route, Routes } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PathPage from './pages/PathPage';
 import LibraryPage from './pages/LibraryPage';
+import NotationPage from './pages/NotationPage';
 import CasePage from './pages/CasePage';
 import LessonPage from './pages/LessonPage';
 import DrillPage from './pages/DrillPage';
@@ -20,6 +21,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<PathPage />} />
           <Route path="/library/*" element={<LibraryPage />} />
+          <Route path="/notation" element={<NotationPage />} />
           <Route path="/case/:caseId" element={<CasePage />} />
           <Route path="/lesson/:caseId" element={<LessonPage />} />
           <Route path="/drill/:setId" element={<DrillPage />} />

@@ -139,6 +139,20 @@
     "resetMastery": "Reset mastery",
     "resetConfirm": "Erase all learning progress?"
   },
+  "notation": {
+    "title": "Notation",
+    "intro": "Each letter names a face or axis of the cube. The symbol after it tells you how to turn it.",
+    "cw": "Clockwise",
+    "ccw": "Counter-CW",
+    "half": "Half turn",
+    "faceMoves": "Face turns",
+    "wideMoves": "Wide turns",
+    "wideNote": "Lowercase letters turn the face plus the adjacent inner layer. Direction matches the uppercase version.",
+    "sliceMoves": "Slice moves",
+    "rotations": "Cube rotations",
+    "suffixesTitle": "Suffixes",
+    "suffixesBody": "No suffix = quarter turn clockwise (when looking at that face). An apostrophe (') means counter-clockwise. A 2 means a half turn. x/y/z rotate the whole cube."
+  },
   "legend": {
     "title": "How to read the notation",
     "intro": "Each letter names a face of the cube; the symbol after it tells you how to turn it.",

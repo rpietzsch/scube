@@ -64,7 +64,7 @@ export default function LessonPage() {
         ))}
       </section>
 
-      <NotationLegend />
+      <NotationLegend alg={primary.notation} />
 
       <section className="bg-ink-900 p-4 rounded-lg border border-ink-800">
         <button

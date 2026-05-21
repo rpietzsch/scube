@@ -1,25 +1,27 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MoveHint, moveLabel } from './MoveHint';
+import { MoveGuideCell } from './MoveGuide';
+import { parseAlg } from './parser';
 
-const EXAMPLES = [
-  { base: 'U', amount: 1 as const },
-  { base: 'U', amount: -1 as const },
-  { base: 'U', amount: 2 as const },
-  { base: 'R', amount: 1 as const },
-  { base: 'F', amount: 1 as const },
-  { base: 'L', amount: 1 as const },
-  { base: 'D', amount: 1 as const },
-  { base: 'B', amount: 1 as const },
-  { base: 'f', amount: 1 as const },
-  { base: 'r', amount: 1 as const },
-  { base: 'M', amount: 1 as const },
-  { base: 'y', amount: 1 as const },
-];
+interface NotationLegendProps {
+  alg?: string;
+}
 
-export function NotationLegend() {
+export function NotationLegend({ alg }: NotationLegendProps) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+
+  const moves = useMemo(() => {
+    if (!alg) return null;
+    const parsed = parseAlg(alg);
+    const seen = new Set<string>();
+    return parsed.filter((m) => {
+      const key = `${m.base}${m.amount}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }, [alg]);
 
   return (
     <section className="rounded-lg bg-ink-900 border border-ink-800 overflow-hidden">
@@ -31,17 +33,16 @@ export function NotationLegend() {
         <span className="text-ink-500">{open ? '▾' : '▸'}</span>
       </button>
       {open && (
-        <div className="px-4 pb-4 space-y-3">
-          <p className="text-xs text-ink-500">{t('legend.intro')}</p>
-          <div className="grid grid-cols-3 gap-2">
-            {EXAMPLES.map((m, i) => (
-              <div key={i} className="flex flex-col items-center gap-1 p-2 rounded bg-ink-950">
-                <MoveHint move={m} size={42} />
-                <div className="text-[10px] text-ink-500 text-center leading-tight">{moveLabel(m)}</div>
-              </div>
-            ))}
-          </div>
-          <p className="text-xs text-ink-500">{t('legend.suffixes')}</p>
+        <div className="px-4 pb-4">
+          {moves ? (
+            <div className="flex flex-wrap gap-4 justify-start pt-1 text-ink-200">
+              {moves.map((m, i) => (
+                <MoveGuideCell key={i} move={m} size={64} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-xs text-ink-500 pt-1">{t('legend.suffixes')}</p>
+          )}
         </div>
       )}
     </section>

@@ -139,6 +139,20 @@
     "resetMastery": "Fortschritt zurücksetzen",
     "resetConfirm": "Allen Lernfortschritt löschen?"
   },
+  "notation": {
+    "title": "Notation",
+    "intro": "Jeder Buchstabe steht für eine Seite oder Achse des Würfels. Das Zeichen dahinter sagt, wie du sie drehst.",
+    "cw": "Uhrzeigersinn",
+    "ccw": "Gegenuhrzeiger",
+    "half": "Halbe Drehung",
+    "faceMoves": "Seiten-Drehungen",
+    "wideMoves": "Weite Drehungen",
+    "wideNote": "Kleinbuchstaben drehen die Seite und die angrenzende innere Schicht. Richtung wie beim Großbuchstaben.",
+    "sliceMoves": "Mittelschichten",
+    "rotations": "Würfel-Rotationen",
+    "suffixesTitle": "Nachzeichen",
+    "suffixesBody": "Ohne Zusatz = Vierteldrehung im Uhrzeigersinn (aus Sicht dieser Seite). Apostroph (') = gegen den Uhrzeigersinn. 2 = halbe Drehung. x/y/z drehen den gesamten Würfel."
+  },
   "legend": {
     "title": "Notation lesen",
     "intro": "Jeder Buchstabe steht für eine Würfelseite; das Zeichen dahinter sagt, wie du sie drehst.",

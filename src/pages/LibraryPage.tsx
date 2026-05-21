@@ -29,6 +29,12 @@ export default function LibraryPage() {
       <h1 className="text-xl font-bold">{t('library.title')}</h1>
 
       <nav className="flex gap-1 overflow-x-auto pb-2 -mx-4 px-4">
+        <Link
+          to="/notation"
+          className="whitespace-nowrap px-3 py-1.5 rounded-full text-xs border border-ink-700 text-ink-200"
+        >
+          {t('notation.title')}
+        </Link>
         {STAGES.map((s) => {
           const empty = casesByStage(s).length === 0 && lessonsByStage(s).length === 0;
           return (

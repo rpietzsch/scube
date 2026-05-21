@@ -89,7 +89,7 @@ export default function CasePage() {
         </section>
       )}
 
-      <NotationLegend />
+      <NotationLegend alg={primary?.notation} />
 
       {alternates.length > 0 && (
         <section className="rounded-lg bg-ink-900 border border-ink-800 overflow-hidden">

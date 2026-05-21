@@ -59,6 +59,7 @@ scripts/         cube-test.mts (engine sanity tests)
 - https://www.speedsolving.com/wiki/index.php?title=First_Two_Layers
 - https://cuberoot.me/alg/3x3?lang=en
 - https://speedcubedb.com/a/3x3
+- https://de.speedcube.com.au/de/blogs/notation-guides/tagged/3x3 
 
 ## License
 
