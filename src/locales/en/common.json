@@ -144,7 +144,7 @@
     "blue": "Blue", "red": "Red", "orange": "Orange"
   },
   "orient": {
-    "holdWith": "Hold with",
+    "holdWith": "Hold",
     "hold": "Hold:",
     "topLabel": "on top",
     "frontLabel": "front",

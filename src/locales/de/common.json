@@ -144,7 +144,7 @@
     "blue": "Blau", "red": "Rot", "orange": "Orange"
   },
   "orient": {
-    "holdWith": "Halten mit",
+    "holdWith": "Halten",
     "hold": "Halten:",
     "topLabel": "oben",
     "frontLabel": "vorne",
