@@ -161,6 +161,7 @@ scube is a fully client-side PWA, so GitHub Pages (static + HTTPS) is sufficient
 | M6 | Advanced F2L (starter set 8 cases) · compare view · manual state entry (deferred) · polish · a11y | v1 release | 🟡 partial (manual entry → v1.x) |
 | M7 | Full Advanced F2L (~46 cases) grouped by speedsolving wiki categories · alternate-algorithm slot on Case Detail · grouped Library sections · ergonomics tag vocabulary | v1 advanced complete | ✅ done |
 | M8 | cuberoot.me alignment: 3-stage F2L · `f2lExpert` stage + nav · cuberoot code labels for 6 exact-alg matches · 33 cuberoot codes documented · cross-alg equivalence test refuted cuberoot's alternates · colour convention D=yellow | structural alignment + label pass | 🟡 partial (structural + 6 label matches ✅; full 41-case remap requires case-state matching ⏭; cuberoot "alternates" rejected as non-equivalent) |
+| M9 | Library-first redesign: remove Path tab · Settings → cogwheel · sticky Hold bar · simplified case detail (no Mastery, no Open Lesson, no Compare; algo + orientation together) | Cleaner, library-centric UX | ✅ done |
 | post | Manual state entry · curated alternate algs sourced from cuberoot (41 + 54 with `A+/A-/B+/B-…` codes) · 3D playback (react-three-fiber) · X-cross · OH-specific algs · cross-colour neutrality coach · smart-cube BLE · cloud sync | v1.x | pending |
 
 ### M0–M3 deltas worth noting
@@ -371,6 +372,135 @@ The M6 ship leaves Advanced F2L at a starter set of 8 cases and exposes only the
 - **Advanced F2L scope**: 8 representative cases (one per shape family + a couple of standard sledgehammer/hedgeslammer/extract-reinsert patterns). Full 41-case set deferred to v1.x because each case ideally wants 2–3 alg variants and detailed recognition tags, and pedagogically v1 already covers the route from beginner to full one-look OLL/PLL.
 - **Manual state entry**: deferred to v1.x. Requires a painted-cube UI (palette, tap-to-flip) plus a normalising state→case-id recogniser; both are non-trivial and don't gate the core teach-by-stage experience.
 - **A11y / polish (light pass)**: `lang` updates on language change, `aria-label`s on SVG cube nets, semantic `<figure>/<figcaption>` for before/after, keyboard-reachable nav. Deeper a11y (full keyboard play in `CubePlayback`, screen-reader move announcements) is post-v1.
+
+---
+
+## M9 — Library-first redesign
+
+### Motivation
+
+People use the Library to build their own learning path, not the Path view. The current three-tab nav (Path · Library · Settings) buries the most useful screen. This milestone makes Library the top-level experience, simplifies the case detail to reduce clutter, and keeps the Hold-orientation context always visible while browsing.
+
+---
+
+### Step A — Navigation restructure
+
+**Goal:** Two-item nav → one primary destination. Settings moves out of the nav bar.
+
+**Changes:**
+
+| File | What changes |
+|------|-------------|
+| `src/App.tsx` | Default route `/` redirects to `/library`. The Path page route (`/`) is preserved but no longer linked from nav — it can be removed entirely in a follow-up or kept as an easter-egg entry point. |
+| Bottom nav component (wherever the 3-tab bar lives) | Remove the **Path** tab. Remove the **Settings** tab. Keep only the **Library** entry (or remove the bar entirely if Library is now always active). |
+| `src/pages/LibraryPage.tsx` | Add a cogwheel `⚙` icon button in the Library header (top-right of the stage-filter row). Tapping it navigates to `/settings`. |
+
+**Open question:** Should the Path page be deleted or just unlinked? Keeping the route (but not the tab) means direct-link access is still possible. Lean towards **keeping the route**, deleting the tab. Decision needed before implementation.
+
+---
+
+### Step B — Sticky Hold bar in Library
+
+**Goal:** The OrientationPicker ("Hold with top / front" selectors) stays pinned to the top of the viewport as the user scrolls through the case grid, so colour context is never lost.
+
+**Current state:** `OrientationPicker` renders as an ordinary block inside the page scroll container (`LibraryPage.tsx` ~line 58–62). It scrolls away as soon as the user moves down.
+
+**Changes:**
+
+| File | What changes |
+|------|-------------|
+| `src/pages/LibraryPage.tsx` | Wrap the `OrientationPicker` (and the stage-tab row above it, since both should pin together) in a `sticky top-0 z-10` container with a solid background (e.g. `bg-ink-950`) so scrolling content slides beneath it without showing through. |
+| `src/cube/OrientationPicker.tsx` | Likely no changes needed; the stickiness is a layout concern in the parent. |
+
+**Risk:** The sticky container height must be subtracted from the scrollable area or cases near the top will appear under the pinned bar. Tailwind's `pt-[N]` on the grid container, or a spacer div, handles this. Measure the bar height at runtime (or fix it at a known value) rather than guessing.
+
+---
+
+### Step C — Case detail: simplified algorithm view
+
+**Goal:** The case detail page (`CasePage`) focuses on one thing — the algorithm and how to hold the cube. All navigation and progress chrome is removed.
+
+**Current state (CasePage.tsx):**
+- `~line 49`: `<OrientationHint c={c} />` — orientation shown, but visually separate
+- `~lines 65–75`: Mastery progress bar (Watch → Mimic → Recall → Recognise → Fluent)
+- `~lines 78–96`: Algorithm notation block + two action buttons
+  - `▶ Open lesson` → `/lesson/${c.id}`
+  - `⇄ Compare` → `/compare?a=${c.id}`
+- Below: collapsible alternates section
+
+**What to remove:**
+- ❌ Mastery section (the progress bar and its header)
+- ❌ `▶ Open lesson` button
+- ❌ `⇄ Compare` button
+
+**What to keep / adjust:**
+- ✅ Algorithm notation block — **increase font size** so the move tokens (`R U R' U'`) are visually the same weight as the orientation icon labels. Current size is `font-mono` at default; target something like `text-lg` or `text-xl` (exact size to be confirmed visually).
+- ✅ Orientation hint — move it to sit **directly adjacent to the notation block** (above or inline) so the reader sees the hold context and the algorithm together without scanning up.
+- ✅ Cube state visualisation (the before/after net or thumbnail) — keep as-is.
+- ❓ Alternates section — currently collapsed by default. With lesson and compare gone, alternates are more useful, not less. **Leave the collapsible alternates in place** (no change needed). Open question: should alternates be expanded by default now? Lean towards **keeping collapsed** to avoid overwhelming newcomers.
+
+**Files:**
+
+| File | What changes |
+|------|-------------|
+| `src/pages/CasePage.tsx` | Delete mastery section block. Delete Open Lesson `<Link>`. Delete Compare `<Link>`. Move/reorganise `<OrientationHint>` to be adjacent to the notation card. Increase notation font size. |
+
+---
+
+### Step D — Hold bar also visible in each case card (Library grid)
+
+**Current state:** Library grid cards show a compact `<OrientationHint compact>` for OLL/PLL stages (LibraryPage.tsx ~line 172). F2L cards do not show one.
+
+**Goal:** The orientation context is visible on every card, not just OLL/PLL. This ensures the user always knows how to hold the cube for whatever stage they are browsing.
+
+**Changes:**
+
+| File | What changes |
+|------|-------------|
+| `src/pages/LibraryPage.tsx` (CaseGrid function) | Extend the compact `<OrientationHint>` to show for **all stages that have an OrientationPicker** (i.e. the existing `WITH_ORIENTATION` list: f2lIntuitive, f2lAdvanced, f2lExpert, oll2look, ollFull, pll2look, pllFull). The compact hint already exists; it just needs to be rendered for F2L stages too. |
+
+**Risk:** F2L cards are smaller (no last-layer thumbnail); the compact hint adds a line. Check that the card height stays consistent across the grid. If F2L cards look cramped, the hint can be a hover/tooltip instead of always-visible — but try always-visible first.
+
+---
+
+### Step E — Remove Mastery from Library grid cards
+
+**Current state:** Each case card shows a mastery status pill (`✓` / `●` / phase name) at the bottom.
+
+**Goal:** Remove this — Library becomes a clean reference, not a tracker.
+
+**Changes:**
+
+| File | What changes |
+|------|-------------|
+| `src/pages/LibraryPage.tsx` (CaseGrid function, ~line 169) | Delete the mastery status expression (`isLearned(m) ? '✓' : isDue(m) ? '●' : m?.phase ?? ''`) and its containing element. |
+
+**Note:** Mastery data in the store is not deleted — the underlying SRS and drill systems still use it. Only the visual indicator in the Library is removed.
+
+---
+
+### Risks and open questions
+
+| # | Question | Decision |
+|---|----------|---------|
+| 1 | Keep the Path page route or delete it entirely? | **Deleted** — PathPage.tsx removed; `/` redirects to `/library`. |
+| 2 | Should alternates on CasePage be expanded by default now that the lesson button is gone? | **Collapsed** — same default as before. |
+| 3 | Exact font size for algo notation? | **Unchanged** — same `text-base text-cube-U font-mono` as before. |
+| 4 | Should the drill button in Library move now that nav is restructured? | **No change** — drill entry point stays at the bottom of the case grid. |
+
+---
+
+### Implementation order
+
+Run the steps in this sequence so each is independently reviewable:
+
+1. **Step A** (nav) — smallest surface, high impact, easy to verify
+2. **Step E** (remove mastery from cards) — pure deletion, zero risk
+3. **Step D** (hold bar on all cards) — extends existing compact hint
+4. **Step B** (sticky hold bar) — layout/CSS only
+5. **Step C** (case detail cleanup) — most line changes, but contained to one file
+
+---
 
 ## 9. Open questions (defaults in brackets)
 

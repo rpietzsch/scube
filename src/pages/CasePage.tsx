@@ -5,20 +5,20 @@ import { caseById, algsFor } from '../data/cases';
 import { CubeWithMovement } from '../cube/CubeWithMovement';
 import { deriveState } from '../cube/derive';
 import { stageMask, stageKindFor } from '../cube/highlight';
-import { NotationLegend } from '../cube/NotationLegend';
-import { OrientationHint } from '../cube/OrientationHint';
+import { MoveGuideCell } from '../cube/MoveGuide';
+import { OrientationPicker } from '../cube/OrientationPicker';
 import { parseAlg } from '../cube/parser';
-import { useMastery, PHASE_ORDER } from '../store/mastery';
 import { useSettings } from '../store/settings';
+
+const WITH_ORIENTATION = ['f2lIntuitive', 'f2lAdvanced', 'f2lExpert', 'oll2look', 'ollFull', 'pll2look', 'pllFull'];
 
 export default function CasePage() {
   const { caseId = '' } = useParams();
   const { t } = useTranslation();
   const c = caseById(caseId);
   const algs = algsFor(caseId);
-  const mastery = useMastery((s) => s.byCase[caseId]);
-  const { visualAid: aid, topColor, frontColor } = useSettings();
-  const isOllPll = ['oll2look', 'ollFull', 'pll2look', 'pllFull'].includes(c?.stage ?? '');
+  const { visualAid: aid } = useSettings();
+  const showOrient = WITH_ORIENTATION.includes(c?.stage ?? '');
   const [showAlternates, setShowAlternates] = useState(false);
 
   if (!c) return <div className="p-4 text-ink-500">Case not found.</div>;
@@ -27,7 +27,6 @@ export default function CasePage() {
   const mask = aid ? stageMask(stageKindFor(c.stage)) : undefined;
   const primary = algs.find((a) => a.primary) ?? algs[0];
   const alternates = algs.filter((a) => a !== primary);
-  const phaseIdx = mastery ? PHASE_ORDER.indexOf(mastery.phase) : 0;
 
   return (
     <div className="p-4 space-y-5">
@@ -44,12 +43,13 @@ export default function CasePage() {
             ))}
           </div>
         )}
-        {isOllPll && (
-          <div className="mt-2">
-            <OrientationHint topColor={topColor} frontColor={frontColor} />
-          </div>
-        )}
       </header>
+
+      {showOrient && (
+        <div className="rounded-lg bg-ink-900 border border-ink-800 px-4 py-2">
+          <OrientationPicker />
+        </div>
+      )}
 
       {primary && (
         <section className="bg-ink-900 rounded-lg p-4 border border-ink-800">
@@ -61,42 +61,17 @@ export default function CasePage() {
         </section>
       )}
 
-      <section>
-        <h2 className="text-sm uppercase tracking-wider text-ink-500 mb-2">{t('case.mastery')}</h2>
-        <div className="flex gap-1">
-          {PHASE_ORDER.map((p, i) => (
-            <div
-              key={p}
-              className={`flex-1 h-1.5 rounded ${i <= phaseIdx ? 'bg-cube-F' : 'bg-ink-800'}`}
-              title={t(`lesson.${p}Phase`, { defaultValue: p })}
-            />
-          ))}
-        </div>
-      </section>
-
       {primary && (
-        <section className="bg-ink-900 rounded-lg p-4 border border-ink-800 space-y-3">
+        <section className="bg-ink-900 rounded-lg p-4 border border-ink-800 space-y-4">
           <h2 className="text-sm uppercase tracking-wider text-ink-500">{t('case.algorithm')}</h2>
-          <code className="block font-mono text-base text-cube-U bg-ink-950 p-3 rounded">{primary.notation}</code>
-          {primary.notesKey && <p className="text-sm text-ink-500">{t(primary.notesKey)}</p>}
-          <div className="flex gap-2 flex-wrap">
-            <Link
-              to={`/lesson/${c.id}`}
-              className="inline-block px-4 py-2 rounded bg-cube-F text-ink-950 font-semibold"
-            >
-              ▶ {t('case.openLesson')}
-            </Link>
-            <Link
-              to={`/compare?a=${c.id}`}
-              className="inline-block px-4 py-2 rounded bg-ink-800 text-ink-200 text-sm"
-            >
-              ⇄ {t('case.compare')}
-            </Link>
+          <div className="flex flex-wrap gap-4">
+            {parseAlg(primary.notation).map((m, i) => (
+              <MoveGuideCell key={i} move={m} size={64} labelClassName="text-base font-mono font-bold leading-none text-cube-U" />
+            ))}
           </div>
+          {primary.notesKey && <p className="text-sm text-ink-500">{t(primary.notesKey)}</p>}
         </section>
       )}
-
-      <NotationLegend alg={primary?.notation} />
 
       {alternates.length > 0 && (
         <section className="rounded-lg bg-ink-900 border border-ink-800 overflow-hidden">

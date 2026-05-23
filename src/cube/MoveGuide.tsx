@@ -273,9 +273,10 @@ function MoveArrows({ move }: { move: Move }) {
 interface MoveGuideCellProps {
   move: Move;
   size?: number;
+  labelClassName?: string;
 }
 
-export function MoveGuideCell({ move, size = 64 }: MoveGuideCellProps) {
+export function MoveGuideCell({ move, size = 64, labelClassName }: MoveGuideCellProps) {
   const label = formatMove(move);
   const upper = move.base.toUpperCase();
   const desc = MOVE_DESC[move.base] ?? MOVE_DESC[upper] ?? '';
@@ -297,7 +298,7 @@ export function MoveGuideCell({ move, size = 64 }: MoveGuideCellProps) {
           <MoveArrows move={move} />
         </g>
       </svg>
-      <span className="text-[11px] font-mono font-bold leading-none">{label}</span>
+      <span className={labelClassName ?? 'text-[11px] font-mono font-bold leading-none'}>{label}</span>
       {desc && <span className="text-[9px] opacity-50 leading-none">{desc}</span>}
     </div>
   );
