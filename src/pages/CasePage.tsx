@@ -10,7 +10,11 @@ import { OrientationPicker } from '../cube/OrientationPicker';
 import { parseAlg } from '../cube/parser';
 import { useSettings } from '../store/settings';
 
-const WITH_ORIENTATION = ['f2lIntuitive', 'f2lAdvanced', 'f2lExpert', 'oll2look', 'ollFull', 'pll2look', 'pllFull'];
+const WITH_ORIENTATION = [
+  'f2lIntuitive', 'f2lAdvanced', 'f2lExpert', 'oll2look', 'ollFull', 'pll2look', 'pllFull',
+  'beginnerMiddle', 'beginnerTopOrientation', 'beginnerTopPermutation',
+  'rouxBlock1', 'rouxBlock2', 'rouxCmll', 'rouxLse',
+];
 
 export default function CasePage() {
   const { caseId = '' } = useParams();

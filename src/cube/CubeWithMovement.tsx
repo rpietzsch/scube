@@ -31,32 +31,34 @@ interface Props {
  */
 export function CubeWithMovement({ state, alg, highlight, stage, cell = 22 }: Props) {
   const moves = useMemo(() => parseAlg(alg), [alg]);
-  const isF2L = stage.startsWith('f2l');
-  const isOLL  = stage.startsWith('oll');
-  const isPLL  = stage.startsWith('pll');
-  // F2L: F+R faces (green/red) + U centre stay dimmed for orientation context;
-  // U other stickers become visible grey; only moving pieces are fully bright.
-  // OLL/PLL keep the stage mask unchanged.
-  const effectiveHighlight = isF2L ? f2lContextMask() : highlight;
+  // isActualF2L: only true for stages that track the FR corner+edge pair.
+  // isF2LView:   also includes beginner/roux block stages that render as CubeIso.
+  const isActualF2L = stage.startsWith('f2l');
+  const isF2LView  = isActualF2L || stage === 'beginnerMiddle' || stage === 'rouxBlock1' || stage === 'rouxBlock2';
+  const isOLL  = stage.startsWith('oll') || stage === 'beginnerTopOrientation' || stage === 'rouxCmll';
+  const isPLL  = stage.startsWith('pll') || stage === 'beginnerTopPermutation' || stage === 'rouxLse';
+  // Isometric stages use the F2L context mask; OLL/PLL keep the stage mask.
+  const effectiveHighlight = isF2LView ? f2lContextMask() : highlight;
 
+  // Match movement.ts involvedMaskFor: only use f2lFrPieces for actual f2l* stages.
   const pieces = useMemo(
-    () => (isF2L ? f2lFrPieces(state) : piecesThatMove(state, moves)),
-    [state, moves, isF2L],
+    () => (isActualF2L ? f2lFrPieces(state) : piecesThatMove(state, moves)),
+    [state, moves, isActualF2L],
   );
   const involved = useMemo(() => {
     if (pieces.length === 0) return undefined;
     const m = new Array<boolean>(54).fill(false);
     for (const p of pieces) {
       for (const i of p.sources) m[i] = true;
-      if (!isF2L) for (const i of p.targets) m[i] = true;
+      if (!isActualF2L) for (const i of p.targets) m[i] = true;
     }
     return m;
-  }, [pieces, isF2L]);
+  }, [pieces, isActualF2L]);
 
-  // F2L: isometric 3D corner view.
+  // F2L-view: isometric 3D corner view.
   // OLL: top-down LL diagram, white = oriented / grey = not oriented.
   // PLL: top-down LL diagram with actual colours (permutation is colour-based).
-  const cubeEl = isF2L ? (
+  const cubeEl = isF2LView ? (
     <CubeIso
       state={state}
       cell={cell}

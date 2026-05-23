@@ -1,12 +1,22 @@
 export type Stage =
   | 'cross'
+  // Beginner LBL (layer-by-layer)
+  | 'beginnerMiddle'           // middle-layer edge inserts (2 algs)
+  | 'beginnerTopOrientation'   // top-layer edge + corner orientation (4 algs)
+  | 'beginnerTopPermutation'   // top-layer corner + edge permutation (2 algs)
+  // CFOP
   | 'f2lIntuitive'
   | 'f2lAdvanced'   // UI label: "F2L" — the standard 37 cases beyond the 4 basics
   | 'f2lExpert'     // UI label: "F2L · advanced" — cuberoot's 54 adv F2L cases
   | 'oll2look'
   | 'ollFull'
   | 'pll2look'
-  | 'pllFull';
+  | 'pllFull'
+  // Roux method
+  | 'rouxBlock1'   // first 1×2×3 block (left)
+  | 'rouxBlock2'   // second 1×2×3 block (right)
+  | 'rouxCmll'     // corners of the last layer
+  | 'rouxLse';     // last six edges
 
 export interface AlgAlternate {
   notation: string;

@@ -21,13 +21,20 @@
     "noNext": "All caught up — start a drill or browse the library.",
     "stage": {
       "cross": "Cross",
+      "beginnerMiddle": "Beginner · Middle layer",
+      "beginnerTopOrientation": "Beginner · Top orientation",
+      "beginnerTopPermutation": "Beginner · Top permutation",
       "f2lIntuitive": "F2L · intuitive",
       "f2lAdvanced": "F2L",
       "f2lExpert": "F2L · advanced",
       "oll2look": "OLL · 2-Look",
       "ollFull": "OLL · Full",
       "pll2look": "PLL · 2-Look",
-      "pllFull": "PLL · Full"
+      "pllFull": "PLL · Full",
+      "rouxBlock1": "Roux · Block 1",
+      "rouxBlock2": "Roux · Block 2",
+      "rouxCmll": "Roux · CMLL",
+      "rouxLse": "Roux · LSE"
     },
     "count": "{{done}}/{{total}}",
     "comingSoon": "Coming in a later milestone.",
@@ -171,6 +178,8 @@
     "suffixes": "No suffix = quarter turn clockwise (when looking at that face). An apostrophe (’) means counter-clockwise. A 2 means a half-turn. Lower-case letters are wide turns (face + adjacent slice). M/E/S are middle-slice turns; x/y/z rotate the whole cube."
   },
   "tags": {
+    "edgeColorFront": "top edge matches front centre",
+    "edgeColorLeft": "top edge matches left centre",
     "pairJoinedTop": "pair joined in top",
     "pairSplitTop": "pair split in top",
     "pairStuckSlot": "piece stuck in slot",
@@ -223,7 +232,16 @@
     "yPerm": { "desc": "Diagonal corner swap." },
     "f2lJoined": { "desc": "Corner and edge are joined in the top layer, sitting next to each other and ready to be inserted into their empty slot." },
     "f2lSplit": { "desc": "Corner and edge are both in the top layer, but separated — first bring them together with a U-move, then insert." },
-    "f2lStuck": { "desc": "A pair piece is already wedged into the slot, but in the wrong place. Pop it out first, then re-insert as a joined or split case." }
+    "f2lStuck": { "desc": "A pair piece is already wedged into the slot, but in the wrong place. Pop it out first, then re-insert as a joined or split case." },
+    "begMidRight": { "desc": "The top-layer edge's front colour matches the front centre. Execute the right insert to place it in the FR middle slot." },
+    "begMidLeft": { "desc": "The top-layer edge's front colour matches the left centre. Execute the left insert to place it in the FL middle slot." },
+    "begSune": { "desc": "Apply Sune, then rotate the top layer with U until a new corner shows its top colour on a side face, and repeat until all four top corners are oriented." },
+    "rouxB1Pair": { "desc": "Corner and edge are together above the target slot. Insert the pair into the left block." },
+    "rouxB1Split": { "desc": "Corner and edge are separated. Bring them together with a U-move, then insert." },
+    "rouxB2Pair": { "desc": "Corner and edge are together above the target slot. Insert into the right block without disturbing the left block." },
+    "rouxB2Split": { "desc": "Corner and edge are separated. Bring them together, then insert into the right block." },
+    "rouxLseArrow": { "desc": "One edge on top is misoriented (the 'bad' edge points away from the M-slice). Apply M U2 M (or mirror) to flip it." },
+    "rouxLseCycle": { "desc": "All edges are oriented (EO done) but the U-layer edges need cycling. Apply the alg to complete LSE." }
   },
   "algs": {
     "eoDot": { "notes": "Two-shot: first fix one edge, then the rest." }

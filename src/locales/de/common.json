@@ -21,13 +21,20 @@
     "noNext": "Alles erledigt — starte ein Drill oder schau in die Bibliothek.",
     "stage": {
       "cross": "Kreuz",
+      "beginnerMiddle": "Anfänger · Mittelebene",
+      "beginnerTopOrientation": "Anfänger · Oberseite orientieren",
+      "beginnerTopPermutation": "Anfänger · Oberseite permutieren",
       "f2lIntuitive": "F2L · intuitiv",
       "f2lAdvanced": "F2L",
       "f2lExpert": "F2L · fortgeschritten",
       "oll2look": "OLL · 2-Look",
       "ollFull": "OLL · Voll",
       "pll2look": "PLL · 2-Look",
-      "pllFull": "PLL · Voll"
+      "pllFull": "PLL · Voll",
+      "rouxBlock1": "Roux · Block 1",
+      "rouxBlock2": "Roux · Block 2",
+      "rouxCmll": "Roux · CMLL",
+      "rouxLse": "Roux · LSE"
     },
     "count": "{{done}}/{{total}}",
     "comingSoon": "Folgt in einem späteren Meilenstein.",
@@ -171,6 +178,8 @@
     "suffixes": "Ohne Zusatz = Vierteldrehung im Uhrzeigersinn (aus Sicht dieser Seite). Apostroph (’) = gegen den Uhrzeigersinn. 2 = halbe Drehung. Kleinbuchstaben sind „weite“ Drehungen (Seite + angrenzende Schicht). M/E/S sind Mittelschichten; x/y/z drehen den ganzen Würfel."
   },
   "tags": {
+    "edgeColorFront": "Kantenfabe passt zur vorderen Mitte",
+    "edgeColorLeft": "Kantenfarbe passt zur linken Mitte",
     "pairJoinedTop": "Paar oben verbunden",
     "pairSplitTop": "Paar oben getrennt",
     "pairStuckSlot": "Teil im Slot festgeklemmt",
@@ -223,7 +232,16 @@
     "yPerm": { "desc": "Diagonaler Ecken-Tausch." },
     "f2lJoined": { "desc": "Ecke und Kante liegen oben nebeneinander — das verbundene Paar wartet darauf, in den leeren Slot eingefügt zu werden." },
     "f2lSplit": { "desc": "Ecke und Kante sind beide oben, aber getrennt — erst mit einem U-Zug zusammenbringen, dann einsetzen." },
-    "f2lStuck": { "desc": "Ein Teil steckt schon im Slot, aber falsch. Erst herausholen, dann als verbundenes oder getrenntes Paar lösen." }
+    "f2lStuck": { "desc": "Ein Teil steckt schon im Slot, aber falsch. Erst herausholen, dann als verbundenes oder getrenntes Paar lösen." },
+    "begMidRight": { "desc": "Die Kantenfarbe auf der Oberseite passt zur vorderen Mitte. Rechts einfügen, um die Kante in den rechten Mittelslot zu bringen." },
+    "begMidLeft": { "desc": "Die Kantenfarbe auf der Oberseite passt zur linken Mitte. Links einfügen, um die Kante in den linken Mittelslot zu bringen." },
+    "begSune": { "desc": "Sune ausführen, dann die Oberseite mit U drehen, bis eine neue Ecke ihre Farbe seitlich zeigt — wiederholen, bis alle vier Ecken gelb oben haben." },
+    "rouxB1Pair": { "desc": "Ecke und Kante sind über dem Zielslot verbunden. Paar in den linken Block einsetzen." },
+    "rouxB1Split": { "desc": "Ecke und Kante sind getrennt. Mit einem U-Zug zusammenbringen, dann einsetzen." },
+    "rouxB2Pair": { "desc": "Ecke und Kante sind über dem Zielslot verbunden. In den rechten Block einsetzen, ohne den linken zu stören." },
+    "rouxB2Split": { "desc": "Ecke und Kante sind getrennt. Zusammenbringen, dann in den rechten Block einsetzen." },
+    "rouxLseArrow": { "desc": "Eine Kante auf der Oberseite ist falsch orientiert (Pfeil). M U2 M (oder gespiegelt) zum Umdrehen." },
+    "rouxLseCycle": { "desc": "Alle Kanten orientiert (EO fertig), aber die Oberkanten müssen rotiert werden. Algorithmus ausführen." }
   },
   "algs": {
     "eoDot": { "notes": "Zweistufig: erst eine Kante richten, dann den Rest." }

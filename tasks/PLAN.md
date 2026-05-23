@@ -1,14 +1,34 @@
-# scube — CFOP Tutor (PWA)
+# scube — Speedcubing Tutor (PWA)
 
-A Progressive Web App that teaches the **CFOP** speedcubing method (Cross → F2L → OLL → PLL) along a clear progression ladder, from absolute beginner to full one-look last layer.
+A Progressive Web App that teaches multiple speedcubing methods — from the **beginner layer-by-layer (LBL)** approach through full **CFOP** and the block-building **Roux** method — along clear progression ladders.
 
 scube is a **tutor**, not a timer: speed metrics exist only to confirm an algorithm has stuck, not as the primary loop.
 
 ---
 
-## 1. The CFOP ladder
+## 1. Methods and ladders
 
-scube models progress as a fixed ladder. Each stage has a "starter" form (small, learnable in a weekend) and a "full" form (the speedcubing standard).
+scube teaches three methods. Each has its own library section; learners can follow any one independently.
+
+### 1a. Beginner Layer-by-Layer (LBL)
+
+The universal entry point — solve one layer at a time, top to bottom. ~6 algorithms total. Learnable in an afternoon.
+
+| # | Step | How |
+|---|------|-----|
+| 1 | **White Cross** | Intuitive — place four white-edge pieces correctly |
+| 2 | **First-Layer Corners** | Intuitive — slot white corners into the bottom layer |
+| 3 | **Middle-Layer Edges** | Two mirror algorithms (Right Insert / Left Insert) |
+| 4 | **Top-Layer Orientation** | 4 algs: edge-line `F R U R' U' F'`, edge-L `f R U R' U' f'`, Sune, Anti-Sune |
+| 5 | **Top-Layer Permutation** | 2 algs: corner-cycle + edge-cycle |
+
+Total: **6 algorithms** (steps 1–2 intuitive, steps 3–5 algorithmic).
+
+Sources: [SpeedCube.com.au 5-step guide](https://de.speedcube.com.au/de/pages/how-to-solve-a-rubiks-cube) · [SpeedcubeDB beginner](https://speedcubedb.com/beginner) (SpeedcubeDB notation preferred — provides actual move strings vs. diagrams-only on speedcube.com.au).
+
+### 1b. The CFOP ladder
+
+scube models CFOP progress as a fixed ladder. Each stage has a "starter" form (small, learnable in a weekend) and a "full" form (the speedcubing standard).
 
 | # | Stage | Starter | Full |
 |---|-------|---------|------|
@@ -19,10 +39,28 @@ scube models progress as a fixed ladder. Each stage has a "starter" form (small,
 
 Total path: a few algs to start solving CFOP-style → **10 + 6 = 16 algs to "respectable CFOP"** → **41 F2L + 57 OLL + 21 PLL = 119 algs for full CFOP**.
 
+### 1c. Roux Method
+
+Block-building approach — highly intuitive, fewer algorithms than CFOP, popular among solvers who prefer spatial thinking over memorisation.
+
+| # | Step | How |
+|---|------|-----|
+| 1 | **First 1×2×3 Block** | Intuitive block-build on one side (left) |
+| 2 | **Second 1×2×3 Block** | Intuitive block-build on the opposite side (right) — leaves a 2×3 column on top |
+| 3 | **CMLL** (Corners of the Last Layer) | ~42 algorithms — the most algorithm-heavy step |
+| 4 | **LSE** (Last Six Edges) | Mostly intuitive M-slice manipulation; a handful of edge-case algs |
+
+Average solve: ~50 STM (vs. CFOP's ~55–60). CMLL can be learned in a reduced subset (e.g. orient-then-permute) similar to 2-Look OLL/PLL, reducing initial alg load to ~10–15.
+
+Sources: [Wikipedia — Roux-Methode](https://de.wikipedia.org/wiki/Methoden_zum_L%C3%B6sen_des_Zauberw%C3%BCrfels#Roux-Methode)
+
+---
+
 References used for content seeding (with attribution):
 - Cubelelo — CFOP from beginner to advanced
-- Wikipedia — CFOP method
-- SpeedCube.com.au — PLL algorithms
+- Wikipedia — CFOP method, Roux method
+- SpeedCube.com.au — PLL algorithms, 5-step beginner guide
+- SpeedcubeDB — beginner method with notation
 - Cube Academy — 3×3 algorithms overview
 
 ## 2. Product principles
@@ -34,6 +72,63 @@ References used for content seeding (with attribution):
 - **Promote when ready, never gate harshly.** The Library is browsable at any time; the Path simply suggests the next lesson.
 
 ## 3. Stage detail
+
+### Beginner LBL
+
+Steps 1 and 2 (white cross, first-layer corners) are handled by the existing **Cross** stage — no new data needed. New content covers steps 3–5.
+
+#### Step 3 — Middle Layer Edges (`beginnerMiddle`)
+- **Lesson**: "Look at the top-layer edges; find one with no yellow. Align it above the matching centre, then use one of two inserts."
+- **Algs** (2):
+  - Right insert: `U R U' R' U' F' U F`
+  - Left insert (mirror): `U' L' U L U F U' F'`
+- **Recognition**: top-layer edge colour matches a side centre → pick left or right variant.
+
+#### Step 4 — Top-Layer Orientation (`beginnerTopOrientation`)
+- **Lesson**: "Get all yellow pieces facing up in two sub-steps: edges first, then corners."
+- **Algs** (4):
+  - Edge-line (headlights): `F R U R' U' F'`
+  - Edge-L shape: `f R U R' U' f'`
+  - Sune (corners CW): `R U R' U R U2 R'`
+  - Anti-Sune (corners CCW): `R U2 R' U' R U' R'`
+- **Sub-steps**: (a) make yellow cross on top using edge algs until line or L → yellow cross; (b) orient corners using Sune/Anti-Sune until all yellow up.
+
+#### Step 5 — Top-Layer Permutation (`beginnerTopPermutation`)
+- **Lesson**: "All yellow faces up; now move pieces to the right positions."
+- **Algs** (2):
+  - Corner cycle: `R U R' U' R' F R2 U' R' U' R U R' F'`
+  - Edge cycle (U-perm-like): `R2 U R U R' U' R' U' R' U R'`
+- **Sub-steps**: (a) cycle corners until all are in correct position (rotation may differ); (b) cycle edges until solved.
+
+---
+
+### Roux
+
+#### Stage 1 — First Block (`rouxBlock1`)
+- **Lesson**: Build a 1×2×3 block on the left side. No algorithms — pure block-building intuition.
+- **Drills**: given a scramble, find and place the left block in ≤ N moves.
+- **Algs**: none (intuitive).
+
+#### Stage 2 — Second Block (`rouxBlock2`)
+- **Lesson**: Build the second 1×2×3 block on the right side without disturbing the first. Uses only R and U moves; intuitive.
+- **Drills**: given a partial cube (block 1 done), place block 2.
+- **Algs**: none (intuitive).
+
+#### Stage 3 — CMLL (`rouxCmll`)
+- **Lesson**: All four UR/UL corners must be solved (oriented + permuted) in one look. Similar recognition to OLL/PLL corners but with 6 permutation variants × 7 orientation cases = 42 cases.
+- **Starter set**: 2-look CMLL (orient then permute separately) — reduces to ~10 algs.
+- **Full set**: 42 algs (one-look CMLL), organised by recognition group (same visual language as OLL).
+- **Data model**: each `CaseData` carries `stage: 'rouxCmll'`; thumbnails show UF/UB edge gaps (not solved).
+
+#### Stage 4 — LSE (Last Six Edges) (`rouxLse`)
+- **Lesson**: Solve the remaining six edges (UF, UB, DF, DB, LF, RB are already done by blocks) and centre pieces using only M and U moves.
+- **Sub-steps**:
+  1. **EO** (Edge Orientation) — orient all edges so they can be solved without M' moves. Pure inspection + M/U intuition; no fixed algs but a handful of common patterns.
+  2. **ULUR** (Solve UL + UR edges) — insert the two top-layer side edges into their slots.
+  3. **4c** (Last four edges: UF, UB, DF, DB) — permute via M U2 M' patterns; fully algorithmic but only a few cases.
+- **Algs**: ~5–8 4c patterns; rest intuitive.
+
+---
 
 ### Cross
 - **Lesson content**: efficient cross planning, edge orientation awareness, why colour-neutral matters, "look-ahead to first F2L pair".
@@ -162,6 +257,8 @@ scube is a fully client-side PWA, so GitHub Pages (static + HTTPS) is sufficient
 | M7 | Full Advanced F2L (~46 cases) grouped by speedsolving wiki categories · alternate-algorithm slot on Case Detail · grouped Library sections · ergonomics tag vocabulary | v1 advanced complete | ✅ done |
 | M8 | cuberoot.me alignment: 3-stage F2L · `f2lExpert` stage + nav · cuberoot code labels for 6 exact-alg matches · 33 cuberoot codes documented · cross-alg equivalence test refuted cuberoot's alternates · colour convention D=yellow | structural alignment + label pass | 🟡 partial (structural + 6 label matches ✅; full 41-case remap requires case-state matching ⏭; cuberoot "alternates" rejected as non-equivalent) |
 | M9 | Library-first redesign: remove Path tab · Settings → cogwheel · sticky Hold bar · simplified case detail (no Mastery, no Open Lesson, no Compare; algo + orientation together) | Cleaner, library-centric UX | ✅ done |
+| M10 | **Beginner LBL** section — new Library tab "Beginner" between Cross and F2L · 3 new stages (`beginnerMiddle`, `beginnerTopOrientation`, `beginnerTopPermutation`) · 8 cases total (2+4+2) · EN+DE strings · notation legend on each case | Absolute beginners can solve the cube end-to-end from the app | ✅ done |
+| M11 | **Roux Method** section — new Library tab "Roux" after PLL · 4 stages (`rouxBlock1`, `rouxBlock2`, `rouxCmll`, `rouxLse`) · 2 illustrative block cases each + 7 CMLL orientation + 4 LSE patterns · EN+DE strings | Alternative method for spatial/intuitive learners | ✅ done |
 | post | Manual state entry · curated alternate algs sourced from cuberoot (41 + 54 with `A+/A-/B+/B-…` codes) · 3D playback (react-three-fiber) · X-cross · OH-specific algs · cross-colour neutrality coach · smart-cube BLE · cloud sync | v1.x | pending |
 
 ### M0–M3 deltas worth noting
@@ -372,6 +469,139 @@ The M6 ship leaves Advanced F2L at a starter set of 8 cases and exposes only the
 - **Advanced F2L scope**: 8 representative cases (one per shape family + a couple of standard sledgehammer/hedgeslammer/extract-reinsert patterns). Full 41-case set deferred to v1.x because each case ideally wants 2–3 alg variants and detailed recognition tags, and pedagogically v1 already covers the route from beginner to full one-look OLL/PLL.
 - **Manual state entry**: deferred to v1.x. Requires a painted-cube UI (palette, tap-to-flip) plus a normalising state→case-id recogniser; both are non-trivial and don't gate the core teach-by-stage experience.
 - **A11y / polish (light pass)**: `lang` updates on language change, `aria-label`s on SVG cube nets, semantic `<figure>/<figcaption>` for before/after, keyboard-reachable nav. Deeper a11y (full keyboard play in `CubePlayback`, screen-reader move announcements) is post-v1.
+
+---
+
+## M10 — Beginner Layer-by-Layer (LBL) section (proposed)
+
+### Goal
+
+Give absolute beginners a complete solve path before they touch CFOP. 6 algorithms, no prerequisites beyond knowing what a Rubik's cube is. Fits in the Library as a new tab **"Beginner"** placed between Cross and F2L.
+
+### Why a separate section, not part of Cross
+
+The Cross stage already teaches the white cross (LBL step 1). LBL steps 2–5 cover corner insertion, middle edges, and the last layer — topics that overlap awkwardly with CFOP stages but differ in method. Keeping them in a dedicated "Beginner" tab makes the distinction clear: **start here, then graduate to CFOP**.
+
+### New stages
+
+| Stage ID | LBL step | Content | Alg count |
+|----------|----------|---------|-----------|
+| `beginnerMiddle` | Step 3 — Middle edges | Right insert + Left insert | 2 |
+| `beginnerTopOrientation` | Step 4 — Top orientation | Edge-line, edge-L, Sune, Anti-Sune | 4 |
+| `beginnerTopPermutation` | Step 5 — Top permutation | Corner cycle + edge cycle | 2 |
+
+### Algorithms (sourced from SpeedcubeDB — notation verified)
+
+| Case | Alg |
+|------|-----|
+| Middle-right insert | `U R U' R' U' F' U F` |
+| Middle-left insert | `U' L' U L U F U' F'` |
+| Top edge — line | `F R U R' U' F'` |
+| Top edge — L | `f R U R' U' f'` |
+| Top corners — Sune | `R U R' U R U2 R'` |
+| Top corners — Anti-Sune | `R U2 R' U' R U' R'` |
+| Top corner cycle | `R U R' U' R' F R2 U' R' U' R U R' F'` |
+| Top edge cycle | `R2 U R U R' U' R' U' R' U R'` |
+
+Note: Sune and Anti-Sune are reused from 2-Look OLL — no new data needed, just reference the existing case IDs with a `beginner` scope tag.
+
+### Library UI changes
+
+- Add **"Beginner"** tab to the Library bar (position: after Cross, before F2L).
+- New `Tab` value: `'beginner'`.
+- Sections within the tab:
+  - Beginner · Middle layer (2 cases, flat grid)
+  - Beginner · Top orientation (4 cases, flat grid)
+  - Beginner · Top permutation (2 cases, flat grid)
+- No OrientationPicker needed (beginner method uses white-on-top / green-front convention; could hard-code or just omit the hold bar).
+
+### Data model
+
+- Three new `Stage` values: `beginnerMiddle`, `beginnerTopOrientation`, `beginnerTopPermutation`.
+- Each case carries `stage`, `name`, `solve` alg (verified via `task test:cube`), `context` (solved cube), and basic `recognitionTagKeys`.
+- No `group` field needed (each stage is a single flat section).
+
+### Translation keys to add
+
+- `path.stage.beginnerMiddle`, `…beginnerTopOrientation`, `…beginnerTopPermutation`
+- `path.tabLabel.beginner` (tab bar label)
+- Case names + description keys per the existing pattern.
+
+### Risks / open questions
+
+| # | Question | Default |
+|---|----------|---------|
+| 1 | Should steps 1–2 (cross + corners) be shown as read-only reference cards in the Beginner tab, linking to the existing Cross stage? | Yes — two non-algorithmic prose cards at the top |
+| 2 | Does the beginner tab need its own drill mode, or reuse the existing drill system? | Reuse — `drillStage: 'beginnerTopOrientation'` etc. works as-is |
+| 3 | Should Sune / Anti-Sune in `beginnerTopOrientation` be separate case records or soft-links to the OLL cases? | Separate records in `beginnerTopOrientation` stage — simpler data, avoids cross-stage dependencies |
+
+---
+
+## M11 — Roux Method section (proposed)
+
+### Goal
+
+Add a complete Roux method track to the Library as a new tab **"Roux"** placed after PLL. Targets learners who prefer spatial thinking over algorithm memorisation.
+
+### Why Roux is a good second method to add
+
+- Second most popular competitive method after CFOP.
+- Shares no algorithmic content with CFOP (CMLL is distinct from OLL/PLL) — minimal reuse risk.
+- Block-building stages are intuitive → fits the app's "recognition first" principle.
+- Average solve is ~50 STM vs. CFOP's ~55–60 — efficient enough to motivate advanced learners.
+
+### New stages
+
+| Stage ID | Roux step | Content | Alg count |
+|----------|-----------|---------|-----------|
+| `rouxBlock1` | First 1×2×3 block (left) | Prose lesson — no algs | 0 |
+| `rouxBlock2` | Second 1×2×3 block (right) | Prose lesson — no algs | 0 |
+| `rouxCmll` | Corners of Last Layer | 2-look starter: ~10 algs; Full: 42 algs | 10 / 42 |
+| `rouxLse` | Last Six Edges (EO + ULUR + 4c) | ~6 4c pattern algs; rest prose | ~6 |
+
+### CMLL staging
+
+CMLL has 42 cases organised by 7 orientation groups × 6 permutation cases. A 2-look approach (orient first using a Sune-like subset, then permute) reduces initial load to ~10 algs — a reasonable starter. Full CMLL is the expert upgrade, mirroring the OLL 2-look → Full pattern already in the app.
+
+| CMLL scope | Cases | Approach |
+|------------|-------|----------|
+| Starter ("2-look CMLL") | ~10 | Orient corners (subset of CMLL-O) then permute with cycle alg |
+| Full CMLL | 42 | One-look recognition by orientation + permutation group |
+
+### LSE breakdown
+
+LSE uses only M and U moves (M, M', M2, U, U', U2). Three sub-steps:
+1. **EO** — orient all 6 remaining edges so M-moves don't flip them. ~4 patterns; rest intuitive inspection.
+2. **ULUR** — place UL and UR edges. Intuitive with M/U.
+3. **4c** — solve UF/UB/DF/DB. ~6 distinct cases (including skip); all short M-U sequences.
+
+### Library UI changes
+
+- Add **"Roux"** tab to the Library bar (position: after PLL).
+- New `Tab` value: `'roux'`.
+- Sections within the tab:
+  - Roux · First block (prose cards, no case grid)
+  - Roux · Second block (prose cards)
+  - Roux · CMLL — 2-look (case grid, ~10 cases)
+  - Roux · CMLL — Full (case grid, 42 cases)
+  - Roux · LSE (case grid, ~6 cases)
+- OrientationPicker: yes (CMLL and LSE visualisations need cube orientation context).
+
+### Visualisation notes
+
+- **Block stages**: no case grid; show a 3D isometric diagram of the target block shape (similar to F2L iso view), plus prose steps.
+- **CMLL**: last-layer thumbnail (same renderer as OLL/PLL) — the two unsolved edge columns (UF/UB) are simply not in the mask.
+- **LSE**: the cube state is partially solved — only U face + M-slice edges matter. A custom "LSE view" (top-down + M-slice strip) may be needed, or reuse the existing CubeNet with a custom mask.
+
+### Risks / open questions
+
+| # | Question | Default |
+|---|----------|---------|
+| 1 | CMLL thumbnail: should unsolved UF/UB positions be shown as grey or hidden? | Grey (same dimming treatment as F2L's non-FR pieces) |
+| 2 | LSE visualisation: reuse CubeNet with custom mask or build a dedicated view? | Reuse CubeNet first; build dedicated view only if it looks confusing in testing |
+| 3 | Should rouxBlock1/2 have any algorithm cases at all, or be pure prose? | Pure prose lessons only — drills are not useful at this stage |
+| 4 | Source for CMLL algorithms? | speedsolving.com wiki CMLL page; verify all 42 via `task test:cube` |
+| 5 | 2-look CMLL starter: which 10 algs? | CMLL orientation set (7 cases) + one adjacents-swap + one diagonal-swap + one skip = 9–10 cases |
 
 ---
 

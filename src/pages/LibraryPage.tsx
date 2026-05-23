@@ -12,19 +12,25 @@ import { useSettings } from '../store/settings';
 import { OrientationPicker } from '../cube/OrientationPicker';
 import { OrientationHint } from '../cube/OrientationHint';
 
-type Tab = 'cross' | 'f2l' | 'oll' | 'pll';
-const TABS: Tab[] = ['cross', 'f2l', 'oll', 'pll'];
-const TAB_LABEL: Record<Tab, string> = { cross: 'Cross', f2l: 'F2L', oll: 'OLL', pll: 'PLL' };
+type Tab = 'cross' | 'beginner' | 'f2l' | 'oll' | 'pll' | 'roux';
+const TABS: Tab[] = ['cross', 'beginner', 'f2l', 'oll', 'pll', 'roux'];
+const TAB_LABEL: Record<Tab, string> = { cross: 'Cross', beginner: 'Beginner', f2l: 'F2L', oll: 'OLL', pll: 'PLL', roux: 'Roux' };
 
-const WITH_ORIENTATION: Stage[] = ['f2lIntuitive', 'f2lAdvanced', 'f2lExpert', 'oll2look', 'ollFull', 'pll2look', 'pllFull'];
+const WITH_ORIENTATION: Stage[] = [
+  'f2lIntuitive', 'f2lAdvanced', 'f2lExpert', 'oll2look', 'ollFull', 'pll2look', 'pllFull',
+  'beginnerMiddle', 'beginnerTopOrientation', 'beginnerTopPermutation',
+  'rouxBlock1', 'rouxBlock2', 'rouxCmll', 'rouxLse',
+];
 
 interface Section { header: string; cases: CaseData[]; drillStage: Stage }
 
 function toTab(splat: string): Tab {
   if ((TABS as string[]).includes(splat)) return splat as Tab;
+  if (splat.startsWith('beginner')) return 'beginner';
   if (splat.startsWith('f2l')) return 'f2l';
   if (splat.startsWith('oll')) return 'oll';
   if (splat.startsWith('pll')) return 'pll';
+  if (splat.startsWith('roux')) return 'roux';
   return 'oll';
 }
 
@@ -41,6 +47,13 @@ export default function LibraryPage() {
     if (tab === 'cross') {
       const cases = casesByStage('cross');
       return cases.length ? [{ header: 'Cross', cases, drillStage: 'cross' as Stage }] : [];
+    }
+    if (tab === 'beginner') {
+      return ([
+        { header: 'Beginner · Middle layer',      cases: casesByStage('beginnerMiddle'),          drillStage: 'beginnerMiddle'          as Stage },
+        { header: 'Beginner · Top orientation',   cases: casesByStage('beginnerTopOrientation'),  drillStage: 'beginnerTopOrientation'  as Stage },
+        { header: 'Beginner · Top permutation',   cases: casesByStage('beginnerTopPermutation'),  drillStage: 'beginnerTopPermutation'  as Stage },
+      ] as Section[]).filter((s) => s.cases.length > 0);
     }
     if (tab === 'f2l') {
       const result: Section[] = [];
@@ -73,10 +86,18 @@ export default function LibraryPage() {
         { header: 'OLL · Full',   cases: casesByStage('ollFull'),  drillStage: 'ollFull'  as Stage },
       ] as Section[]).filter((s) => s.cases.length > 0);
     }
-    // pll
+    if (tab === 'pll') {
+      return ([
+        { header: 'PLL · 2-Look', cases: casesByStage('pll2look'), drillStage: 'pll2look' as Stage },
+        { header: 'PLL · Full',   cases: casesByStage('pllFull'),  drillStage: 'pllFull'  as Stage },
+      ] as Section[]).filter((s) => s.cases.length > 0);
+    }
+    // roux
     return ([
-      { header: 'PLL · 2-Look', cases: casesByStage('pll2look'), drillStage: 'pll2look' as Stage },
-      { header: 'PLL · Full',   cases: casesByStage('pllFull'),  drillStage: 'pllFull'  as Stage },
+      { header: 'Roux · Block 1', cases: casesByStage('rouxBlock1'), drillStage: 'rouxBlock1' as Stage },
+      { header: 'Roux · Block 2', cases: casesByStage('rouxBlock2'), drillStage: 'rouxBlock2' as Stage },
+      { header: 'Roux · CMLL',    cases: casesByStage('rouxCmll'),   drillStage: 'rouxCmll'   as Stage },
+      { header: 'Roux · LSE',     cases: casesByStage('rouxLse'),    drillStage: 'rouxLse'    as Stage },
     ] as Section[]).filter((s) => s.cases.length > 0);
   })();
 

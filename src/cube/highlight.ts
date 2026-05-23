@@ -11,6 +11,12 @@ export type StageKind = 'cross' | 'f2l' | 'oll' | 'pll';
 /** Map a `Stage` (data type) to the visual stage kind. */
 export function stageKindFor(stage: string): StageKind {
   if (stage === 'cross') return 'cross';
+  if (stage === 'beginnerMiddle') return 'f2l';
+  if (stage === 'beginnerTopOrientation') return 'oll';
+  if (stage === 'beginnerTopPermutation') return 'pll';
+  if (stage === 'rouxBlock1' || stage === 'rouxBlock2') return 'f2l';
+  if (stage === 'rouxCmll') return 'oll';
+  if (stage === 'rouxLse') return 'pll';
   if (stage.startsWith('f2l')) return 'f2l';
   if (stage.startsWith('oll')) return 'oll';
   if (stage.startsWith('pll')) return 'pll';

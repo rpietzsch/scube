@@ -3,6 +3,8 @@ import { OLL_FULL_CASES } from './oll-full';
 import { PLL_FULL_CASES } from './pll-full';
 import { F2L_ADVANCED_CASES, F2L_ADVANCED_GROUP_ORDER } from './f2l-advanced';
 import { F2L_EXPERT_CASES, F2L_EXPERT_GROUP_ORDER } from './f2l-expert';
+import { BEGINNER_CASES } from './beginner';
+import { ROUX_CASES } from './roux';
 
 // === Cross & F2L (intuitive) — prose lessons with illustrative examples ===
 export const LESSONS: LessonData[] = [
@@ -80,6 +82,12 @@ export const CASES: CaseData[] = [
   ...F2L_ADVANCED_CASES,
   // === F2L Expert (placeholder ≈5 cases; full 54 pending cuberoot sourcing) — M8 ===
   ...F2L_EXPERT_CASES,
+
+  // === Beginner LBL (8 cases: middle insert + top orient + top perm) — M10 ===
+  ...BEGINNER_CASES,
+
+  // === Roux method (14 cases: blocks + CMLL + LSE) — M11 ===
+  ...ROUX_CASES,
 ];
 
 // Primary alg (rank 1) is derived from `case.solve`; any `case.alternates`
