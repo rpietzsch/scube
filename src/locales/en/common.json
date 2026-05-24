@@ -188,6 +188,8 @@
     "lineHorizontal": "line across top",
     "lShape": "L of oriented edges",
     "oneCornerOriented": "one corner already oriented",
+    "noCross": "no yellow cross yet",
+    "edgesNotPlaced": "cross done, edges not in place",
     "opposites": "two opposite corners oriented",
     "barTwoCorners": "two adjacent corners oriented",
     "diagonal": "diagonal pair oriented",
@@ -254,7 +256,8 @@
     "begFcTop": { "desc": "The bottom-face sticker faces upward. Apply R U2 R' U' R U R' to insert the corner." },
     "begMidRight": { "desc": "The top-layer edge's front colour matches the front centre. Execute the right insert to place it in the FR middle slot." },
     "begMidLeft": { "desc": "The top-layer edge's front colour matches the left centre. Execute the left insert to place it in the FL middle slot." },
-    "begSune": { "desc": "Apply Sune, then rotate the top layer with U until a new corner shows its top colour on a side face, and repeat until all four top corners are oriented." },
+    "begTopCross": { "desc": "Repeat F R U R' U' F', rotating the top layer (U) between attempts, until a yellow cross appears on top." },
+    "begTopEdgeSwap": { "desc": "Yellow cross is done. Rotate the top so two correctly placed edges are at B and R, then apply the algorithm. If two correct edges are opposite each other, apply once first, then rotate and apply again." },
     "rouxB1Pair": { "desc": "Corner and edge are together above the target slot. Insert the pair into the left block." },
     "rouxB1Split": { "desc": "Corner and edge are separated. Bring them together with a U-move, then insert." },
     "rouxB2Pair": { "desc": "Corner and edge are together above the target slot. Insert into the right block without disturbing the left block." },
@@ -262,7 +265,5 @@
     "rouxLseArrow": { "desc": "One edge on top is misoriented (the 'bad' edge points away from the M-slice). Apply M U2 M (or mirror) to flip it." },
     "rouxLseCycle": { "desc": "All edges are oriented (EO done) but the U-layer edges need cycling. Apply the alg to complete LSE." }
   },
-  "algs": {
-    "eoDot": { "notes": "Two-shot: first fix one edge, then the rest." }
-  }
+  "algs": {}
 }

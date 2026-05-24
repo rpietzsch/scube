@@ -70,43 +70,26 @@ export const BEGINNER_CASES: CaseData[] = [
   },
 
   // ============================================================
-  // STEP 4 · Top-layer orientation — 3 edge cases + 1 corner alg (4)
+  // STEP 4 · Top-layer — make yellow cross, then place edges (2)
+  // Source: speedcube.com.au #step4
   // ============================================================
   {
-    id: 'beg-top-dot',
+    id: 'beg-top-cross',
     stage: 'beginnerTopOrientation',
-    group: 'edgeCross',
-    name: 'Dot',
-    descriptionKey: 'cases.eoDot.desc',
-    recognitionTagKeys: ['tags.noEdgesOriented'],
-    solve: "F R U R' U' F' f R U R' U' f'",
-  },
-  {
-    id: 'beg-top-line',
-    stage: 'beginnerTopOrientation',
-    group: 'edgeCross',
-    name: 'Line',
-    descriptionKey: 'cases.eoLine.desc',
-    recognitionTagKeys: ['tags.lineHorizontal'],
+    group: 'yellowCross',
+    name: 'Yellow Cross',
+    descriptionKey: 'cases.begTopCross.desc',
+    recognitionTagKeys: ['tags.noCross'],
     solve: "F R U R' U' F'",
   },
   {
-    id: 'beg-top-lshape',
+    id: 'beg-top-edgeswap',
     stage: 'beginnerTopOrientation',
-    group: 'edgeCross',
-    name: 'L-shape',
-    descriptionKey: 'cases.eoL.desc',
-    recognitionTagKeys: ['tags.lShape'],
-    solve: "f R U R' U' f'",
-  },
-  {
-    id: 'beg-top-sune',
-    stage: 'beginnerTopOrientation',
-    group: 'cornerOrient',
-    name: 'Sune',
-    descriptionKey: 'cases.begSune.desc',
-    recognitionTagKeys: ['tags.oneCornerOriented'],
-    solve: "R U R' U R U2 R'",
+    group: 'edgeSwap',
+    name: 'Place Edges',
+    descriptionKey: 'cases.begTopEdgeSwap.desc',
+    recognitionTagKeys: ['tags.edgesNotPlaced'],
+    solve: "R U R' U R U2 R' U",
   },
 
   // ============================================================

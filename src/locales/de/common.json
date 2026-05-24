@@ -188,6 +188,8 @@
     "lineHorizontal": "Linie quer über die Oberseite",
     "lShape": "L aus orientierten Kanten",
     "oneCornerOriented": "eine Ecke schon orientiert",
+    "noCross": "noch kein gelbes Kreuz",
+    "edgesNotPlaced": "Kreuz fertig, Kanten falsch platziert",
     "opposites": "zwei gegenüberliegende Ecken orientiert",
     "barTwoCorners": "zwei benachbarte Ecken orientiert",
     "diagonal": "diagonales Paar orientiert",
@@ -254,7 +256,8 @@
     "begFcTop": { "desc": "Der Unterseiten-Sticker zeigt nach oben. R U2 R' U' R U R' setzt die Ecke ein." },
     "begMidRight": { "desc": "Die Kantenfarbe auf der Oberseite passt zur vorderen Mitte. Rechts einfügen, um die Kante in den rechten Mittelslot zu bringen." },
     "begMidLeft": { "desc": "Die Kantenfarbe auf der Oberseite passt zur linken Mitte. Links einfügen, um die Kante in den linken Mittelslot zu bringen." },
-    "begSune": { "desc": "Sune ausführen, dann die Oberseite mit U drehen, bis eine neue Ecke ihre Farbe seitlich zeigt — wiederholen, bis alle vier Ecken gelb oben haben." },
+    "begTopCross": { "desc": "F R U R' U' F' wiederholen und zwischen den Versuchen die Oberseite drehen (U), bis ein gelbes Kreuz erscheint." },
+    "begTopEdgeSwap": { "desc": "Das gelbe Kreuz ist fertig. Oberseite drehen, bis zwei richtig platzierte Kanten bei B und R stehen, dann den Algorithmus ausführen. Stehen zwei richtige Kanten gegenüber, einmal ausführen, drehen und nochmals ausführen." },
     "rouxB1Pair": { "desc": "Ecke und Kante sind über dem Zielslot verbunden. Paar in den linken Block einsetzen." },
     "rouxB1Split": { "desc": "Ecke und Kante sind getrennt. Mit einem U-Zug zusammenbringen, dann einsetzen." },
     "rouxB2Pair": { "desc": "Ecke und Kante sind über dem Zielslot verbunden. In den rechten Block einsetzen, ohne den linken zu stören." },
@@ -262,7 +265,5 @@
     "rouxLseArrow": { "desc": "Eine Kante auf der Oberseite ist falsch orientiert (Pfeil). M U2 M (oder gespiegelt) zum Umdrehen." },
     "rouxLseCycle": { "desc": "Alle Kanten orientiert (EO fertig), aber die Oberkanten müssen rotiert werden. Algorithmus ausführen." }
   },
-  "algs": {
-    "eoDot": { "notes": "Zweistufig: erst eine Kante richten, dann den Rest." }
-  }
+  "algs": {}
 }

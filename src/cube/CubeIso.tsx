@@ -202,7 +202,6 @@ export function CubeIso({
         const [cx, cy] = centerPt(corners, s, ox, oy);
         const tlLabel = topLeftLabels?.[idx];
         const brLabel = bottomRightLabels?.[idx];
-        const lit = (highlight ? highlight[idx] : true) || !!involved?.[idx];
 
         return (
           <g key={idx}>
