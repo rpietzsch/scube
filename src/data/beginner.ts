@@ -4,25 +4,50 @@ import { CaseData } from './types';
 const CTX = "R U R' U R U2 R'";
 
 /**
- * Beginner LBL cases — 8 algorithms covering steps 3–5 of the 5-step method.
- * Step 1 (white cross) is intuitive; step 2 (white corners) is intuitive.
+ * Beginner LBL cases — 11 algorithms covering steps 2–5 of the 5-step method.
+ * Step 1 (white cross) is handled by prose lessons in the Cross stage.
  * Source: SpeedcubeDB beginner section (https://speedcubedb.com/beginner).
  */
 export const BEGINNER_CASES: CaseData[] = [
 
   // ============================================================
-  // STEP 3 · Middle-layer edge inserts (2)
+  // STEP 2 · First-layer corner inserts (3)
+  // Hold with empty slot at UFR. D-color = bottom-face color.
   // ============================================================
   {
-    id: 'beg-mid-right',
-    stage: 'beginnerMiddle',
-    group: 'middleInsert',
-    name: 'Right insert',
-    descriptionKey: 'cases.begMidRight.desc',
-    recognitionTagKeys: ['tags.edgeColorFront'],
+    id: 'beg-fc-right',
+    stage: 'beginnerFirstLayerCorners',
+    group: 'cornerInsert',
+    name: 'D-color on R',
+    descriptionKey: 'cases.begFcRight.desc',
+    recognitionTagKeys: ['tags.cornerDcolorR'],
     context: CTX,
-    solve: "U R U' R' U' F' U F",
+    solve: "R U R'",
   },
+  {
+    id: 'beg-fc-front',
+    stage: 'beginnerFirstLayerCorners',
+    group: 'cornerInsert',
+    name: 'D-color on F',
+    descriptionKey: 'cases.begFcFront.desc',
+    recognitionTagKeys: ['tags.cornerDcolorF'],
+    context: CTX,
+    solve: "F' U' F",
+  },
+  {
+    id: 'beg-fc-top',
+    stage: 'beginnerFirstLayerCorners',
+    group: 'cornerInsert',
+    name: 'D-color on top',
+    descriptionKey: 'cases.begFcTop.desc',
+    recognitionTagKeys: ['tags.cornerDcolorU'],
+    context: CTX,
+    solve: "R U2 R' U' R U R'",
+  },
+
+  // ============================================================
+  // STEP 3 · Middle-layer edge inserts (2)
+  // ============================================================
   {
     id: 'beg-mid-left',
     stage: 'beginnerMiddle',
@@ -32,6 +57,16 @@ export const BEGINNER_CASES: CaseData[] = [
     recognitionTagKeys: ['tags.edgeColorLeft'],
     context: CTX,
     solve: "U' L' U L U F U' F'",
+  },
+  {
+    id: 'beg-mid-right',
+    stage: 'beginnerMiddle',
+    group: 'middleInsert',
+    name: 'Right insert',
+    descriptionKey: 'cases.begMidRight.desc',
+    recognitionTagKeys: ['tags.edgeColorFront'],
+    context: CTX,
+    solve: "U R U' R' U' F' U F",
   },
 
   // ============================================================

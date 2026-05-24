@@ -213,7 +213,7 @@ export function CubeIso({
               stroke="#0a0f1e"
               strokeWidth={0.8}
             />
-            {lit && (tlLabel || brLabel) && (
+            {(tlLabel || brLabel) && (
               <>
                 {tlLabel && (
                   <text

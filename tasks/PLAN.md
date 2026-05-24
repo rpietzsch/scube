@@ -6,6 +6,46 @@ scube is a **tutor**, not a timer: speed metrics exist only to confirm an algori
 
 ---
 
+## 0. Notation reference
+
+### Face names
+
+| Symbol | Face  |
+|--------|-------|
+| U      | Up    |
+| D      | Down  |
+| F      | Front |
+| B      | Back  |
+| L      | Left  |
+| R      | Right |
+
+> B = **Back** (not Bottom). D = Down.
+
+### Sticker numbering
+
+Each face is numbered 1–9 reading **left-to-right, top-to-bottom**
+when looking straight at that face:
+
+```text
+1 2 3
+4 5 6
+7 8 9
+```
+
+`X5` is always the center sticker of face X. This matches the de facto
+convention used by cubing software (ksolve, Cube Explorer, TNoodle).
+WCA regulations do not define a sticker numbering scheme.
+
+**Example — UFR corner:**
+
+| Face | Sticker | Position           |
+|------|---------|-------------------|
+| U    | U9      | bottom-right of U |
+| R    | R1      | top-left of R     |
+| F    | F3      | top-right of F    |
+
+---
+
 ## 1. Methods and ladders
 
 scube teaches three methods. Each has its own library section; learners can follow any one independently.
@@ -259,6 +299,10 @@ scube is a fully client-side PWA, so GitHub Pages (static + HTTPS) is sufficient
 | M9 | Library-first redesign: remove Path tab · Settings → cogwheel · sticky Hold bar · simplified case detail (no Mastery, no Open Lesson, no Compare; algo + orientation together) | Cleaner, library-centric UX | ✅ done |
 | M10 | **Beginner LBL** section — new Library tab "Beginner" between Cross and F2L · 3 new stages (`beginnerMiddle`, `beginnerTopOrientation`, `beginnerTopPermutation`) · 8 cases total (2+4+2) · EN+DE strings · notation legend on each case | Absolute beginners can solve the cube end-to-end from the app | ✅ done |
 | M11 | **Roux Method** section — new Library tab "Roux" after PLL · 4 stages (`rouxBlock1`, `rouxBlock2`, `rouxCmll`, `rouxLse`) · 2 illustrative block cases each + 7 CMLL orientation + 4 LSE patterns · EN+DE strings | Alternative method for spatial/intuitive learners | ✅ done |
+| M12 | **Before/after sticker labels** — annotate visualisations with (n) for the "before" position and (n') for the "after" position; roll out to LBL and F2L first | Learner sees which piece moves where without reading prose | ✅ done |
+| M13 | **Fill Cross section** — yellow flower (daisy) approach: Step 1 gather white edges to U (intuitive), Step 2 fold each down with F2 after aligning; prose lesson + animated alg | Beginners have a concrete, zero-memorisation cross method | ✅ done |
+| M14 | **LBL 1st layer corners** — new `beginnerFirstLayerCorners` stage with `R U R' U'` trigger cases (white-front, white-right, white-up, corner stuck in slot); fills the gap between cross and middle-layer edges | LBL path complete from scratch | ✅ done |
+| M15 | **Fix LBL insert coloring** — applies to `beginnerFirstLayerCorners` and `beginnerMiddle`: only the single piece being inserted is bright (labeled `1`/`1'`); context centers dimmed; all other stickers gray | Visualization matches pedagogical intent | ✅ done |
 | post | Manual state entry · curated alternate algs sourced from cuberoot (41 + 54 with `A+/A-/B+/B-…` codes) · 3D playback (react-three-fiber) · X-cross · OH-specific algs · cross-colour neutrality coach · smart-cube BLE · cloud sync | v1.x | pending |
 
 ### M0–M3 deltas worth noting
@@ -738,6 +782,168 @@ Run the steps in this sequence so each is independently reviewable:
 - Colour neutrality — push from the start, or after 2-Look PLL is done? -> after — too many simultaneous changes for beginners
 - Source attribution UI — inline per alg, or one credits page? -> inline tag + one credits page
 - Ship advanced F2L in M2 or later? -> later (M6) — intuitive first
+
+---
+
+## M12 — Before (n) / after (n') sticker labels
+
+### Goal
+
+Annotate case visualisations with numbered labels that show piece movement:
+
+- **(n)** — where a sticker is **before** the algorithm (current position)
+- **(n')** — where that sticker **lands after** the algorithm (target position)
+
+### Rationale
+
+The §0 numbering grid lets us name positions precisely. But a learner
+watching an animation still needs to understand *which piece moves where*.
+Displaying `(1)` on F2 and `(1')` on F6 makes the relationship explicit
+without any prose.
+
+### Roll-out order
+
+1. **LBL middle layer** (M15) — clearest win; exactly two stickers matter
+   per insert
+2. **LBL corner insertion** (M14) — three stickers per corner
+3. **F2L intuitive** — four stickers per pair
+4. **F2L advanced** — optional; OLL/PLL less useful (too many pieces move)
+
+### Implementation (done)
+
+`pieceLabelMaps(pieces)` in `movement.ts` was already building the label
+maps; `CubeIso` / `CubeNet` / `LLThumbnail` already accepted
+`topLeftLabels` / `bottomRightLabels`. The only missing wire was in
+`CubeWithMovement.tsx`: it computed `pieces` but never called
+`pieceLabelMaps` and never forwarded the result to `CubeIso`.
+
+Change: added a `labelMaps` memo (only when `isF2LView`) and passed
+`topLeftLabels` / `bottomRightLabels` to `CubeIso`.
+
+- **beginnerMiddle**: `piecesThatMove` finds the insert edge; both
+  source stickers (top position) and target stickers (FR slot) are in
+  `involved` → both `n` and `n′` labels render at full brightness.
+- **f2l\***: `f2lFrPieces` tracks the corner (1) and edge (2); source
+  stickers only in `involved` → `1`, `2` labels on piece positions; slot
+  targets not lit so `n′` labels are withheld (slot stickers are already
+  visually distinct by context color).
+
+No `CaseData` changes needed — the existing movement analysis produces
+correct labels for every case automatically.
+
+---
+
+## M13 — Fill Cross section (yellow flower approach)
+
+### Goal
+
+Replace the Cross stage's placeholder prose with a concrete 2-step method
+that requires zero algorithm memorisation.
+
+### The yellow flower (daisy) method
+
+**Step 1 — Build the daisy (intuitive)**
+Bring all 4 white edges to the U face with the white sticker facing **up**.
+The result looks like a daisy: yellow U5 center with 4 white petals.
+No fixed algorithm — learner hunts pieces and uses any move that brings
+a white edge to U without disturbing already-placed petals.
+
+Common patterns:
+
+- White edge in bottom layer: `F2` flips it up (then rotate U and repeat)
+- White edge in middle layer: `F U F'` or `R' U' R` depending on side
+
+**Step 2 — Fold down**
+For each petal on U, rotate U until the non-white color of that edge
+matches the center directly below, then press it into place with `F2`
+(double-front). Repeat for all 4 edges.
+
+Total to memorise: **nothing** — just the `F2` press × 4.
+
+### Case data
+
+- 1 canonical "fold-down" case (alg: `F2`); the remaining 3 positions
+  are the same case at `y` / `y2` / `y'` orientations
+- Context: daisy built (4 white edges on U, white facing up)
+- Lesson flow:
+  1. Intro card — "build in two steps"
+  2. Step 1 card — prose + example animation (no alg to memorise)
+  3. Step 2 card — `U` align + `F2` press animated × 4
+  4. Recognition drill — "which face press places this edge?"
+     (F2 / R2 / B2 / L2, 4-option flashcard)
+
+---
+
+## M14 — LBL 1st layer corner algorithms
+
+### Goal
+
+Fill the gap between White Cross (step 1) and Middle Edges (step 3):
+inserting white corners into the first layer (step 2).
+
+### Current state
+
+M10 shipped `beginnerMiddle`, `beginnerTopOrientation`,
+`beginnerTopPermutation` (steps 3–5). Steps 1–2 were marked "intuitive"
+but step 2 needs at least one algorithm for learners who get stuck.
+
+### Algorithm
+
+The universal corner-insertion trigger is `R U R' U'` ("sexy move").
+Repeated from the correct starting position it inserts any white corner.
+
+**Starting position**: hold so the target slot is at UFR. Align the white
+corner above the slot, repeat `R U R' U'` until it drops in (1–5 reps).
+
+**Corner stuck in bottom slot**: `R U R'` kicks it out; then re-insert.
+
+### New stage: `beginnerFirstLayerCorners`
+
+Position: between Cross intro cards and `beginnerMiddle` in the Beginner
+Library tab.
+
+| Case | State | Alg |
+|------|-------|-----|
+| Corner in U, white facing F | above slot, white on F | `(R U R' U') × 3` |
+| Corner in U, white facing R | above slot, white on R | `R U R'` |
+| Corner in U, white facing U | above slot, white on U | `R U2 R' U' R U R'` |
+| Corner stuck in D slot | piece at DFR wrong orientation | `R U R'` → re-insert |
+
+Alg count: **1 trigger** (`R U R' U'`), one "kick-out" variant.
+EN + DE strings follow the existing `beginnerMiddle` pattern.
+
+---
+
+## M15 — Fix LBL middle layer coloring scheme
+
+### Goal
+
+Correct the sticker highlight scheme for `beginnerMiddle` visualisations
+so exactly the right piece and its destination are visible — nothing else.
+
+### Target scheme
+
+Sticker positions use the §0 numbering (1–9 per face, left-to-right,
+top-to-bottom):
+
+| Sticker | Rendering | Role |
+|---------|-----------|------|
+| F5, U5, R5 | **Dimmed** (semi-transparent, full color) | Center orientation anchors |
+| F2 | **Bright** (full color, bold border, labeled `1`) | Edge being inserted — before position |
+| F6 | **Highlighted** (target color, dashed border, labeled `1'`) | Destination for right insert `U R U' R' U' F' U F` |
+| F4 | **Highlighted** (target color, dashed border, labeled `1'`) | Destination for left insert `U' L' U L U F U' F'` |
+| All others | **Gray** (color stripped) | Not relevant to this step |
+
+Right insert uses F6 as the destination; left insert uses F4.
+Both show only their relevant destination sticker highlighted — not both
+simultaneously.
+
+### Dependency
+
+Implement after M12 so the `(1)` / `(1')` label infrastructure is
+available.
+
+---
 
 ## 10. Files in this folder
 

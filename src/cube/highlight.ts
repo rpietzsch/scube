@@ -11,6 +11,7 @@ export type StageKind = 'cross' | 'f2l' | 'oll' | 'pll';
 /** Map a `Stage` (data type) to the visual stage kind. */
 export function stageKindFor(stage: string): StageKind {
   if (stage === 'cross') return 'cross';
+  if (stage === 'beginnerFirstLayerCorners') return 'f2l';
   if (stage === 'beginnerMiddle') return 'f2l';
   if (stage === 'beginnerTopOrientation') return 'oll';
   if (stage === 'beginnerTopPermutation') return 'pll';

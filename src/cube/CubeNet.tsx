@@ -45,8 +45,8 @@ function FaceGrid({ state, face, x, y, cell, highlight, source, target, involved
       const sh = cell - 2;
       const isSrc = lit && source?.[idx];
       const isTgt = lit && target?.[idx];
-      const tlLabel = lit ? topLeftLabels?.[idx] : undefined;
-      const brLabel = lit ? bottomRightLabels?.[idx] : undefined;
+      const tlLabel = topLeftLabels?.[idx];
+      const brLabel = bottomRightLabels?.[idx];
       const fontSize = Math.max(8, Math.round(cell * 0.42));
       // Three-tier opacity:
       //   outside stage and not involved → MUTED grey, 0.55
@@ -237,13 +237,13 @@ export function LLThumbnail({
         <g key={`${f}${k}`}>
           <rect x={rx} y={ry} width={rw} height={rh} fill={fill} opacity={opacity}
                 stroke="#0b1020" strokeWidth={1} rx={2} />
-          {lit && tlLabel && (
+          {tlLabel && (
             <text x={rx + rw / 2} y={ry + rh / 2 + fontSize * 0.35}
                   fontSize={fontSize * 0.9} fontWeight={700} fill="#fff" stroke="#000"
                   strokeWidth={1.8} paintOrder="stroke" textAnchor="middle"
                   style={{ pointerEvents: 'none' as const }}>{tlLabel}</text>
           )}
-          {lit && brLabel && !tlLabel && (
+          {brLabel && !tlLabel && (
             <text x={rx + rw / 2} y={ry + rh / 2 + fontSize * 0.35}
                   fontSize={fontSize * 0.9} fontWeight={700} fill="#fff" stroke="#000"
                   strokeWidth={1.8} paintOrder="stroke" textAnchor="middle"

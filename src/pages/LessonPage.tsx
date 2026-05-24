@@ -89,12 +89,6 @@ export default function LessonPage() {
           {t('lesson.iPerformedIt')}
         </button>
       </div>
-      <button
-        onClick={() => navigate(`/drill/${c.stage}`)}
-        className="w-full px-4 py-2 rounded bg-ink-800 text-ink-200 text-sm"
-      >
-        ▶ {t('case.openDrill')}
-      </button>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { CubeNet, LLThumbnail } from './CubeNet';
 import { CubeIso } from './CubeIso';
 import { CubeState } from './types';
 import { parseAlg } from './parser';
-import { f2lFrPieces, piecesThatMove } from './movement';
+import { f2lFrPieces, piecesThatMove, beginnerInsertPiece, pieceLabelMaps } from './movement';
 import { f2lContextMask } from './highlight';
 
 interface Props {
@@ -34,26 +34,36 @@ export function CubeWithMovement({ state, alg, highlight, stage, cell = 22 }: Pr
   // isActualF2L: only true for stages that track the FR corner+edge pair.
   // isF2LView:   also includes beginner/roux block stages that render as CubeIso.
   const isActualF2L = stage.startsWith('f2l');
-  const isF2LView  = isActualF2L || stage === 'beginnerMiddle' || stage === 'rouxBlock1' || stage === 'rouxBlock2';
+  const isF2LView  = isActualF2L || stage === 'beginnerFirstLayerCorners' || stage === 'beginnerMiddle' || stage === 'rouxBlock1' || stage === 'rouxBlock2';
   const isOLL  = stage.startsWith('oll') || stage === 'beginnerTopOrientation' || stage === 'rouxCmll';
   const isPLL  = stage.startsWith('pll') || stage === 'beginnerTopPermutation' || stage === 'rouxLse';
   // Isometric stages use the F2L context mask; OLL/PLL keep the stage mask.
   const effectiveHighlight = isF2LView ? f2lContextMask() : highlight;
 
   // Match movement.ts involvedMaskFor: only use f2lFrPieces for actual f2l* stages.
-  const pieces = useMemo(
-    () => (isActualF2L ? f2lFrPieces(state) : piecesThatMove(state, moves)),
-    [state, moves, isActualF2L],
-  );
+  const pieces = useMemo(() => {
+    if (isActualF2L) return f2lFrPieces(state);
+    const all = piecesThatMove(state, moves);
+    if (stage === 'beginnerFirstLayerCorners' || stage === 'beginnerMiddle') {
+      return beginnerInsertPiece(all, stage);
+    }
+    return all;
+  }, [state, moves, isActualF2L, stage]);
   const involved = useMemo(() => {
     if (pieces.length === 0) return undefined;
     const m = new Array<boolean>(54).fill(false);
     for (const p of pieces) {
       for (const i of p.sources) m[i] = true;
-      if (!isActualF2L) for (const i of p.targets) m[i] = true;
     }
     return m;
-  }, [pieces, isActualF2L]);
+  }, [pieces]);
+
+  // Labels: n = source position, n′ = target. Only shown for F2L-view stages
+  // (beginnerMiddle, f2l*, roux blocks) where piece movement is the lesson.
+  const labelMaps = useMemo(
+    () => isF2LView ? pieceLabelMaps(pieces) : null,
+    [isF2LView, pieces],
+  );
 
   // F2L-view: isometric 3D corner view.
   // OLL: top-down LL diagram, white = oriented / grey = not oriented.
@@ -64,6 +74,8 @@ export function CubeWithMovement({ state, alg, highlight, stage, cell = 22 }: Pr
       cell={cell}
       highlight={effectiveHighlight}
       involved={involved}
+      topLeftLabels={labelMaps?.topLeft}
+      bottomRightLabels={labelMaps?.bottomRight}
     />
   ) : (isOLL || isPLL) ? (
     <LLThumbnail

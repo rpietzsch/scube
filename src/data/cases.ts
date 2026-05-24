@@ -9,6 +9,9 @@ import { ROUX_CASES } from './roux';
 // === Cross & F2L (intuitive) — prose lessons with illustrative examples ===
 export const LESSONS: LessonData[] = [
   { id: 'cross-intro', stage: 'cross', titleKey: 'lessons.crossIntro.title', bodyKey: 'lessons.crossIntro.body' },
+  { id: 'cross-daisy-intro', stage: 'cross', titleKey: 'lessons.crossDaisyIntro.title', bodyKey: 'lessons.crossDaisyIntro.body' },
+  { id: 'cross-daisy-step1', stage: 'cross', titleKey: 'lessons.crossDaisyStep1.title', bodyKey: 'lessons.crossDaisyStep1.body' },
+  { id: 'cross-daisy-step2', stage: 'cross', titleKey: 'lessons.crossDaisyStep2.title', bodyKey: 'lessons.crossDaisyStep2.body' },
   { id: 'cross-planning', stage: 'cross', titleKey: 'lessons.crossPlanning.title', bodyKey: 'lessons.crossPlanning.body' },
   // examples reference cases from f2lAdvanced (f2l-w-plus = W+ #5 disconnected = split,
   // f2l-j-plus = J+ #27 corner-in-slot = stuck)

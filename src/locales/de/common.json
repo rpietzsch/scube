@@ -21,6 +21,7 @@
     "noNext": "Alles erledigt — starte ein Drill oder schau in die Bibliothek.",
     "stage": {
       "cross": "Kreuz",
+      "beginnerFirstLayerCorners": "Anfänger · Erste Schicht Ecken",
       "beginnerMiddle": "Anfänger · Mittelebene",
       "beginnerTopOrientation": "Anfänger · Oberseite orientieren",
       "beginnerTopPermutation": "Anfänger · Oberseite permutieren",
@@ -192,6 +193,9 @@
     "diagonal": "diagonales Paar orientiert",
     "adjacent": "benachbartes Paar orientiert",
     "frontTwoCorners": "zwei vordere Ecken orientiert",
+    "cornerDcolorR": "Unterseiten-Farbe auf der rechten Seite",
+    "cornerDcolorF": "Unterseiten-Farbe auf der vorderen Seite",
+    "cornerDcolorU": "Unterseiten-Farbe oben",
     "threeCornerCycle": "drei Ecken im Kreis",
     "diagonalCornerSwap": "diagonaler Ecken-Tausch",
     "threeEdgeCycle": "drei Kanten im Kreis",
@@ -202,6 +206,18 @@
     "crossIntro": {
       "title": "Das Kreuz",
       "body": "Das Kreuz ist der erste Schritt von CFOP: baue ein farbiges Pluszeichen auf der unteren Ebene, wobei jede Kanten­farbe zum Nachbarzentrum passt. Ziel: ≤ 8 Züge und schon den ersten F2L-Slot im Blick."
+    },
+    "crossDaisyIntro": {
+      "title": "Blumen-Methode",
+      "body": "Der einfachste Weg zum Kreuz ist die zweiteilige Blumen-Methode (Daisy). Kein Algorithmus nötig — nur zwei einfache Schritte, und das Kreuz ist fertig."
+    },
+    "crossDaisyStep1": {
+      "title": "Schritt 1 — Blume bauen",
+      "body": "Halte den Würfel mit Gelb oben. Suche alle vier weißen Kanten und bringe sie auf die Oberseite (U) mit dem weißen Sticker nach oben. Das Ergebnis ist eine Blume: gelbe Mitte, vier weiße Blütenblätter. Kein fester Algorithmus — drehe U und benutze intuitive Züge, um weiße Kanten zu sammeln, ohne bereits platzierte herauszuwerfen. Tipp: eine weiße Kante in der unteren Schicht kann mit F2 nach oben gebracht werden; eine in der mittleren Schicht mit R' U' R oder F U F'."
+    },
+    "crossDaisyStep2": {
+      "title": "Schritt 2 — Einklappen",
+      "body": "Drehe für jedes weiße Blütenblatt oben U so, bis die andere Farbe dieser Kante zur passenden Mitte darunter zeigt. Klappe die Kante dann mit F2 (doppelte Frontdrehung) nach unten. Viermal wiederholen — fertig ist das Kreuz. Kein Algorithmus, nur U ausrichten und F2 drücken."
     },
     "crossPlanning": {
       "title": "Kreuz planen",
@@ -233,6 +249,9 @@
     "f2lJoined": { "desc": "Ecke und Kante liegen oben nebeneinander — das verbundene Paar wartet darauf, in den leeren Slot eingefügt zu werden." },
     "f2lSplit": { "desc": "Ecke und Kante sind beide oben, aber getrennt — erst mit einem U-Zug zusammenbringen, dann einsetzen." },
     "f2lStuck": { "desc": "Ein Teil steckt schon im Slot, aber falsch. Erst herausholen, dann als verbundenes oder getrenntes Paar lösen." },
+    "begFcRight": { "desc": "Der Unterseiten-Sticker dieser Ecke zeigt zur rechten Seite. Ein Zug genügt: R U R'." },
+    "begFcFront": { "desc": "Der Unterseiten-Sticker zeigt nach vorne. F' U' F fügt die Ecke ein." },
+    "begFcTop": { "desc": "Der Unterseiten-Sticker zeigt nach oben. R U2 R' U' R U R' setzt die Ecke ein." },
     "begMidRight": { "desc": "Die Kantenfarbe auf der Oberseite passt zur vorderen Mitte. Rechts einfügen, um die Kante in den rechten Mittelslot zu bringen." },
     "begMidLeft": { "desc": "Die Kantenfarbe auf der Oberseite passt zur linken Mitte. Links einfügen, um die Kante in den linken Mittelslot zu bringen." },
     "begSune": { "desc": "Sune ausführen, dann die Oberseite mit U drehen, bis eine neue Ecke ihre Farbe seitlich zeigt — wiederholen, bis alle vier Ecken gelb oben haben." },

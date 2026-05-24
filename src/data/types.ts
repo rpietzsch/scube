@@ -1,6 +1,7 @@
 export type Stage =
   | 'cross'
   // Beginner LBL (layer-by-layer)
+  | 'beginnerFirstLayerCorners' // first-layer corner inserts (3 algs)
   | 'beginnerMiddle'           // middle-layer edge inserts (2 algs)
   | 'beginnerTopOrientation'   // top-layer edge + corner orientation (4 algs)
   | 'beginnerTopPermutation'   // top-layer corner + edge permutation (2 algs)

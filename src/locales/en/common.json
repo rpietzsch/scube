@@ -21,6 +21,7 @@
     "noNext": "All caught up — start a drill or browse the library.",
     "stage": {
       "cross": "Cross",
+      "beginnerFirstLayerCorners": "Beginner · First layer corners",
       "beginnerMiddle": "Beginner · Middle layer",
       "beginnerTopOrientation": "Beginner · Top orientation",
       "beginnerTopPermutation": "Beginner · Top permutation",
@@ -192,6 +193,9 @@
     "diagonal": "diagonal pair oriented",
     "adjacent": "adjacent pair oriented",
     "frontTwoCorners": "two front corners oriented",
+    "cornerDcolorR": "bottom-face colour on right",
+    "cornerDcolorF": "bottom-face colour on front",
+    "cornerDcolorU": "bottom-face colour on top",
     "threeCornerCycle": "three corners cycle",
     "diagonalCornerSwap": "diagonal corner swap",
     "threeEdgeCycle": "three edges cycle",
@@ -202,6 +206,18 @@
     "crossIntro": {
       "title": "The Cross",
       "body": "The cross is the first step of CFOP: build a plus-shape of one colour on the bottom layer with its edge pieces matched to neighbouring centres. Aim for ≤ 8 moves and to look ahead to your first F2L pair while you solve it."
+    },
+    "crossDaisyIntro": {
+      "title": "Yellow Flower Method",
+      "body": "The easiest way to build the cross is the two-step yellow flower (daisy) method. You do not need to memorise any algorithm — just two simple steps and the cross is done."
+    },
+    "crossDaisyStep1": {
+      "title": "Step 1 — Build the Daisy",
+      "body": "Hold the cube with yellow on top. Find all four white edges and bring each one to the top face (U) with its white sticker facing up. The result is a daisy: yellow centre surrounded by four white petals. No fixed algorithm — just rotate U and use intuitive moves to collect white edges without knocking off ones you have already placed. Tips: a white edge in the bottom layer can be lifted with F2; one stuck in the middle layer with R' U' R or F U F'."
+    },
+    "crossDaisyStep2": {
+      "title": "Step 2 — Fold Down",
+      "body": "For each white petal on top, rotate U until the non-white colour of that edge matches the centre directly below it. Then press the edge into the bottom layer with F2 (double front turn). Repeat for all four edges. That is the entire cross — no algorithm to memorise, just U-align and F2 four times."
     },
     "crossPlanning": {
       "title": "Planning the Cross",
@@ -233,6 +249,9 @@
     "f2lJoined": { "desc": "Corner and edge are joined in the top layer, sitting next to each other and ready to be inserted into their empty slot." },
     "f2lSplit": { "desc": "Corner and edge are both in the top layer, but separated — first bring them together with a U-move, then insert." },
     "f2lStuck": { "desc": "A pair piece is already wedged into the slot, but in the wrong place. Pop it out first, then re-insert as a joined or split case." },
+    "begFcRight": { "desc": "The bottom-face sticker of this corner is on the R face. One move slots it home: R U R'." },
+    "begFcFront": { "desc": "The bottom-face sticker is on the F face. Use F' U' F to insert the corner." },
+    "begFcTop": { "desc": "The bottom-face sticker faces upward. Apply R U2 R' U' R U R' to insert the corner." },
     "begMidRight": { "desc": "The top-layer edge's front colour matches the front centre. Execute the right insert to place it in the FR middle slot." },
     "begMidLeft": { "desc": "The top-layer edge's front colour matches the left centre. Execute the left insert to place it in the FL middle slot." },
     "begSune": { "desc": "Apply Sune, then rotate the top layer with U until a new corner shows its top colour on a side face, and repeat until all four top corners are oriented." },

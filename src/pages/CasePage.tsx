@@ -12,7 +12,7 @@ import { useSettings } from '../store/settings';
 
 const WITH_ORIENTATION = [
   'f2lIntuitive', 'f2lAdvanced', 'f2lExpert', 'oll2look', 'ollFull', 'pll2look', 'pllFull',
-  'beginnerMiddle', 'beginnerTopOrientation', 'beginnerTopPermutation',
+  'beginnerFirstLayerCorners', 'beginnerMiddle', 'beginnerTopOrientation', 'beginnerTopPermutation',
   'rouxBlock1', 'rouxBlock2', 'rouxCmll', 'rouxLse',
 ];
 

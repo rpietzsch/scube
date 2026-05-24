@@ -141,15 +141,15 @@ export function movementMasksFor(state: CubeState, alg: Move[], stage: string): 
  */
 export function involvedMaskFor(state: CubeState, alg: Move[], stage: string): boolean[] | undefined {
   const isF2L = stage.startsWith('f2l');
-  const pieces = isF2L ? f2lFrPieces(state) : piecesThatMove(state, alg);
+  const all = isF2L ? f2lFrPieces(state) : piecesThatMove(state, alg);
+  const pieces =
+    stage === 'beginnerFirstLayerCorners' || stage === 'beginnerMiddle'
+      ? beginnerInsertPiece(all, stage)
+      : all;
   if (pieces.length === 0) return undefined;
   const m = new Array<boolean>(54).fill(false);
   for (const p of pieces) {
     for (const i of p.sources) m[i] = true;
-    // F2L: targets (slot positions) only light up when pieces are already in
-    // the slot (sources === targets). Marking targets unconditionally would
-    // colour the empty slot even when pieces are in the U layer.
-    if (!isF2L) for (const i of p.targets) m[i] = true;
   }
   return m;
 }
@@ -195,6 +195,31 @@ export function piecesThatMove(before: CubeState, alg: Move[]): PieceLabel[] {
     }
   }
   return pieces;
+}
+
+/**
+ * For beginner insert stages, filter the full `piecesThatMove` list to only
+ * the single piece that lands in the target slot. Returns one PieceLabel
+ * (re-numbered n=1) so only that piece lights up and gets labeled.
+ *
+ * - beginnerFirstLayerCorners: corner → DRF slot [29, 26, 15]
+ * - beginnerMiddle:            edge   → FR slot [23, 12] or FL slot [21, 41]
+ */
+export function beginnerInsertPiece(pieces: PieceLabel[], stage: string): PieceLabel[] {
+  const match = (targets: number[], set: Set<number>): boolean =>
+    targets.length === set.size && targets.every((i) => set.has(i));
+
+  let found: PieceLabel | undefined;
+  if (stage === 'beginnerFirstLayerCorners') {
+    const drf = new Set([29, 26, 15]);
+    found = pieces.find((p) => match(p.targets, drf));
+  } else if (stage === 'beginnerMiddle') {
+    const fr = new Set([23, 12]);
+    const fl = new Set([21, 41]);
+    found = pieces.find((p) => match(p.targets, fr) || match(p.targets, fl));
+  }
+  if (!found) return [];
+  return [{ n: 1, sources: found.sources, targets: found.targets }];
 }
 
 /**

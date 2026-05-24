@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { caseGroupsByStage, casesByStage } from '../data/cases';
-import { CaseData, Stage } from '../data/types';
+import { caseGroupsByStage, casesByStage, lessonsByStage } from '../data/cases';
+import { CaseData, LessonData, Stage } from '../data/types';
 import { CubeNet, LLThumbnail } from '../cube/CubeNet';
 import { CubeIso } from '../cube/CubeIso';
 import { deriveState } from '../cube/derive';
@@ -14,19 +14,19 @@ import { OrientationHint } from '../cube/OrientationHint';
 
 type Tab = 'cross' | 'beginner' | 'f2l' | 'oll' | 'pll' | 'roux';
 const TABS: Tab[] = ['cross', 'beginner', 'f2l', 'oll', 'pll', 'roux'];
-const TAB_LABEL: Record<Tab, string> = { cross: 'Cross', beginner: 'Beginner', f2l: 'F2L', oll: 'OLL', pll: 'PLL', roux: 'Roux' };
+const TAB_LABEL: Record<Tab, string> = { cross: 'Cross', beginner: 'LBL', f2l: 'F2L', oll: 'OLL', pll: 'PLL', roux: 'Roux' };
 
 const WITH_ORIENTATION: Stage[] = [
   'f2lIntuitive', 'f2lAdvanced', 'f2lExpert', 'oll2look', 'ollFull', 'pll2look', 'pllFull',
-  'beginnerMiddle', 'beginnerTopOrientation', 'beginnerTopPermutation',
+  'beginnerFirstLayerCorners', 'beginnerMiddle', 'beginnerTopOrientation', 'beginnerTopPermutation',
   'rouxBlock1', 'rouxBlock2', 'rouxCmll', 'rouxLse',
 ];
 
-interface Section { header: string; cases: CaseData[]; drillStage: Stage }
+interface Section { header: string; cases: CaseData[] }
 
 function toTab(splat: string): Tab {
   if ((TABS as string[]).includes(splat)) return splat as Tab;
-  if (splat.startsWith('beginner')) return 'beginner';
+  if (splat.startsWith('beginner') || splat === 'beginnerFirstLayerCorners') return 'beginner';
   if (splat.startsWith('f2l')) return 'f2l';
   if (splat.startsWith('oll')) return 'oll';
   if (splat.startsWith('pll')) return 'pll';
@@ -46,59 +46,59 @@ export default function LibraryPage() {
   const sections: Section[] = (() => {
     if (tab === 'cross') {
       const cases = casesByStage('cross');
-      return cases.length ? [{ header: 'Cross', cases, drillStage: 'cross' as Stage }] : [];
+      return cases.length ? [{ header: 'Cross', cases }] : [];
     }
     if (tab === 'beginner') {
       return ([
-        { header: 'Beginner · Middle layer',      cases: casesByStage('beginnerMiddle'),          drillStage: 'beginnerMiddle'          as Stage },
-        { header: 'Beginner · Top orientation',   cases: casesByStage('beginnerTopOrientation'),  drillStage: 'beginnerTopOrientation'  as Stage },
-        { header: 'Beginner · Top permutation',   cases: casesByStage('beginnerTopPermutation'),  drillStage: 'beginnerTopPermutation'  as Stage },
+        { header: 'LBL · First layer corners', cases: casesByStage('beginnerFirstLayerCorners') },
+        { header: 'LBL · Middle layer',        cases: casesByStage('beginnerMiddle') },
+        { header: 'LBL · Top orientation',     cases: casesByStage('beginnerTopOrientation') },
+        { header: 'LBL · Top permutation',     cases: casesByStage('beginnerTopPermutation') },
       ] as Section[]).filter((s) => s.cases.length > 0);
     }
     if (tab === 'f2l') {
       const result: Section[] = [];
       const advCases = casesByStage('f2lAdvanced');
-      // f2lIntuitive → basicInsert group from f2lAdvanced
       const basicInsert = advCases.filter((c) => c.group === 'basicInsert');
       if (basicInsert.length) {
-        result.push({
-          header: `F2L intuitive · ${t('path.group.f2l.basicInsert')}`,
-          cases: basicInsert,
-          drillStage: 'f2lAdvanced',
-        });
+        result.push({ header: `F2L intuitive · ${t('path.group.f2l.basicInsert')}`, cases: basicInsert });
       }
-      // f2lAdvanced → remaining groups
       for (const g of caseGroupsByStage('f2lAdvanced').filter((g) => g !== 'basicInsert')) {
         const gc = advCases.filter((c) => c.group === g);
-        if (gc.length) result.push({ header: `F2L · ${t(`path.group.f2l.${g}`)}`, cases: gc, drillStage: 'f2lAdvanced' });
+        if (gc.length) result.push({ header: `F2L · ${t(`path.group.f2l.${g}`)}`, cases: gc });
       }
-      // f2lExpert → all groups
       const expCases = casesByStage('f2lExpert');
       for (const g of caseGroupsByStage('f2lExpert')) {
         const gc = expCases.filter((c) => c.group === g);
-        if (gc.length) result.push({ header: `F2LA · ${t(`path.group.f2l.${g}`)}`, cases: gc, drillStage: 'f2lExpert' });
+        if (gc.length) result.push({ header: `F2LA · ${t(`path.group.f2l.${g}`)}`, cases: gc });
       }
       return result;
     }
     if (tab === 'oll') {
       return ([
-        { header: 'OLL · 2-Look', cases: casesByStage('oll2look'), drillStage: 'oll2look' as Stage },
-        { header: 'OLL · Full',   cases: casesByStage('ollFull'),  drillStage: 'ollFull'  as Stage },
+        { header: 'OLL · 2-Look', cases: casesByStage('oll2look') },
+        { header: 'OLL · Full',   cases: casesByStage('ollFull') },
       ] as Section[]).filter((s) => s.cases.length > 0);
     }
     if (tab === 'pll') {
       return ([
-        { header: 'PLL · 2-Look', cases: casesByStage('pll2look'), drillStage: 'pll2look' as Stage },
-        { header: 'PLL · Full',   cases: casesByStage('pllFull'),  drillStage: 'pllFull'  as Stage },
+        { header: 'PLL · 2-Look', cases: casesByStage('pll2look') },
+        { header: 'PLL · Full',   cases: casesByStage('pllFull') },
       ] as Section[]).filter((s) => s.cases.length > 0);
     }
-    // roux
     return ([
-      { header: 'Roux · Block 1', cases: casesByStage('rouxBlock1'), drillStage: 'rouxBlock1' as Stage },
-      { header: 'Roux · Block 2', cases: casesByStage('rouxBlock2'), drillStage: 'rouxBlock2' as Stage },
-      { header: 'Roux · CMLL',    cases: casesByStage('rouxCmll'),   drillStage: 'rouxCmll'   as Stage },
-      { header: 'Roux · LSE',     cases: casesByStage('rouxLse'),    drillStage: 'rouxLse'    as Stage },
+      { header: 'Roux · Block 1', cases: casesByStage('rouxBlock1') },
+      { header: 'Roux · Block 2', cases: casesByStage('rouxBlock2') },
+      { header: 'Roux · CMLL',    cases: casesByStage('rouxCmll') },
+      { header: 'Roux · LSE',     cases: casesByStage('rouxLse') },
     ] as Section[]).filter((s) => s.cases.length > 0);
+  })();
+
+  // Prose lessons shown above case grids for stages that have them.
+  const lessons: LessonData[] = (() => {
+    if (tab === 'cross') return lessonsByStage('cross');
+    if (tab === 'f2l') return lessonsByStage('f2lIntuitive');
+    return [];
   })();
 
   return (
@@ -139,33 +139,39 @@ export default function LibraryPage() {
 
       {/* Scrollable content */}
       <div className="px-4 pb-4 space-y-4">
-        {sections.length === 0 && (
+        {lessons.length === 0 && sections.length === 0 && (
           <p className="text-ink-500 text-sm">{t('path.comingSoon')}</p>
         )}
 
-        {sections.map((sec, i) => {
-          // Drill button appears once, after the last section sharing the same drillStage
-          const isLastForStage = !sections.slice(i + 1).some((s) => s.drillStage === sec.drillStage);
-          return (
-            <section key={sec.header} className="space-y-2">
-              <h2 className="text-sm uppercase tracking-wider text-ink-500 pt-2">
-                {sec.header}
-                <span className="ml-2 text-ink-700 normal-case font-normal">({sec.cases.length})</span>
-              </h2>
-              <CaseGrid cases={sec.cases} aid={aid} topColor={topColor} frontColor={frontColor} />
-              {isLastForStage && (
-                <Link
-                  to={`/drill/${sec.drillStage}`}
-                  className="block w-full text-center mt-2 px-4 py-3 rounded-lg bg-cube-F text-ink-950 font-semibold"
-                >
-                  ▶ {t('case.openDrill')}
-                </Link>
-              )}
-            </section>
-          );
-        })}
+        {lessons.map((l) => <LessonCard key={l.id} lesson={l} />)}
+
+        {sections.map((sec) => (
+          <section key={sec.header} className="space-y-2">
+            <h2 className="text-sm uppercase tracking-wider text-ink-500 pt-2">
+              {sec.header}
+              <span className="ml-2 text-ink-700 normal-case font-normal">({sec.cases.length})</span>
+            </h2>
+            <CaseGrid cases={sec.cases} aid={aid} topColor={topColor} frontColor={frontColor} />
+          </section>
+        ))}
       </div>
     </div>
+  );
+}
+
+function LessonCard({ lesson }: { lesson: LessonData }) {
+  const { t } = useTranslation();
+  return (
+    <Link
+      to={`/lesson/lesson:${lesson.id}`}
+      className="flex items-center justify-between gap-3 p-4 rounded-lg bg-ink-900 border border-ink-800 hover:border-cube-U"
+    >
+      <div className="min-w-0">
+        <div className="font-semibold text-sm">{t(lesson.titleKey)}</div>
+        <div className="text-xs text-ink-500 mt-0.5 line-clamp-2">{t(lesson.bodyKey)}</div>
+      </div>
+      <span className="text-ink-500 shrink-0">→</span>
+    </Link>
   );
 }
 

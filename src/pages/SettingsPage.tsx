@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMastery } from '../store/mastery';
 import { useSettings } from '../store/settings';
@@ -12,6 +13,7 @@ export default function SettingsPage() {
 
   return (
     <div className="p-4 space-y-6">
+      <Link to="/library" className="text-xs text-ink-500">← {t('library.title')}</Link>
       <h1 className="text-2xl font-bold">{t('settings.title')}</h1>
 
       <section>
