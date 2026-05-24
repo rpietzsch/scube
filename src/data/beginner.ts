@@ -93,23 +93,25 @@ export const BEGINNER_CASES: CaseData[] = [
   },
 
   // ============================================================
-  // STEP 5 · Top-layer permutation — corners then edges (2)
+  // STEP 5 · Top-layer corners — permute then orient (2)
+  // Source: speedcube.com.au #step5
   // ============================================================
   {
     id: 'beg-top-cperm',
     stage: 'beginnerTopPermutation',
     group: 'cornerPerm',
-    name: 'A-perm',
-    descriptionKey: 'cases.aPerm.desc',
-    recognitionTagKeys: ['tags.threeCornerCycle'],
-    solve: "x R' U R' D2 R U' R' D2 R2 x'",
+    name: 'Permute Corners',
+    descriptionKey: 'cases.begTopCperm.desc',
+    recognitionTagKeys: ['tags.cornersNotPlaced'],
+    solve: "U R U' R U R' U' R'",
   },
   {
-    id: 'beg-top-eperm',
+    id: 'beg-top-corient',
     stage: 'beginnerTopPermutation',
-    group: 'edgePerm',
-    name: 'Ua-perm',
-    recognitionTagKeys: ['tags.threeEdgeCycle'],
-    solve: "M2 U M U2 M' U M2",
+    group: 'cornerOrient',
+    name: 'Orient Corners',
+    descriptionKey: 'cases.begTopCorient.desc',
+    recognitionTagKeys: ['tags.cornersToOrient'],
+    solve: "R' U R U' R' U R U'",
   },
 ];
