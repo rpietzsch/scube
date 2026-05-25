@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useEscBack } from '../hooks/useEscBack';
+import PageNav from '../components/PageNav';
 import { useMastery } from '../store/mastery';
 import { useSettings } from '../store/settings';
 import pkg from '../../package.json';
@@ -14,9 +14,9 @@ export default function SettingsPage() {
   const setLang = (lng: string) => { void i18n.changeLanguage(lng); };
 
   return (
-    <div className="p-4 space-y-6">
-      <Link to="/library" className="text-xs text-ink-500">← {t('library.title')}</Link>
-      <h1 className="text-2xl font-bold">{t('settings.title')}</h1>
+    <div>
+      <PageNav />
+      <div className="p-4 space-y-6">
 
       <section>
         <h2 className="text-sm uppercase tracking-wider text-ink-500 mb-2">{t('settings.language')}</h2>
@@ -62,6 +62,7 @@ export default function SettingsPage() {
         <p>{t('settings.version', { version: pkg.version })}</p>
         <p>{t('settings.offlineReady')}</p>
       </footer>
+      </div>
     </div>
   );
 }

@@ -11,10 +11,10 @@ import { parseAlg } from '../cube/parser';
 import { useSettings } from '../store/settings';
 import { OrientationPicker } from '../cube/OrientationPicker';
 import { OrientationHint } from '../cube/OrientationHint';
+import PageNav from '../components/PageNav';
 
 type Tab = 'cross' | 'beginner' | 'f2l' | 'oll' | 'pll' | 'roux';
 const TABS: Tab[] = ['cross', 'beginner', 'f2l', 'oll', 'pll', 'roux'];
-const TAB_LABEL: Record<Tab, string> = { cross: 'Cross', beginner: 'LBL', f2l: 'F2L', oll: 'OLL', pll: 'PLL', roux: 'Roux' };
 
 const WITH_ORIENTATION: Stage[] = [
   'f2lIntuitive', 'f2lAdvanced', 'f2lExpert', 'oll2look', 'ollFull', 'pll2look', 'pllFull',
@@ -103,45 +103,13 @@ export default function LibraryPage() {
 
   return (
     <div>
-      {/* Sticky header: title + cogwheel, tab bar, hold bar */}
-      <div className="sticky top-0 z-10 bg-ink-950 px-4 pt-4 pb-3 space-y-3">
-        <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold">{t('library.title')}</h1>
-          <Link to="/settings" className="text-ink-500 hover:text-ink-200 text-xl leading-none p-1" aria-label={t('nav.settings')}>⚙</Link>
-        </div>
-
-        <nav className="flex gap-1 overflow-x-auto pb-1 -mx-4 px-4">
-          <Link
-            to="/notation"
-            className="whitespace-nowrap px-3 py-1.5 rounded-full text-xs border border-ink-700 text-ink-200"
-          >
-            {t('notation.title')}
-          </Link>
-          <Link
-            to="/scramble"
-            className="whitespace-nowrap px-3 py-1.5 rounded-full text-xs border border-ink-700 text-ink-200"
-          >
-            {t('scramble.title')}
-          </Link>
-          {TABS.map((tabItem) => (
-            <Link
-              key={tabItem}
-              to={`/library/${tabItem}`}
-              className={`whitespace-nowrap px-3 py-1.5 rounded-full text-xs border ${
-                tabItem === tab ? 'bg-cube-U text-ink-950 border-cube-U' : 'border-ink-700 text-ink-200'
-              }`}
-            >
-              {TAB_LABEL[tabItem]}
-            </Link>
-          ))}
-        </nav>
-
+      <PageNav>
         {showOrient && (
           <div className="rounded-lg bg-ink-900 border border-ink-800 px-4 py-2">
             <OrientationPicker />
           </div>
         )}
-      </div>
+      </PageNav>
 
       {/* Scrollable content */}
       <div className="px-4 pb-4 space-y-4">

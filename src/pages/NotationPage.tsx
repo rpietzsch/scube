@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useEscBack } from '../hooks/useEscBack';
 import { MoveGuideCell } from '../cube/MoveGuide';
 import type { Move } from '../cube/moves';
+import PageNav from '../components/PageNav';
 
 const m = (base: string, amount: 1 | -1 | 2): Move => ({ base, amount });
 
@@ -57,12 +57,10 @@ export default function NotationPage() {
   const { t } = useTranslation();
 
   return (
-    <div className="p-4 space-y-6">
-      <header className="space-y-1">
-        <Link to="/library" className="text-xs text-ink-500">← {t('library.title')}</Link>
-        <h1 className="text-2xl font-bold">{t('notation.title')}</h1>
-        <p className="text-sm text-ink-400 leading-relaxed">{t('notation.intro')}</p>
-      </header>
+    <div>
+      <PageNav />
+      <div className="p-4 space-y-6">
+      <p className="text-sm text-ink-400 leading-relaxed">{t('notation.intro')}</p>
 
       {GROUPS.map((group) => (
         <section key={group.titleKey} className="space-y-2">
@@ -106,6 +104,7 @@ export default function NotationPage() {
         </h2>
         <p className="text-xs text-ink-400 leading-relaxed">{t('notation.suffixesBody')}</p>
       </section>
+      </div>
     </div>
   );
 }

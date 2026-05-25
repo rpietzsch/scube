@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useEscBack } from '../hooks/useEscBack';
+import PageNav from '../components/PageNav';
 import { useTranslation } from 'react-i18next';
 import { generateScramble, formatScramble } from '../scramble/generator';
 import { applyAlgToSolved } from '../cube/moves';
@@ -90,21 +91,7 @@ export default function ScramblePage() {
 
   return (
     <div>
-      <header className="sticky top-0 z-10 bg-ink-950 px-4 pt-4 pb-3 space-y-3">
-        <div className="flex items-center justify-between">
-          <Link to="/library" className="text-xs text-ink-500 hover:text-ink-200">
-            ← {t('library.title')}
-          </Link>
-          <Link
-            to="/settings"
-            className="text-ink-500 hover:text-ink-200 text-xl leading-none p-1"
-            aria-label={t('nav.settings')}
-          >
-            ⚙
-          </Link>
-        </div>
-        <h1 className="text-xl font-bold">{t('scramble.title')}</h1>
-      </header>
+      <PageNav />
 
       <div className="px-4 space-y-6 mt-2">
         {/* Move sequence */}
