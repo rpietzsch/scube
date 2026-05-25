@@ -269,5 +269,15 @@
     "rouxLseArrow": { "desc": "Eine Kante auf der Oberseite ist falsch orientiert (Pfeil). M U2 M (oder gespiegelt) zum Umdrehen." },
     "rouxLseCycle": { "desc": "Alle Kanten orientiert (EO fertig), aber die Oberkanten müssen rotiert werden. Algorithmus ausführen." }
   },
+  "scramble": {
+    "title": "Mischen",
+    "generate": "Neu mischen",
+    "copy": "Kopieren",
+    "copied": "Kopiert!",
+    "scrambledState": "Gemischter Zustand",
+    "stateAfterStep": "Zustand nach Zug {{step}}",
+    "stepHint": "Zug {{step}} von {{total}} — erneut tippen zum Abwählen",
+    "instruction": "Wende diese Züge auf einen gelösten Würfel an: Weiß oben, Grün vorne."
+  },
   "algs": {}
 }

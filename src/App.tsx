@@ -6,6 +6,7 @@ import CasePage from './pages/CasePage';
 import LessonPage from './pages/LessonPage';
 import ComparePage from './pages/ComparePage';
 import SettingsPage from './pages/SettingsPage';
+import ScramblePage from './pages/ScramblePage';
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
             <Route path="/lesson/:caseId" element={<LessonPage />} />
 <Route path="/compare" element={<ComparePage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/scramble" element={<ScramblePage />} />
           </Routes>
         </main>
       </div>

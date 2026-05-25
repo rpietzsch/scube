@@ -117,6 +117,12 @@ export default function LibraryPage() {
           >
             {t('notation.title')}
           </Link>
+          <Link
+            to="/scramble"
+            className="whitespace-nowrap px-3 py-1.5 rounded-full text-xs border border-ink-700 text-ink-200"
+          >
+            {t('scramble.title')}
+          </Link>
           {TABS.map((tabItem) => (
             <Link
               key={tabItem}

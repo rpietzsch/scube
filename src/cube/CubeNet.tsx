@@ -143,6 +143,7 @@ interface CubeNetProps {
   topLeftLabels?: Record<number, string>;
   bottomRightLabels?: Record<number, string>;
   className?: string;
+  showFaceLabels?: boolean;
 }
 
 /**
@@ -151,7 +152,7 @@ interface CubeNetProps {
  *     L   F   R   B
  *         D
  */
-export function CubeNet({ state, cell = 24, highlight, source, target, involved, topLeftLabels, bottomRightLabels, className }: CubeNetProps) {
+export function CubeNet({ state, cell = 24, highlight, source, target, involved, topLeftLabels, bottomRightLabels, className, showFaceLabels }: CubeNetProps) {
   const face = cell * 3;
   const gap = 2;
   const width = 4 * face + 3 * gap;
@@ -165,6 +166,18 @@ export function CubeNet({ state, cell = 24, highlight, source, target, involved,
   const my = face + gap;
   const dy = my + face + gap;
 
+  // Center of center sticker within a face whose top-left corner is (ox, oy)
+  const cc = (ox: number, oy: number) => [ox + 1.5 * cell - 1, oy + 1.5 * cell - 1] as const;
+  const faceLabels: Array<{ label: string; cx: number; cy: number }> = showFaceLabels ? [
+    { label: 'U', ...{ cx: cc(ux, uy)[0], cy: cc(ux, uy)[1] } },
+    { label: 'L', ...{ cx: cc(lx, my)[0], cy: cc(lx, my)[1] } },
+    { label: 'F', ...{ cx: cc(fx, my)[0], cy: cc(fx, my)[1] } },
+    { label: 'R', ...{ cx: cc(rx, my)[0], cy: cc(rx, my)[1] } },
+    { label: 'B', ...{ cx: cc(bx, my)[0], cy: cc(bx, my)[1] } },
+    { label: 'D', ...{ cx: cc(fx, dy)[0], cy: cc(fx, dy)[1] } },
+  ] : [];
+  const labelFs = Math.max(7, Math.round(cell * 0.48));
+
   const props = { highlight, source, target, involved, topLeftLabels, bottomRightLabels };
   return (
     <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height} className={className} role="img" aria-label="Cube state">
@@ -174,6 +187,25 @@ export function CubeNet({ state, cell = 24, highlight, source, target, involved,
       <FaceGrid state={state} face="R" x={rx} y={my} cell={cell} {...props} />
       <FaceGrid state={state} face="B" x={bx} y={my} cell={cell} {...props} />
       <FaceGrid state={state} face="D" x={fx} y={dy} cell={cell} {...props} />
+      {faceLabels.map(({ label, cx, cy }) => (
+        <text
+          key={label}
+          x={cx}
+          y={cy}
+          fontSize={labelFs}
+          fontWeight={700}
+          fontFamily="monospace"
+          fill="#ffffff"
+          stroke="#0b1020"
+          strokeWidth={2}
+          paintOrder="stroke"
+          textAnchor="middle"
+          dominantBaseline="central"
+          style={{ pointerEvents: 'none' }}
+        >
+          {label}
+        </text>
+      ))}
     </svg>
   );
 }

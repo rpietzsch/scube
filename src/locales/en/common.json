@@ -269,5 +269,15 @@
     "rouxLseArrow": { "desc": "One edge on top is misoriented (the 'bad' edge points away from the M-slice). Apply M U2 M (or mirror) to flip it." },
     "rouxLseCycle": { "desc": "All edges are oriented (EO done) but the U-layer edges need cycling. Apply the alg to complete LSE." }
   },
+  "scramble": {
+    "title": "Scramble",
+    "generate": "New scramble",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "scrambledState": "Scrambled state",
+    "stateAfterStep": "State after move {{step}}",
+    "stepHint": "Move {{step}} of {{total}} — tap again to deselect",
+    "instruction": "Apply these moves to a solved cube, starting with white on top and green in front."
+  },
   "algs": {}
 }
