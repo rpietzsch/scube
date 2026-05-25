@@ -12,6 +12,7 @@ import { useSettings } from '../store/settings';
 import { OrientationPicker } from '../cube/OrientationPicker';
 import { OrientationHint } from '../cube/OrientationHint';
 import PageNav from '../components/PageNav';
+import { useScrollRestore } from '../hooks/useScrollRestore';
 
 type Tab = 'cross' | 'beginner' | 'f2l' | 'oll' | 'pll' | 'roux';
 const TABS: Tab[] = ['cross', 'beginner', 'f2l', 'oll', 'pll', 'roux'];
@@ -40,6 +41,7 @@ export default function LibraryPage() {
   const { t } = useTranslation();
   const { visualAid: aid, topColor, frontColor } = useSettings();
   const showOrient = tab !== 'cross';
+  useScrollRestore(`library:${tab}`);
 
 
   // Build ordered section list for the active tab

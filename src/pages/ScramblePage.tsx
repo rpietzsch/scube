@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useEscBack } from '../hooks/useEscBack';
 import PageNav from '../components/PageNav';
+import { useScrollRestore } from '../hooks/useScrollRestore';
 import { useTranslation } from 'react-i18next';
 import { generateScramble, formatScramble } from '../scramble/generator';
 import { applyAlgToSolved } from '../cube/moves';
@@ -21,6 +22,7 @@ const CAN_SHARE = 'share' in navigator;
 
 export default function ScramblePage() {
   useEscBack();
+  useScrollRestore('scramble');
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
 

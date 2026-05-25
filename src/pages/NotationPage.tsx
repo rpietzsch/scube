@@ -3,6 +3,7 @@ import { useEscBack } from '../hooks/useEscBack';
 import { MoveGuideCell } from '../cube/MoveGuide';
 import type { Move } from '../cube/moves';
 import PageNav from '../components/PageNav';
+import { useScrollRestore } from '../hooks/useScrollRestore';
 
 const m = (base: string, amount: 1 | -1 | 2): Move => ({ base, amount });
 
@@ -54,6 +55,7 @@ const GROUPS: Array<{
 
 export default function NotationPage() {
   useEscBack();
+  useScrollRestore('notation');
   const { t } = useTranslation();
 
   return (
