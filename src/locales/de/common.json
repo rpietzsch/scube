@@ -277,6 +277,7 @@
     "copied": "Kopiert!",
     "copyLink": "Link kopieren",
     "copiedLink": "Link kopiert!",
+    "share": "Scramble teilen",
     "scrambledState": "Gemischter Zustand",
     "stateAfterStep": "Zustand nach Zug {{step}}",
     "stepHint": "Zug {{step}} von {{total}} — erneut tippen zum Abwählen",

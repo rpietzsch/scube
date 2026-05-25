@@ -15,6 +15,9 @@ import type { Move } from '../cube/moves';
 // green front — regardless of what the user has set in Settings.
 const WCA_COLORS = getCubeColors('white', 'green');
 
+// Web Share API — available in iOS Safari, Android Chrome, and most PWA contexts.
+const CAN_SHARE = 'share' in navigator;
+
 export default function ScramblePage() {
   useEscBack();
   const { t } = useTranslation();
@@ -61,20 +64,25 @@ export default function ScramblePage() {
   }, [moves]);
 
   const handleCopyLink = useCallback(() => {
-    // Strip any existing ?s= from the hash path, then append the current scramble.
-    // Works with HashRouter: window.location.hash === '#/scramble' (or '#/scramble?s=...')
+    const notation = formatScramble(moves);
     const hashPath = window.location.hash.split('?')[0]; // '#/scramble'
     const url =
       window.location.origin +
       window.location.pathname +
       hashPath +
       '?s=' +
-      encodeURIComponent(formatScramble(moves));
-    navigator.clipboard.writeText(url).then(() => {
-      setCopiedLink(true);
-      setTimeout(() => setCopiedLink(false), 2000);
-    });
-  }, [moves]);
+      encodeURIComponent(notation);
+
+    if (CAN_SHARE) {
+      // Native OS share sheet — handles its own UX; user cancellation is not an error.
+      navigator.share({ title: t('scramble.title'), text: notation, url }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(url).then(() => {
+        setCopiedLink(true);
+        setTimeout(() => setCopiedLink(false), 2000);
+      });
+    }
+  }, [moves, t]);
 
   const handleTokenClick = useCallback((idx: number) => {
     setSelectedStep((prev) => (prev === idx ? null : idx));
@@ -127,14 +135,24 @@ export default function ScramblePage() {
             </button>
             <button
               onClick={handleCopyLink}
-              aria-label={copiedLink ? t('scramble.copiedLink') : t('scramble.copyLink')}
-              title={copiedLink ? t('scramble.copiedLink') : t('scramble.copyLink')}
+              aria-label={CAN_SHARE ? t('scramble.share') : copiedLink ? t('scramble.copiedLink') : t('scramble.copyLink')}
+              title={CAN_SHARE ? t('scramble.share') : copiedLink ? t('scramble.copiedLink') : t('scramble.copyLink')}
               className={`p-2 rounded-lg border transition-colors ${copiedLink ? 'border-cube-U text-cube-U' : 'border-ink-700 text-ink-400 hover:border-ink-400 hover:text-ink-200'}`}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-              </svg>
+              {CAN_SHARE ? (
+                // iOS/Android share-sheet icon (box with upward arrow)
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+                  <polyline points="16 6 12 2 8 6" />
+                  <line x1="12" y1="2" x2="12" y2="15" />
+                </svg>
+              ) : (
+                // Fallback: chain-link icon (clipboard copy)
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                </svg>
+              )}
             </button>
           </div>
 

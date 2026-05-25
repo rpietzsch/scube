@@ -277,6 +277,7 @@
     "copied": "Copied!",
     "copyLink": "Copy link",
     "copiedLink": "Link copied!",
+    "share": "Share scramble",
     "scrambledState": "Scrambled state",
     "stateAfterStep": "State after move {{step}}",
     "stepHint": "Move {{step}} of {{total}} — tap again to deselect",
