@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useCallback, useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { generateScramble, formatScramble } from '../scramble/generator';
 import { applyAlgToSolved } from '../cube/moves';
@@ -7,6 +7,7 @@ import { CubeNet } from '../cube/CubeNet';
 import { CubeColorsContext } from '../cube/CubeColorsContext';
 import { MoveGuideCell } from '../cube/MoveGuide';
 import { getCubeColors } from '../data/colors';
+import { parseAlg } from '../cube/parser';
 import type { Move } from '../cube/moves';
 
 // Scrambles are always defined from the WCA reference orientation — white top,
@@ -15,17 +16,35 @@ const WCA_COLORS = getCubeColors('white', 'green');
 
 export default function ScramblePage() {
   const { t } = useTranslation();
-  const [moves, setMoves] = useState<Move[]>([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Initialise from ?s= URL param so shared links reproduce the same scramble.
+  const [moves, setMoves] = useState<Move[]>(() => {
+    const encoded = searchParams.get('s');
+    if (encoded) {
+      try {
+        const parsed = parseAlg(encoded);
+        if (parsed.length > 0) return parsed;
+      } catch { /* ignore malformed param */ }
+    }
+    return generateScramble(20);
+  });
+
   const [selectedStep, setSelectedStep] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
 
-  const newScramble = useCallback(() => {
-    setMoves(generateScramble(20));
+  const startScramble = useCallback((length: number) => {
+    const next = generateScramble(length);
+    setMoves(next);
     setSelectedStep(null);
     setCopied(false);
-  }, []);
+    setCopiedLink(false);
+    setSearchParams({ s: formatScramble(next) }, { replace: true });
+  }, [setSearchParams]);
 
-  useEffect(() => { newScramble(); }, [newScramble]);
+  const newScramble = useCallback(() => startScramble(20), [startScramble]);
+  const newQuickScramble = useCallback(() => startScramble(10), [startScramble]);
 
   const displayState = useMemo(() => {
     const subset = selectedStep !== null ? moves.slice(0, selectedStep + 1) : moves;
@@ -33,10 +52,25 @@ export default function ScramblePage() {
   }, [moves, selectedStep]);
 
   const handleCopy = useCallback(() => {
-    const text = formatScramble(moves);
-    navigator.clipboard.writeText(text).then(() => {
+    navigator.clipboard.writeText(formatScramble(moves)).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+    });
+  }, [moves]);
+
+  const handleCopyLink = useCallback(() => {
+    // Strip any existing ?s= from the hash path, then append the current scramble.
+    // Works with HashRouter: window.location.hash === '#/scramble' (or '#/scramble?s=...')
+    const hashPath = window.location.hash.split('?')[0]; // '#/scramble'
+    const url =
+      window.location.origin +
+      window.location.pathname +
+      hashPath +
+      '?s=' +
+      encodeURIComponent(formatScramble(moves));
+    navigator.clipboard.writeText(url).then(() => {
+      setCopiedLink(true);
+      setTimeout(() => setCopiedLink(false), 2000);
     });
   }, [moves]);
 
@@ -65,18 +99,40 @@ export default function ScramblePage() {
       <div className="px-4 space-y-6 mt-2">
         {/* Move sequence */}
         <section className="space-y-3">
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center flex-wrap">
             <button
               onClick={newScramble}
               className="px-4 py-2 rounded-lg bg-cube-U text-ink-950 text-sm font-semibold hover:opacity-90"
             >
-              {t('scramble.generate')}
+              20×
+            </button>
+            <button
+              onClick={newQuickScramble}
+              className="px-4 py-2 rounded-lg border border-cube-U text-cube-U text-sm font-semibold hover:bg-cube-U hover:text-ink-950 transition-colors"
+            >
+              10×
             </button>
             <button
               onClick={handleCopy}
-              className="px-4 py-2 rounded-lg border border-ink-700 text-ink-200 text-sm hover:border-ink-400"
+              aria-label={copied ? t('scramble.copied') : t('scramble.copy')}
+              title={copied ? t('scramble.copied') : t('scramble.copy')}
+              className={`p-2 rounded-lg border transition-colors ${copied ? 'border-cube-U text-cube-U' : 'border-ink-700 text-ink-400 hover:border-ink-400 hover:text-ink-200'}`}
             >
-              {copied ? t('scramble.copied') : t('scramble.copy')}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="9" y="9" width="13" height="13" rx="2" />
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+              </svg>
+            </button>
+            <button
+              onClick={handleCopyLink}
+              aria-label={copiedLink ? t('scramble.copiedLink') : t('scramble.copyLink')}
+              title={copiedLink ? t('scramble.copiedLink') : t('scramble.copyLink')}
+              className={`p-2 rounded-lg border transition-colors ${copiedLink ? 'border-cube-U text-cube-U' : 'border-ink-700 text-ink-400 hover:border-ink-400 hover:text-ink-200'}`}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+              </svg>
             </button>
           </div>
 

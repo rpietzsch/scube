@@ -272,8 +272,11 @@
   "scramble": {
     "title": "Mischen",
     "generate": "Neu mischen",
-    "copy": "Kopieren",
+    "generateQuick": "Neu 10×",
+    "copy": "Code kopieren",
     "copied": "Kopiert!",
+    "copyLink": "Link kopieren",
+    "copiedLink": "Link kopiert!",
     "scrambledState": "Gemischter Zustand",
     "stateAfterStep": "Zustand nach Zug {{step}}",
     "stepHint": "Zug {{step}} von {{total}} — erneut tippen zum Abwählen",

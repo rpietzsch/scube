@@ -272,8 +272,11 @@
   "scramble": {
     "title": "Scramble",
     "generate": "New scramble",
-    "copy": "Copy",
+    "generateQuick": "New 10×",
+    "copy": "Copy code",
     "copied": "Copied!",
+    "copyLink": "Copy link",
+    "copiedLink": "Link copied!",
     "scrambledState": "Scrambled state",
     "stateAfterStep": "State after move {{step}}",
     "stepHint": "Move {{step}} of {{total}} — tap again to deselect",
