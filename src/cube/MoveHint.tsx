@@ -64,7 +64,7 @@ export function MoveHint({ move, size = 40, active = false }: MoveHintProps) {
   // the V's two back vertices sit *behind* the tip (opposite of motion),
   // splayed by ±0.5 rad. Earlier this had the sign flipped, which made the
   // arrow head appear to point backwards.
-  const headLen = 6;
+  const headLen = 7;
   const tangent = endAngle + dir * (Math.PI / 2);
   const hx1 = x2 - headLen * Math.cos(tangent - dir * 0.5);
   const hy1 = y2 - headLen * Math.sin(tangent - dir * 0.5);

@@ -103,7 +103,7 @@ export const BEGINNER_CASES: CaseData[] = [
     name: 'Permute Corners',
     descriptionKey: 'cases.begTopCperm.desc',
     recognitionTagKeys: ['tags.cornersNotPlaced'],
-    solve: "U R U' R U R' U' R'",
+    solve: "U R U' L' U R' U' L",
   },
   {
     id: 'beg-top-corient',
@@ -112,6 +112,6 @@ export const BEGINNER_CASES: CaseData[] = [
     name: 'Orient Corners',
     descriptionKey: 'cases.begTopCorient.desc',
     recognitionTagKeys: ['tags.cornersToOrient'],
-    solve: "R' U R U' R' U R U'",
+    solve: "R' D R D' R' D R D'",
   },
 ];

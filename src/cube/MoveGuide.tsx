@@ -7,7 +7,7 @@ const CS = 16;
 const GS = CS * 3; // 48
 const CX = G + GS / 2; // 40 — horizontal center
 const CY = G + GS / 2; // 40 — vertical center
-const AH = 5; // arrowhead half-size
+const AH = 6; // arrowhead half-size
 
 const MOVE_DESC: Record<string, string> = {
   U: 'top', D: 'bottom', R: 'right', L: 'left',
