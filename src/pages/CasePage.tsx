@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
+import { useEscBack } from '../hooks/useEscBack';
 import { caseById, algsFor } from '../data/cases';
 import { CubeWithMovement } from '../cube/CubeWithMovement';
 import { deriveState } from '../cube/derive';
@@ -17,6 +18,7 @@ const WITH_ORIENTATION = [
 ];
 
 export default function CasePage() {
+  useEscBack();
   const { caseId = '' } = useParams();
   const { t } = useTranslation();
   const c = caseById(caseId);

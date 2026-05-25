@@ -1,5 +1,6 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useEscBack } from '../hooks/useEscBack';
 import { useMemo, useState } from 'react';
 import { caseById, algsFor, LESSONS } from '../data/cases';
 import { CubePlayback } from '../cube/CubePlayback';
@@ -11,6 +12,7 @@ import { useMastery } from '../store/mastery';
 import { useSettings } from '../store/settings';
 
 export default function LessonPage() {
+  useEscBack();
   const { caseId = '' } = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation();

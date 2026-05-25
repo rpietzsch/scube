@@ -1,4 +1,5 @@
 import { Link, useSearchParams } from 'react-router-dom';
+import { useEscBack } from '../hooks/useEscBack';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { caseById, algsFor, casesByStage } from '../data/cases';
@@ -16,6 +17,7 @@ import { useSettings } from '../store/settings';
  * cross-reference algorithm length, ergonomics, and the resulting state.
  */
 export default function ComparePage() {
+  useEscBack();
   const [params, setParams] = useSearchParams();
   const { t } = useTranslation();
   const aid = useSettings((s) => s.visualAid);

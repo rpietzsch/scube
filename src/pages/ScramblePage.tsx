@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { useEscBack } from '../hooks/useEscBack';
 import { useTranslation } from 'react-i18next';
 import { generateScramble, formatScramble } from '../scramble/generator';
 import { applyAlgToSolved } from '../cube/moves';
@@ -15,6 +16,7 @@ import type { Move } from '../cube/moves';
 const WCA_COLORS = getCubeColors('white', 'green');
 
 export default function ScramblePage() {
+  useEscBack();
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
 

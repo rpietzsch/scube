@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useEscBack } from '../hooks/useEscBack';
 import { useMastery } from '../store/mastery';
 import { useSettings } from '../store/settings';
 import pkg from '../../package.json';
 
 export default function SettingsPage() {
+  useEscBack();
   const { t, i18n } = useTranslation();
   const reset = useMastery((s) => s.reset);
   const { visualAid, setVisualAid } = useSettings();

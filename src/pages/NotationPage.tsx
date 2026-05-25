@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useEscBack } from '../hooks/useEscBack';
 import { MoveGuideCell } from '../cube/MoveGuide';
 import type { Move } from '../cube/moves';
 
@@ -52,6 +53,7 @@ const GROUPS: Array<{
 ];
 
 export default function NotationPage() {
+  useEscBack();
   const { t } = useTranslation();
 
   return (
