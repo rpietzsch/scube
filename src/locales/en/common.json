@@ -7,7 +7,8 @@
     "path": "Path",
     "library": "Library",
     "cube": "Cube",
-    "settings": "Settings"
+    "settings": "Settings",
+    "switchLang": "Switch language"
   },
   "path": {
     "title": "Your path to CFOP",

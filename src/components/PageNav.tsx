@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useCallback } from 'react';
 
 type LibTab = 'cross' | 'beginner' | 'f2l' | 'oll' | 'pll' | 'roux';
 const LIB_TABS: LibTab[] = ['cross', 'beginner', 'f2l', 'oll', 'pll', 'roux'];
@@ -21,33 +22,36 @@ function pathToLibTab(pathname: string): LibTab | null {
 }
 
 export default function PageNav({ children }: { children?: React.ReactNode }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
 
-  const isSettings = pathname === '/settings';
   const isNotation = pathname === '/notation';
   const isScramble = pathname === '/scramble';
   const activeLibTab = pathname.startsWith('/library') ? pathToLibTab(pathname) : null;
 
-  const title = isSettings
-    ? t('settings.title')
-    : isNotation
-      ? t('notation.title')
-      : isScramble
-        ? t('scramble.title')
-        : t('library.title');
+  const title = isNotation
+    ? t('notation.title')
+    : isScramble
+      ? t('scramble.title')
+      : t('library.title');
+
+  const toggleLang = useCallback(() => {
+    void i18n.changeLanguage(i18n.resolvedLanguage === 'en' ? 'de' : 'en');
+  }, [i18n]);
+
+  const langLabel = i18n.resolvedLanguage === 'de' ? '🇩🇪 de' : '🇬🇧 en';
 
   return (
     <div className="sticky top-0 z-10 bg-ink-950 px-4 pt-4 pb-3 space-y-3">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold">{title}</h1>
-        <Link
-          to="/settings"
-          className={`text-xl leading-none p-1 transition-colors ${isSettings ? 'text-cube-U' : 'text-ink-500 hover:text-ink-200'}`}
-          aria-label={t('nav.settings')}
+        <button
+          onClick={toggleLang}
+          className="text-sm leading-none px-2 py-1 rounded transition-colors text-ink-400 hover:text-ink-100 hover:bg-ink-800"
+          aria-label={t('nav.switchLang')}
         >
-          ⚙
-        </Link>
+          {langLabel}
+        </button>
       </div>
 
       <nav className="flex gap-1 overflow-x-auto pb-1 -mx-4 px-4">
